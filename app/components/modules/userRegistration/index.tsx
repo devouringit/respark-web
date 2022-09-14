@@ -62,11 +62,11 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const [startDate, setStartDate] = useState(new Date());
     const [showSignInPage, setShowSignInPage] = useState(fromPage != 'PROFILE' ? true : false)
     const storeMetaData = useSelector(state => state.store ? state.store.storeMetaData : null);
-    const [showPage, setShowPage] = useState(open ? true : false)
+
     useEffect(() => {
-        if (showPage || !fromPage) document.body.classList.add("o-h")
+        if (open) document.body.classList.add("o-h")
         else document.body.classList.remove("o-h")
-    }, [showPage])
+    }, [open])
 
     const DatePickerInput = forwardRef((props: any, ref: any) => <button className="date-picker-button" onClick={props.onClick} ref={ref}>
         {props.value ? <>
@@ -180,7 +180,6 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
         else handleResponse();
         setError({ id: '', text: '' });
         setShowSignInPage(true);
-        setShowPage(false);
     };
 
     const wrongEmail = () => {
@@ -440,10 +439,10 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                 <div className='cart-page-login-wrap registration-page-cover'>
                     <Backdrop
                         className="backdrop-modal-wrapper"
-                        open={showPage ? true : false}
+                        open={open ? true : false}
                     >
                         <div className={`backdrop-modal-content ${!showSignInPage ? 'signup' : ''}`}
-                            style={{ height: `${(showPage && !!fromPage) ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
+                            style={{ height: `${open ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
                         >
                             {!userConfig?.userRegMandatory && <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
@@ -486,7 +485,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                             <span className='glass-card'>~ OR ~</span>
                                         </div>
                                         <div className='icon-wrap'>
-                                            {showPage && <div className='icon-btn  glass-card'>
+                                            {open && <div className='icon-btn  glass-card'>
                                                 <GoogleOAuthProvider clientId="716601440805-1gjjhuot3vu70fgd970kon9j7ereq1cd.apps.googleusercontent.com">
                                                     <GoogleLogin
                                                         onSuccess={successResponseGoogle}
@@ -609,10 +608,10 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                 <div className='cart-page-login-wrap'>
                     <Backdrop
                         className="backdrop-modal-wrapper"
-                        open={showPage ? true : false}
+                        open={open ? true : false}
                     >
                         <div className="backdrop-modal-content"
-                            style={{ height: `${showPage ? `${showSignInPage ? '400px' : '450px'}` : '0'}` }}
+                            style={{ height: `${open ? `${showSignInPage ? '400px' : '450px'}` : '0'}` }}
                         >
                             <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
@@ -644,7 +643,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                         <span className='glass-card'>~ OR ~</span>
                                     </div>
                                     <div className='icon-wrap'>
-                                        {showPage && <div className='icon-btn  glass-card'>
+                                        {open && <div className='icon-btn  glass-card'>
                                             <GoogleOAuthProvider clientId="716601440805-1gjjhuot3vu70fgd970kon9j7ereq1cd.apps.googleusercontent.com">
                                                 <GoogleLogin
                                                     onSuccess={successResponseGoogle}

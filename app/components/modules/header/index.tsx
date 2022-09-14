@@ -427,7 +427,7 @@ function MainHeader({ storeData, storeMetaData }) {
         </Drawer>
       </div >
       <UserRegistrationModal
-        fromPage={showUserRegModalOnFirstLoad ? "INITIAL_LOAD" : 'HOME'}
+        fromPage={showUserRegModalOnFirstLoad ? "INITIAL_LOAD" : ((openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && !userData?.mobileNo && (windowRef && !pdpItem) ? 'HOME' : '')}
         handleResponse={(e) => onLoginClose(e)}
         isApppGrpChangeOnUserGdrChange={showUserRegModalOnFirstLoad ? true : false}
         open={(openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && !userData?.mobileNo && (windowRef && !pdpItem)}
