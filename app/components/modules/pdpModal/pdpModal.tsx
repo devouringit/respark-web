@@ -159,7 +159,7 @@ function PdpModal() {
 
     const onSharePage = async () => {
         try {
-            await navigator.share({ title: "Example Page", url: "" });
+            await window.navigator.share({ title: "Example Page", url: "" });
             console.log("Data was shared successfully");
         } catch (err) {
             console.error("Share failed:", err.message);
@@ -486,7 +486,7 @@ function PdpModal() {
                 <div className="modal-close" onClick={() => closePdpMOdal()}>
                     <CloseIcon />
                 </div>
-                <div className="modal-close modal-share" onClick={() => setOpenShareModal(true)}>
+                <div className="modal-close modal-share" onClick={() => onSharePage()}>
                     <ShareIcon />
                 </div>
                 {(configData?.orderingOn && !configData?.storeOff && !configData?.readOnlyMenu && !!cartItemQuantity) && <div className="modal-close modal-cart" id="cart-item-count-pdp" onClick={() => router.push({ pathname: baseRouteUrl + 'cart' }, '', { shallow: true })}>
