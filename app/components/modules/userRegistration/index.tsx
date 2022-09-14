@@ -62,7 +62,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const [startDate, setStartDate] = useState(new Date());
     const [showSignInPage, setShowSignInPage] = useState(fromPage != 'PROFILE' ? true : false)
     const storeMetaData = useSelector(state => state.store ? state.store.storeMetaData : null);
-
+    const [showPage, setShowPage] = useState(open)
     useEffect(() => {
         if (open || !fromPage) document.body.classList.add("o-h")
         else document.body.classList.remove("o-h")
@@ -180,6 +180,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
         else handleResponse();
         setError({ id: '', text: '' });
         setShowSignInPage(true);
+        setShowPage(false);
     };
 
     const wrongEmail = () => {
@@ -442,7 +443,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                         open={open ? true : false}
                     >
                         <div className={`backdrop-modal-content ${!showSignInPage ? 'signup' : ''}`}
-                            style={{ height: `${open ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
+                            style={{ height: `${(open && !!fromPage) ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
                         >
                             {!userConfig?.userRegMandatory && <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
