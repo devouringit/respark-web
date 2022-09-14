@@ -691,11 +691,11 @@ function PdpModal() {
                 </div>
             </Backdrop>
             {showUserRegistrationModal && <UserRegistrationModal
-                fromPage={''}
+                fromPage={'PDP'}
                 handleResponse={(e) => onLoginClose(e)}
                 isApppGrpChangeOnUserGdrChange={showUserRegistrationModal ? true : false}
                 open={true}
-                heading={showUserRegistrationModal ? (configData?.storeConfig?.sparkConfig?.userConfig?.popupHeading || 'We will use your information to send offers and promotions') : 'Thank you for get back, lets access the best recommendation for you.'} />}
+                heading={'Login to send quote request'} />}
         </>
 
     );

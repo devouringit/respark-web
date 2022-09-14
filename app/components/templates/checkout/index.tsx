@@ -634,6 +634,7 @@ function CheckoutPage() {
                 handleResponse={(e) => onUserUpdationClose(e)}
                 isApppGrpChangeOnUserGdrChange={true}
                 open={true}
+                fromPage={'CHECKOUT'}
                 heading={'Update Profile Details'}
             />}
             <ConfirmationModal

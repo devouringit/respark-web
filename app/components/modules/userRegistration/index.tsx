@@ -19,19 +19,12 @@ import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { GoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import FacebookLogin from 'react-facebook-login';
+import { windowRef } from '@util/window';
 
 
 
 function BsPersonFill(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 16 16" height="1em" width="1em" {...props}><path fillRule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>;
-}
-
-function FacebookIcon() {
-    return <svg className="facebook" stroke="#4267b2" fill="#4267b2" strokeWidth="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"></path></svg>
-}
-
-function GoogleIcon() {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" /><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" /><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" /><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" /></svg>
 }
 
 function FaPhone(props) {
@@ -40,10 +33,6 @@ function FaPhone(props) {
 
 function MdEmail(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" /></svg>;
-}
-
-function BiCalendar(props) {
-    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M7 11H9V13H7zM7 15H9V17H7zM11 11H13V13H11zM11 15H13V17H11zM15 11H17V13H15zM15 15H17V17H15z" /><path d="M5,22h14c1.103,0,2-0.897,2-2V8V6c0-1.103-0.897-2-2-2h-2V2h-2v2H9V2H7v2H5C3.897,4,3,4.897,3,6v2v12 C3,21.103,3.897,22,5,22z M19,8l0.001,12H5V8H19z" /></svg>;
 }
 
 function FaCalendarAlt(props) {
@@ -71,14 +60,13 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const userConfig = configData?.storeConfig?.sparkConfig?.userConfig;
     const genericImages = useSelector(state => state.genericImages);
     const [startDate, setStartDate] = useState(new Date());
-    const [showSignInPage, setShowSignInPage] = useState(true)
+    const [showSignInPage, setShowSignInPage] = useState(fromPage != 'PROFILE' ? true : false)
     const storeMetaData = useSelector(state => state.store ? state.store.storeMetaData : null);
 
     useEffect(() => {
         if (open) document.body.classList.add("o-h")
         else document.body.classList.remove("o-h")
     }, [open])
-
 
     const DatePickerInput = forwardRef((props: any, ref: any) => <button className="date-picker-button" onClick={props.onClick} ref={ref}>
         {props.value ? <>
@@ -139,7 +127,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
 
     useEffect(() => {
-        if (fromPage == 'HOME') {
+        if (fromPage == 'INITIAL_LOAD') {
             const wellcomeScreenTime = cookie['wst'];
             const registrationScreenTime = cookie['rst'];
             if (!userFromCookies && !registrationScreenTime) {
@@ -324,7 +312,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             // let defaultWrapper = document.getElementById('default-wrapper');
                             // defaultWrapper.style.backgroundImage = `url("/assets/images/${user.gender}/bg.png")`;
                         }
-                        if (fromPage == 'HOME') {
+                        if (fromPage == 'INITIAL_LOAD') {
                             setShowRegistrationScreen(false);
                             setShowWellcomeScreen(true);
                         } else {
@@ -447,16 +435,16 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
     return (
         <div className="user-reg-modal">
-            {fromPage != 'CART_PAGE' ? <>
+            {fromPage == 'INITIAL_LOAD' ? <>
                 <div className='cart-page-login-wrap registration-page-cover'>
                     <Backdrop
                         className="backdrop-modal-wrapper"
                         open={open ? true : false}
                     >
                         <div className={`backdrop-modal-content ${!showSignInPage ? 'signup' : ''}`}
-                            style={{ height: `${open ? `calc(100vh - calc(100vh - 100%))` : '0'}` }}
+                            style={{ height: `${open ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
                         >
-                            {fromPage != 'HOME' && <div className="modal-close" onClick={() => handleClose()}>
+                            {!userConfig?.userRegMandatory && <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
                             </div>}
                             <div className="logo-header">
@@ -652,7 +640,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                         <span className='glass-card'>{error.text}</span>
                                     </div>}
                                     <div className='note'>
-                                        <span className='glass-card'>-- Or --</span>
+                                        <span className='glass-card'>~ OR ~</span>
                                     </div>
                                     <div className='icon-wrap'>
                                         {open && <div className='icon-btn  glass-card'>
@@ -670,7 +658,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                     </div>
                                 </div>
                             </> : <>
-                                <div className="heading" >Sign Up</div>
+                                <div className="heading" >{heading}</div>
                                 <div className='page-contain'>
                                     <div className='form-wrap'>
                                         <div id="phone" className={`input-wrap-with-label ${error.id == 'phone' ? 'error' : ''}`}>
@@ -732,12 +720,12 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                         </div>}
 
                                         <div className='btn-wrap'>
-                                            <div className='primary-btn' onClick={proceed}>Sign Up</div>
+                                            <div className='primary-btn' onClick={proceed}>{fromPage == 'PROFILE' ? 'Update' : 'Sign Up'}</div>
                                         </div>
                                     </div>
-                                    <div className='note '>
+                                    {fromPage != 'PROFILE' && <div className='note '>
                                         <span className='glass-card signup-note'>Already have an account? <span onClick={() => setShowSignInPage(true)}>Sign in</span></span>
-                                    </div>
+                                    </div>}
                                 </div>
                             </>}
                         </div>

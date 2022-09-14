@@ -40,7 +40,7 @@ function IoIosArrowBack(props) {
 function MainHeader({ storeData, storeMetaData }) {
   const [cookie, setCookie] = useCookies()
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const dispatch = useDispatch();
   const baseRouteUrl = useSelector(state => state.store.baseRouteUrl);
   const pdpItem = useSelector(state => state.pdpItem);
@@ -63,6 +63,12 @@ function MainHeader({ storeData, storeMetaData }) {
     }
   });
 
+  useEffect(() => {
+    if (openDrawer) document.body.classList.add("o-h")
+    else document.body.classList.remove("o-h")
+  }, [openDrawer])
+
+
   const toggleDrawer = (event) => {
     if (
       event.type === "keydown" &&
@@ -70,7 +76,7 @@ function MainHeader({ storeData, storeMetaData }) {
     ) {
       return;
     }
-    setIsOpen(isOpen ? false : true);
+    setOpenDrawer(openDrawer ? false : true);
   };
 
 
@@ -391,7 +397,7 @@ function MainHeader({ storeData, storeMetaData }) {
           </div>
         </div>
 
-        <Drawer className="hamburger-drawer" anchor={"right"} open={isOpen} onClose={(e) => toggleDrawer(e)}>
+        <Drawer className="hamburger-drawer" anchor={"right"} open={openDrawer} onClose={(e) => toggleDrawer(e)}>
           <div className="drawer-wrap">
             <div className="drawclose" onClick={(e) => toggleDrawer(e)}>
               <CloseIcon />
@@ -408,7 +414,7 @@ function MainHeader({ storeData, storeMetaData }) {
               </> :
                 <div onClick={() => {
                   setOpenUserRegistrationModalOnBtnClick(true);
-                  setIsOpen(false);
+                  setOpenDrawer(false);
                 }}
                   className="name d-f-c">
                   <div className="login-btn">Sign up/Log in</div>
@@ -421,10 +427,10 @@ function MainHeader({ storeData, storeMetaData }) {
         </Drawer>
       </div >
       <UserRegistrationModal
-        fromPage={showUserRegModalOnFirstLoad ? "HOME" : ''}
+        fromPage={showUserRegModalOnFirstLoad ? "INITIAL_LOAD" : 'HOME'}
         handleResponse={(e) => onLoginClose(e)}
         isApppGrpChangeOnUserGdrChange={showUserRegModalOnFirstLoad ? true : false}
-        open={(openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && (windowRef && !pdpItem)}
+        open={(openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && !userData?.mobileNo && (windowRef && !pdpItem)}
         heading={showUserRegModalOnFirstLoad ? (configData?.storeConfig?.sparkConfig?.userConfig?.popupHeading || 'We will use your information to send offers and promotions') : 'Thank you for get back, lets access the best recommendation for you.'} />
 
       <ConfirmationModal

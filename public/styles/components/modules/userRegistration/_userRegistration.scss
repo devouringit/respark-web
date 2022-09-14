@@ -261,6 +261,10 @@
     }
   }
   .cart-page-login-wrap {
+    .backdrop-modal-content {
+      transition: all ease-out 0.3s;
+      height: 0;
+    }
     .page-contain {
       padding: 10px;
       .form-wrap {
