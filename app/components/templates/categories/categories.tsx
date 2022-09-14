@@ -1,0 +1,537 @@
+import React, { useState, useEffect, useRef } from 'react';
+// for Accordion starts
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+// for Accordion ends
+import ScrollingNavigation from '@module/topScrolleingNavigation';
+import SquareGrid from "@module/squareGrid";
+import VerticalListing from "@module/verticalListing";
+import { SUB_CAT_NO_IMAGE } from "@constant/noImage";
+import { useRouter } from 'next/router';
+import Item from "@element/horizontalItem";
+import HeadMetaTags from "@module/headMetaTags";
+import ImageGallery from 'react-image-gallery';
+import { getItemMetaTags } from '@util/metaTagsService';
+import { filterCategory, getCurrentFilters, getItemPrice, getItemsList } from '@util/dataFilterService/itemDataService';
+import { dynamicSort } from '@util/utils';
+import FilterModal from '@module/filterModal';
+import { showSuccess } from '@context/actions';
+import { useSelector, useDispatch } from 'react-redux';
+
+function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
+
+  const router = useRouter()
+  const baseRouteUrl = useSelector(state => state.store.baseRouteUrl);
+  const itemsList = useSelector(state => state.store.storeData.itemsList);
+  const [activeCuratedGroup, setActiveCuratedGroup] = useState(null)
+  const [activeCuratedCategory, setActiveCuratedCategory] = useState(null)
+  const [mappedCategories, setMappedCategories] = useState(null);
+  const [itemsWithoutCategoryList, setItemsWithoutCategoryList] = useState([]);
+  const [baseSubCategories, setBaseSubCategories] = useState(null);
+  const [categoriesWithItems, setCategoriesWithItems] = useState(null);
+  const [categoriesPromotionBanner, setCategoriesPromotionBanner] = useState(null);
+  const [subCuratedCategories, setSubCuratedCategories] = useState(null);
+  const [activeBaseCategory, setActiveBaseCategory] = useState(null);
+  const [activeSubCuratedCategory, setActiveSubCuratedCategory] = useState(null);
+  const [curatedItemsList, setCuratedItemsList] = useState(null);
+  const [activeMmetaTags, setmetaTags] = useState(metaTags);
+  const [accordianExpanded, setAccordianExpanded] = useState(true);
+  const { configData } = useSelector(state => state.store ? state.store.storeData : null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<any>()
+  const [filterConfig, setFilterConfig] = useState<any>();
+  const dispatch = useDispatch();
+
+  const settings = {
+    showThumbnails: false,
+    showPlayButton: false,
+    showBullets: (categoriesPromotionBanner && categoriesPromotionBanner?.length) > 1 ? true : false,
+    autoPlay: true,
+    slideDuration: 800,
+    slideInterval: 3000,
+    startIndex: 0,
+    showNav: false,
+    showFullscreenButton: false
+  }
+
+  useEffect(() => {
+    if (activeFilters && activeFilters.active) {
+      getCategoryData();
+    }
+  }, [activeFilters])
+
+  const setActiveCuratedGroupData = (groupData, categoryData) => {
+    let allItemsList: any = []
+    // const [filterObj, filterConfigs] = getCurrentFilters(configData, groupData.type); 
+    // groupData.curatedCategories.map((curatedCat: any, curatedCatIndex: number) => {
+    //   if (curatedCat.entityType == "category") {
+    //     curatedCat.curatedItems.map((curatedItem: any, curatedItemIndex: number) => {
+    //       curatedItem = { ...curatedItem, ...curatedItem.categoryDetails }
+    //       allItemsList = getItemsList(allItemsList, curatedItem);
+    //     })
+    //   } else if (curatedCat.entityType == 'items') {
+
+    //   }
+    //   if (curatedCatIndex == groupData.curatedCategories.length -1){
+    //     if (allItemsList.length != 0) {
+    //       console.log(allItemsList)
+    //       allItemsList.map((item: any) => {
+    //         let [price, salePrice] = getItemPrice(item);
+    //         item.billPrice = salePrice || price;
+    //         item.price = price;
+    //         item.salePrice = salePrice;
+    //  item.discount = salePrice ? Number((((price - salePrice) / price) * 100).toFixed(1)) : 0;
+    //         console.log(item.billPrice)
+    //       })
+    //       allItemsList = allItemsList.sort(dynamicSort("billPrice", 1)); //1 == 0 1 2 3  || -1 == 3 2 1 0
+    //       allItemsList.map((item: any) => {
+    //         console.log(item.billPrice)
+    //       })
+    //       filterConfigs.maxPrice = allItemsList[allItemsList.length - 1].billPrice;
+    //       filterConfigs.minPrice = 0;
+    //       setFilterConfig({ ...filterConfigs });
+    //       setActiveFilters({ ...filterObj, minPrice: 0, maxPrice: 100 });
+    //     }
+    //   }
+    // })
+
+    setActiveCuratedCategory({ ...categoryData });
+    setActiveCuratedGroup({ ...groupData });
+  }
+  const getCategoryData = () => {
+    let categoryDataFromUrl = null;
+    let categoryGroupDataFromUrl = null;
+    storeData?.curatedGroups?.map((groupData, groupDataIndex) => {
+      if (!categoryDataFromUrl) {
+        groupData?.curatedCategories?.map((categoryData) => {
+          if (!categoryDataFromUrl) {
+            if (categoryData.name.toLowerCase() == url_Segment) {
+              categoryData.showOnUi && (categoryData.isSelected = true);
+              categoryGroupDataFromUrl = groupData;
+              categoryDataFromUrl = categoryData;
+            }
+          }
+        })
+      }
+      if (groupDataIndex == storeData.curatedGroups?.length - 1) {
+        if (categoryDataFromUrl && categoryDataFromUrl.showOnUi) {
+          categoryGroupDataFromUrl?.curatedCategories?.map((data) => (data.name == categoryDataFromUrl.name) && (data.isSelected = true));
+          setActiveCuratedGroupData(categoryGroupDataFromUrl, categoryDataFromUrl)
+        } else {
+          // active category not found by url name
+          // console.log('category not found');
+          if (categoryGroupDataFromUrl) {
+            const avlActiveCat = categoryGroupDataFromUrl.curatedCategories?.filter((cat) => cat.showOnUi);
+            if (avlActiveCat?.length != 0) {
+              // console.log('first category set');
+              categoryGroupDataFromUrl?.curatedCategories?.map((data) => (data.name == avlActiveCat[0].name) && (data.isSelected = true));
+              setActiveCuratedGroupData(categoryGroupDataFromUrl, avlActiveCat[0])
+            }
+            // else router.push('/');
+          }
+          else router.push({ pathname: baseRouteUrl + 'home' }, '', { shallow: true });
+        }
+      }
+    })
+  }
+
+  useEffect(() => {
+    const element = document.getElementById('scrolling-div');
+    window.scrollTo(0, element?.offsetTop);
+  }, [categoriesPromotionBanner])
+
+  useEffect(() => {
+    getCategoryData();
+  }, [url_Segment, activeGroup, storeData, itemsList])
+
+  useEffect(() => {
+    if (configData && activeCuratedCategory && mappedCategories && mappedCategories?.length != 0 && !(activeFilters?.active)) {
+      const [filterObj, filterConfigs] = getCurrentFilters(configData, mappedCategories[0].type);
+      if (filterConfigs && filterConfigs.active) {
+        if (filterConfigs.priceRange) {
+          if (activeCuratedCategory.entityType === 'category') {
+            let allItemsList: any = [];
+            mappedCategories.map((catData, catI) => {
+              allItemsList = getItemsList(allItemsList, catData);
+              if (mappedCategories.length - 1 == catI && allItemsList.length != 0) {
+                // console.log(allItemsList)
+                allItemsList.map((item: any) => {
+                  let [price, salePrice] = getItemPrice(item);
+                  item.billPrice = salePrice || price;
+                  item.price = price;
+                  item.salePrice = salePrice;
+                  item.discount = salePrice ? Number((((price - salePrice) / price) * 100).toFixed(1)) : 0;
+                  // console.log(item.billPrice)
+                })
+                allItemsList = allItemsList.sort(dynamicSort("billPrice", 1)); //1 == 0 1 2 3  || -1 == 3 2 1 0
+                allItemsList.map((item: any) => {
+                  // console.log(item.billPrice)
+                })
+                filterConfigs.maxPrice = allItemsList[allItemsList.length - 1].billPrice;
+                filterConfigs.minPrice = 0;
+                setFilterConfig({ ...filterConfigs });
+                setActiveFilters({ ...filterObj, minPrice: 0, maxPrice: 100 });
+              }
+            })
+
+          } else if (activeCuratedCategory.entityType === 'items') {
+            if (activeCuratedCategory.curatedItems.length !== 0) {
+              let itemsList = activeCuratedCategory.curatedItems;
+              itemsList.map((item, index) => {
+                const itemDetails = storeData.itemsList.filter(data => data.name == item.name);
+                itemDetails[0].length != 0 && (item = { ...item, ...itemDetails[0] })
+                let [price, salePrice] = getItemPrice(item);
+                item.billPrice = salePrice || price;
+                item.price = price;
+                item.salePrice = salePrice;
+                item.discount = salePrice ? Number((((price - salePrice) / price) * 100).toFixed(1)) : 0;
+                itemsList = itemsList.sort(dynamicSort("billPrice", 1)); //1 == 0 1 2 3  || -1 == 3 2 1 0
+                // itemsList.map((item: any) => {
+                //   console.log(item.billPrice)
+                // })
+                filterConfigs.maxPrice = itemsList[itemsList.length - 1].billPrice;
+                filterConfigs.minPrice = 0;
+                setFilterConfig({ ...filterConfigs });
+                setActiveFilters({ ...filterObj, minPrice: 0, maxPrice: 100 });
+              })
+            }
+          }
+        } else {
+          setFilterConfig({ ...filterConfigs });
+          setActiveFilters({ ...filterObj });
+        }
+      }
+    }
+  }, [activeCuratedCategory, configData, mappedCategories])
+
+  useEffect(() => {
+    if (activeCuratedCategory && activeCuratedCategory.name) {
+      setmetaTags(getItemMetaTags(activeCuratedCategory));
+      prepareDataForRendering();
+    }
+  }, [activeCuratedCategory])
+
+  useEffect(() => {
+    if (mappedCategories && mappedCategories?.length == 1) {
+      prepareActiveCategoryData(mappedCategories[0], 'Base', 'first-load');
+    } else {
+      setSubCuratedCategories(mappedCategories);
+    }
+  }, [mappedCategories]);
+
+
+  const prepareDataForRendering = () => {
+    setmetaTags(getItemMetaTags(activeCuratedCategory));
+    if (activeCuratedCategory.entityType === 'category') {
+      setMappedCategories(null);
+      setItemsWithoutCategoryList([]);
+      setCategoriesPromotionBanner(null);
+      setCategoriesWithItems(null);
+      setSubCuratedCategories(null);
+      setActiveBaseCategory(null);
+      setActiveSubCuratedCategory(null);
+      const mappedCategories = activeCuratedCategory.curatedItems;
+      mappedCategories?.map((mappedCategory) => {
+        storeData?.categories?.map((storeCategory) => {
+          if (storeCategory.name === mappedCategory.name) {
+            mappedCategory.categoryDetails = storeCategory;
+          } else {
+            if (storeCategory.hasSubcategory && storeCategory.categoryList.length != 0) {
+              storeCategory.categoryList?.map((subCategory) => {
+                if (subCategory.name === mappedCategory.name) {
+                  mappedCategory.categoryDetails = subCategory;
+                } else {
+                  if (subCategory.hasSubcategory && subCategory.categoryList.length != 0) {
+                    subCategory.categoryList?.map((subSubCategory) => {
+                      if (subSubCategory.name === mappedCategory.name) {
+                        mappedCategory.categoryDetails = subSubCategory;
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          }
+        })
+      })
+      setTimeout(() => {
+        let categoryList = [];
+        mappedCategories?.map((catData, catI) => {
+          let category = { ...catData.categoryDetails, ...catData };
+          delete category.categoryDetails;
+          if (activeFilters && activeFilters.active) {
+            if (category.showOnUi) {
+              category = filterCategory(category, activeFilters, filterConfig);
+            }
+          }
+          categoryList.push(category);
+        })
+        setMappedCategories(categoryList);
+      }, 100);
+    } else if (activeCuratedCategory.entityType === 'items') {
+      if (activeCuratedCategory.curatedItems.length !== 0) {
+        const itemsList = activeCuratedCategory.curatedItems;
+        const categoriesPromotionBannerArray = [];
+        itemsList.map((item, index) => {
+          const itemDetails = storeData.itemsList.filter(data => data.name == item.name);
+          itemDetails[0].length != 0 && (item = { ...item, ...itemDetails[0] })
+
+          //get prices
+          let [price, salePrice] = getItemPrice(item);
+          item.billPrice = salePrice || price;
+          item.price = price;
+          item.salePrice = salePrice;
+          item.discount = salePrice ? Number((((price - salePrice) / price) * 100).toFixed(1)) : 0;
+          // console.log(item.billPrice)
+
+          //get banners
+          item?.imagePaths?.map((imagObj) => {
+            imagObj.imagePath && !imagObj.deleted && categoriesPromotionBannerArray.push({ original: imagObj.imagePath, thumbnail: imagObj.imagePath, alt: 'Promotional', bulletClass: 'slider-bullet' })
+          })
+
+          if (index == itemsList.length - 1) {
+            if (activeFilters && activeFilters.active) {
+              let filteredItem = itemsList.filter((i: any) => i.billPrice >= (activeFilters.minPrice * (filterConfig.maxPrice / 100)) && i.billPrice <= (activeFilters.maxPrice * (filterConfig.maxPrice / 100)))
+              setCuratedItemsList(filteredItem);
+            } else {
+              setCategoriesPromotionBanner(categoriesPromotionBannerArray);
+              setCuratedItemsList(itemsList);
+            }
+
+          }
+        })
+      }
+    }
+  }
+  const getPromotionalBanner = (category) => {
+    let imagePathsArray = [];
+
+    if (category && category.imagePaths && category.imagePaths != null && category.imagePaths.length != 0) {
+      category.imagePaths = category.imagePaths.filter((i: any) => !i.deleted)
+      imagePathsArray = [...imagePathsArray, ...category.imagePaths];
+    }
+    if (category && category.hasSubcategory && category.categoryList.length != 0) {
+      category.categoryList?.map((catData, catIndex) => {
+        catData.imagePaths = (catData && catData.imagePaths && catData.imagePaths != null && catData.imagePaths.length != 0) ? catData.imagePaths : []
+        catData.imagePaths = catData.imagePaths.filter((i: any) => !i.deleted)
+        imagePathsArray = [...imagePathsArray, ...catData.imagePaths];
+      })
+    }
+    if (category && category.itemList) {
+      category.itemList?.map((itemData, catIndex) => {
+        if (itemData.imagePaths && itemData.imagePaths?.length != 0) {
+          itemData.imagePaths = itemData.imagePaths.filter((i: any) => !i.deleted)
+          imagePathsArray = [...imagePathsArray, ...itemData.imagePaths];
+        }
+      })
+    }
+    const categoriesPromotionBannerArray = [];
+    imagePathsArray?.map((imagObj) => {
+      (imagObj.active && imagObj.imagePath) && categoriesPromotionBannerArray.push({ original: imagObj.imagePath, thumbnail: imagObj.imagePath, alt: 'Promotional', bulletClass: 'slider-bullet' })
+    })
+    setCategoriesPromotionBanner(categoriesPromotionBannerArray);
+  }
+
+  const prepareActiveCategoryData = (category, from, status = null) => {
+    setAccordianExpanded(false);
+    setCategoriesWithItems(null);
+    if (category.hasSubcategory && category.categoryList.length != 0) {
+      const isAnySubSubCategoryAvl = category.categoryList?.filter((catData) => catData.hasSubcategory);
+      if (isAnySubSubCategoryAvl?.length) {
+        setBaseSubCategories(category.categoryList);
+        setItemsWithoutCategoryList([]);
+        setCategoriesPromotionBanner(null);
+        // setCategoriesWithItems(null);
+      } else {
+        setItemsWithoutCategoryList([]);
+        getPromotionalBanner(category);
+        setCategoriesWithItems(category.categoryList);
+      }
+    } else {
+      //direct items list
+      if (from === 'Curated') {
+        setBaseSubCategories(null);
+        setActiveBaseCategory(null);
+      }
+      if (category.itemList) {
+        getPromotionalBanner(category);
+      }
+      setItemsWithoutCategoryList(category.itemList || []);
+    }
+    if (from === 'Curated') {
+      setActiveSubCuratedCategory(category);
+      subCuratedCategories && subCuratedCategories?.map((cat) => {
+        if (cat.name === category.name) cat.isSelected = true;
+        else cat.isSelected = false;
+      })
+      baseSubCategories && baseSubCategories?.map((cat) => cat.isSelected = false)
+    } else {
+      status !== 'first-load' && setActiveBaseCategory(category);
+      baseSubCategories && baseSubCategories?.map((cat) => {
+        if (cat.name === category.name) cat.isSelected = true;
+        else cat.isSelected = false;
+      })
+    }
+  }
+
+  const handleFilterModalRes = (filters: any) => {
+    if (filters) {
+      setActiveFilters(filters);
+      dispatch(showSuccess("Filter applied successfully"))
+    }
+    setShowFilter(false)
+  }
+
+  return (
+    <>
+      {activeCuratedGroup ? <div className="categorypageContainer curation-wrapper">
+        {filterConfig && filterConfig.active ? <>
+          <div className='filter-nav-wrap'>
+            <div className='cat-nav-wrap'>
+              <ScrollingNavigation items={activeCuratedGroup.curatedCategories} config={{}} handleClick={(item) => setActiveCuratedCategory(item)} activeCategory={activeCuratedCategory} />
+            </div>
+            <div className='filter-icon-wrap'>
+              <div className='filter-icon'>
+                <img onClick={() => setShowFilter(true)} src="/assets/Icons/filter_icon.png" />
+              </div>
+            </div>
+          </div>
+        </> : <>
+          <ScrollingNavigation items={activeCuratedGroup.curatedCategories} config={{}} handleClick={(item) => setActiveCuratedCategory(item)} activeCategory={activeCuratedCategory} />
+        </>}
+
+        <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} />
+        {activeCuratedCategory?.entityType === 'category' && <div className="content-wrap clearfix">
+          <>
+            {subCuratedCategories && <div className="fullwidth">
+              {activeSubCuratedCategory ?
+                <Accordion expanded={accordianExpanded} onChange={() => setAccordianExpanded(accordianExpanded ? false : true)}>
+                  <AccordionSummary
+                    expandIcon={<ArrowDropDownIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <div className="accor-title">{activeSubCuratedCategory.name}</div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className="boxlayout">
+                      <SquareGrid noImage={SUB_CAT_NO_IMAGE} items={subCuratedCategories} config={{ withShadow: false }} handleClick={(category) => prepareActiveCategoryData(category, 'Curated')} />
+                    </div>
+                  </AccordionDetails>
+                </Accordion> :
+                <div className="subcat-cover clearfix">
+                  <div className="boxlayout">
+                    <SquareGrid noImage={SUB_CAT_NO_IMAGE} items={subCuratedCategories} config={{ withShadow: false }} handleClick={(category) => prepareActiveCategoryData(category, 'Curated')} />
+                  </div>
+                </div>
+              }
+            </div>}
+          </>
+
+          <>
+            {(subCuratedCategories ? activeSubCuratedCategory : true && baseSubCategories) && <div className="fullwidth">
+              {activeBaseCategory ?
+                <Accordion expanded={accordianExpanded} onChange={() => setAccordianExpanded(accordianExpanded ? false : true)}>
+                  <AccordionSummary
+                    expandIcon={<ArrowDropDownIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <div className="accor-title">{activeBaseCategory.name}</div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className="boxlayout">
+                      <SquareGrid noImage={SUB_CAT_NO_IMAGE} items={baseSubCategories} config={{ withShadow: false }} handleClick={(category) => prepareActiveCategoryData(category, 'Base')} />
+                    </div>
+                  </AccordionDetails>
+                </Accordion> : <>
+
+                  {baseSubCategories ? <div className="subcat-cover clearfix">
+                    <div className="boxlayout">
+                      <SquareGrid noImage={SUB_CAT_NO_IMAGE} items={baseSubCategories} config={{ withShadow: false }} handleClick={(category) => prepareActiveCategoryData(category, 'Base')} />
+                    </div>
+                  </div> : null}
+                </>
+              }
+            </div>}
+          </>
+          {/* <div id="scrolling-div" className="scrolling-div"></div> */}
+          {/* categoriesPromotionBanner */}
+          {categoriesPromotionBanner &&
+            <div className="promotional-banner" id="promotional-banner">
+              <ImageGallery items={categoriesPromotionBanner} {...settings} />
+            </div>}
+          {/* categoriesWithItems */}
+          {categoriesWithItems && <div className='services-list-wrapper'>
+            {
+              categoriesWithItems?.map((category, catIndex) => {
+                return <div key={Math.random()}>
+                  {category.showOnUi && category.active ? <>
+                    {<div className="service-list-cover">
+                      <div className="ser-list-title">{category.name}</div>
+                      {
+                        category.itemList && category.itemList?.map((item, itemIndex) => {
+                          return <div key={Math.random()}>
+                            <Item item={item} config={{ onClickAction: configData.showServicesPdp }} type={category.type} />
+                          </div>
+                        })
+                      }
+                    </div>}
+                  </> : null}
+                </div>
+              })
+            }
+          </div>}
+
+          {/* itemsWithoutCategoryList */}
+          <div className='services-list-wrapper'>
+            {itemsWithoutCategoryList.length != 0 && <div className="">
+              {itemsWithoutCategoryList?.map((item, itemIndex) => {
+                return <div className="service-list-cover" key={Math.random()}>
+                  <Item item={item} config={{ onClickAction: configData.showServicesPdp }} type={activeCuratedCategory.type} />
+                </div>
+              })
+              }
+            </div>}
+          </div>
+
+          {!(itemsWithoutCategoryList?.length) && (!categoriesWithItems && !categoriesWithItems?.length) && (!subCuratedCategories || subCuratedCategories?.length == 0) && (!curatedItemsList || curatedItemsList?.length == 0) &&
+            <div className='unavailable-data'>
+              <div className='heading'>Whoops ...</div>
+              <div className=''>We're unable to find the data that you're looking for</div>
+            </div>}
+        </div>}
+
+        {activeCuratedCategory.entityType === 'items' && <div className="content-wrap">
+          {/* <div id="scrolling-div" className="scrolling-div"></div> */}
+          {/* categoriesPromotionBanner */}
+          {categoriesPromotionBanner &&
+            <div className="promotional-banner" id="promotional-banner">
+              <ImageGallery items={categoriesPromotionBanner} {...settings} />
+            </div>}
+          <div className='services-list-wrapper'>
+            {curatedItemsList?.map((item, itemIndex) => {
+              const itemData = itemsList.filter((i: any) => i.name == item.name)
+              return <div className="service-list-cover" key={Math.random()}>
+                <Item item={itemData[0]} config={{ onClickAction: configData.showServicesPdp }} type={activeCuratedCategory.type} />
+              </div>
+            })}
+          </div>
+          {/* <VerticalListing itemsList={curatedItemsList} type={activeCuratedCategory.type} /> */}
+        </div>}
+        {/* <div className="common-grey-boder"></div> */}
+      </div> : null}
+      <FilterModal
+        frompage="Curations"
+        type={activeCuratedGroup?.type || 'Items'}
+        filterConfig={filterConfig}
+        openModal={showFilter}
+        activeFilters={activeFilters}
+        handleClose={(filters: any) => handleFilterModalRes(filters)}
+      />
+    </>
+  );
+}
+export default CategoryPage;

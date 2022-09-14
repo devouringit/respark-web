@@ -1,0 +1,34 @@
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+$color-error: #ff003d;
+
+:root {
+  --primary-color: #ff0185;
+  --primary-font: 'poppins-regular';
+  --atlantika: 'atlantika';
+  --bringHeart: 'bringHeart';
+  --mvboli: 'mvboli';
+}
+
+// body,
+// body[data-theme='male'] {
+//   --primary-color: #4088f4;
+//   --primary-color-shadow: #4088f47d;
+//   --primary-color-alpha: #4088f4ab;
+// }
+
+// body[data-theme='female'] {
+//   --primary-color: #ff0185;
+//   --primary-color-shadow: #f490c57c;
+//   --primary-color-alpha: #f365b3ab;
+// }
+
+// body[data-font='poppins'] {
+//   --primary-font: 'poppins-regular';
+// }
