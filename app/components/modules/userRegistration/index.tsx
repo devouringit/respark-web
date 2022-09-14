@@ -64,7 +64,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const storeMetaData = useSelector(state => state.store ? state.store.storeMetaData : null);
 
     useEffect(() => {
-        if (open) document.body.classList.add("o-h")
+        if (open || !fromPage) document.body.classList.add("o-h")
         else document.body.classList.remove("o-h")
     }, [open])
 
