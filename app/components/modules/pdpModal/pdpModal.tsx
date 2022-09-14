@@ -163,7 +163,7 @@ function PdpModal() {
                 await window.navigator.share({ title: "Example Page", url: "" });
                 console.log("Data was shared successfully");
             } catch (err) {
-                setOpenShareModal(true)
+                // setOpenShareModal(true)
                 console.error("Share failed:", err.message);
             }
         } else setOpenShareModal(true)
