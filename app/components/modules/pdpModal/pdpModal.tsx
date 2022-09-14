@@ -158,14 +158,16 @@ function PdpModal() {
     }
 
     const onSharePage = async () => {
-        try {
-            await window.navigator.share({ title: "Example Page", url: "" });
-            console.log("Data was shared successfully");
-        } catch (err) {
-            console.error("Share failed:", err.message);
-        }
+        if (window.navigator.share) {
+            try {
+                await window.navigator.share({ title: "Example Page", url: "" });
+                console.log("Data was shared successfully");
+            } catch (err) {
+                setOpenShareModal(true)
+                console.error("Share failed:", err.message);
+            }
+        } else setOpenShareModal(true)
     }
-
 
     useEffect(() => {
         let totalcopy = 0;
