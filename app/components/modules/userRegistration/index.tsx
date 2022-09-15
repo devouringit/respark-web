@@ -456,7 +456,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                         alt="logo"
                                     />
                                 </div>
-                                <div className="heading" >{showSignInPage ? 'Sign InF' : 'Sign UpF'}</div>
+                                <div className="heading" >{showSignInPage ? 'Sign In' : 'Sign Up'}</div>
                             </div>
                             {showSignInPage ? <>
                                 <div className='page-wrap'>
@@ -476,7 +476,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                     readOnly={'id' in userData ? true : false} />
                                             </div>
                                             <div className='btn-wrap'>
-                                                <div className='primary-btn' onClick={onCartSignIn}>Sign InG</div>
+                                                <div className='primary-btn' onClick={onCartSignIn}>Sign In</div>
                                             </div>
                                         </div>
                                         {error.id == 'not-registered' && < div className='not-registered note'>
@@ -597,7 +597,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                             </div>
                                         </div>
                                         <div className='note '>
-                                            <span className='glass-card signup-note'>Already have an account? <span onClick={() => setShowSignInPage(true)}>Sign inH</span></span>
+                                            <span className='glass-card signup-note'>Already have an account? <span onClick={() => setShowSignInPage(true)}>Sign in</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -618,7 +618,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                 <CloseIcon />
                             </div>
                             {showSignInPage ? <>
-                                <div className="heading" >Sign InI</div>
+                                <div className="heading" >Sign In</div>
                                 <div className='page-contain'>
                                     <div className='form-wrap'>
                                         <div id="cart-phone" className={`input-wrap-with-label glass-card ${error.id == 'cart-phone' ? 'error' : ''}`}>
@@ -634,7 +634,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                 readOnly={'id' in userData ? true : false} />
                                         </div>
                                         <div className='btn-wrap'>
-                                            <div className='primary-btn' onClick={onCartSignIn}>Sign InJ</div>
+                                            <div className='primary-btn' onClick={onCartSignIn}>Sign In</div>
                                         </div>
                                     </div>
                                     {error.id == 'not-registered' && < div className='not-registered note'>
@@ -725,7 +725,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                         </div>
                                     </div>
                                     {fromPage != 'PROFILE' && <div className='note '>
-                                        <span className='glass-card signup-note'>Already have an account? <span onClick={() => setShowSignInPage(true)}>Sign inK</span></span>
+                                        <span className='glass-card signup-note'>Already have an account? <span onClick={() => setShowSignInPage(true)}>Sign in</span></span>
                                     </div>}
                                 </div>
                             </>}
