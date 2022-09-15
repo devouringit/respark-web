@@ -183,13 +183,18 @@ function MainHeader({ storeData, storeMetaData }) {
   }
 
   useEffect(() => {
+    console.log(storeMetaData)
+
     if (baseRouteUrl && windowRef && windowRef().location) {
       const manifestElement = document.getElementById("manifest");
       const manifestString = JSON.stringify({
         ...{
+          "name": storeData ? `${storeData?.tenant}, ${storeMetaData?.name}` : 'Respark',
+          "short_name": storeData ? `${storeData?.tenant}, ${storeMetaData?.name}` : 'Respark',
+          "start_url": storeData?.baseRouteUrl,
           "display": "standalone",
-          "background_color": "#ff0185",
-          "theme_color": "#ff0185",
+          "background_color": "#dee1ec",
+          "theme_color": "#dee1ec",
           "orientation": "portrait-primary",
           "icons": [
             {
@@ -281,9 +286,6 @@ function MainHeader({ storeData, storeMetaData }) {
             }
           ]
         },
-        short_name: configData.tenant || 'Respark',
-        name: configData.store || 'Respark',
-        start_url: `${baseRouteUrl}`,
       });
 
       manifestElement?.setAttribute(
@@ -427,10 +429,10 @@ function MainHeader({ storeData, storeMetaData }) {
         </Drawer>
       </div >
       <UserRegistrationModal
-        fromPage={showUserRegModalOnFirstLoad ? "INITIAL_LOAD" : ((openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && !userData?.mobileNo && (windowRef && !pdpItem) ? 'HOME' : '')}
+        fromPage={(!userData?.mobileNo && (openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && windowRef && !pdpItem) ? showUserRegModalOnFirstLoad ? "INITIAL_LOAD" : 'HOME' : ''}
         handleResponse={(e) => onLoginClose(e)}
         isApppGrpChangeOnUserGdrChange={showUserRegModalOnFirstLoad ? true : false}
-        open={(openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && !userData?.mobileNo && (windowRef && !pdpItem)}
+        open={userData?.mobileNo ? false : (openUserRegistrationModalOnBtnClick || showUserRegModalOnFirstLoad) && (windowRef && !pdpItem)}
         heading={showUserRegModalOnFirstLoad ? (configData?.storeConfig?.sparkConfig?.userConfig?.popupHeading || 'We will use your information to send offers and promotions') : 'Thank you for get back, lets access the best recommendation for you.'} />
 
       <ConfirmationModal

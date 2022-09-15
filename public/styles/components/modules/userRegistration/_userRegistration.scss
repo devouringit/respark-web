@@ -1,4 +1,10 @@
 .user-reg-modal {
+  .backdrop-modal-wrapper {
+    z-index: 0 !important;
+    &.active {
+      z-index: 10 !important;
+    }
+  }
   .registration-page-cover {
     .backdrop-modal-content {
       border-radius: unset;
