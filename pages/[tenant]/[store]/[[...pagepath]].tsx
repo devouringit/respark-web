@@ -40,7 +40,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
   )
-  let appLink: any = req.headers.referer;
+  const appLink: any = req.headers.referer;
   const storeState = store.getState();
   if (query.store == "images" || query.tenant == "assets") {//when route is inactive store then query is { pagepath: ['bg.png'] ,store: "images" ,tenant: "assets"} 
     const tenantStoreData = { storeMetaData: {}, baseRouteUrl: '', storeData: { configData: {}, categories: [], curatedGroups: [], sliders: [] }, validPagepath: false, validStore: true };
