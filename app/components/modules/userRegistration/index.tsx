@@ -74,7 +74,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
             {props.from == 'DOB' ? 'Birth date: ' : 'Anniversary date: '} {props.value}
 
         </> : <>
-            {props.from == 'DOB' ? 'Select birth date' : 'Select anniversary date'}
+            {props.from == 'DOB' ? 'Birth date' : 'Anniversary date'}
         </>}
     </button>);
 
@@ -542,7 +542,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                 <DatePicker
                                                     selected={userData.dob ? new Date(userData.dob) : null}
                                                     onChange={(date) => onInputChange('dob', date)}
-                                                    customInput={<DatePickerInput from={"DOB"} />}
+                                                    customInput={<DatePickerInput from={"Birth Date"} />}
                                                     peekNextMonth
                                                     showMonthDropdown
                                                     showYearDropdown
