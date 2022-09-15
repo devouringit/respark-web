@@ -488,42 +488,43 @@ export function dynamicSort(property: any, order: number) {
   }
 }
 
-export function updateManifestFile(storeData: any, storeMetaData: any, baseRouteUrl: any) {
+export function updateManifestFile(storeData: any) {
   const theme_color = document.getElementById("theme-color").getAttribute("content");
+  const manifestConfig = storeData.configData.storeConfig.manifestConfig;
   const manifestString = JSON.stringify({
     ...{
-      "name": `${storeData.tenant}, ${storeMetaData.name}` || 'Respark',
+      "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
       "short_name": `${storeData.tenant}` || 'Respark',
-      "start_url": baseRouteUrl || '/',
+      "start_url": storeData.appLink || '/',
       "display": "standalone",
       "background_color": theme_color || "#dee1ec",
       "theme_color": theme_color || "#dee1ec",
       "orientation": "landscape",
-      "description": storeMetaData.description,
+      "description": storeData.description,
       "id": storeData.tenantId,
       "icons": [
         {
-          "src": `${window.location.origin}/180.png`,
+          "src": manifestConfig.icons['180'],
           "type": "image/png",
           "sizes": "180x180"
         },
         {
-          "src": `${window.location.origin}/192.png`,
+          "src": manifestConfig.icons['192'],
           "type": "image/png",
           "sizes": "192x192"
         },
         {
-          "src": `${window.location.origin}/384.png`,
+          "src": manifestConfig.icons['384'],
           "type": "image/png",
           "sizes": "384x384"
         },
         {
-          "src": `${window.location.origin}/512.png`,
+          "src": manifestConfig.icons['512'],
           "type": "image/png",
           "sizes": "512x512"
         },
         {
-          "src": `${window.location.origin}/1024.png`,
+          "src": manifestConfig.icons['1024'],
           "type": "image/png",
           "sizes": "1024x1024"
         }

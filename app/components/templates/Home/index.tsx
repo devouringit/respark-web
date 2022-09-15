@@ -117,7 +117,7 @@ function HomePage({ storeData, activeGroup, storeMetaData }) {
     if (baseRouteUrl && windowRef && windowRef().location) {
       const themeMetaElement = document.getElementById("theme-color");
       themeMetaElement?.setAttribute("content", color);
-      updateManifestFile(storeData, storeMetaData, baseRouteUrl);
+      // updateManifestFile(storeData);
     }
     dispatch(updateGenericImages(getGenericImages(configData, activeGroup)));
     // let defaultWrapper = document.getElementById('default-wrapper');

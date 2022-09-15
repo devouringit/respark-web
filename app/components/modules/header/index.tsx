@@ -185,9 +185,9 @@ function MainHeader({ storeData, storeMetaData }) {
   useEffect(() => {
     console.log(storeMetaData)
 
-    if (baseRouteUrl && windowRef && windowRef().location) {
-      updateManifestFile(storeData, storeMetaData, baseRouteUrl);
-    }
+    // if (baseRouteUrl && windowRef && windowRef().location) {
+    // updateManifestFile(storeData);
+    // }
   }, [baseRouteUrl, windowRef]);
 
   useEffect(() => {

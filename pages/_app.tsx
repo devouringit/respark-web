@@ -12,6 +12,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import Loader from '@module/loader';
 import AlertNotification from '@module/alert';
+import { updateManifestFile } from '@util/utils';
 //Binding events. 
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -19,6 +20,12 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
+  useEffect(() => {
+    console.log(pageProps);
+    if (pageProps?.storeData) {
+      updateManifestFile(pageProps.storeData);
+    }
+  }, [pageProps]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
