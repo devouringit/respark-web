@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 import ConfirmationModal from "@module/confirmationModal";
 import { GENERIC_IMAGE_APP_KEY } from "@constant/common";
 import CloseIcon from '@material-ui/icons/CloseOutlined';
-import { getGenericImages, hex2rgb } from "@util/utils";
+import { getGenericImages, hex2rgb, updateManifestFile } from "@util/utils";
 import Router from 'next/router';
 import { googleLogout } from "@react-oauth/google";
 
@@ -186,112 +186,7 @@ function MainHeader({ storeData, storeMetaData }) {
     console.log(storeMetaData)
 
     if (baseRouteUrl && windowRef && windowRef().location) {
-      const manifestElement = document.getElementById("manifest");
-      const manifestString = JSON.stringify({
-        ...{
-          "name": storeData ? `${storeData?.tenant}, ${storeMetaData?.name}` : 'Respark',
-          "short_name": storeData ? `${storeData?.tenant}, ${storeMetaData?.name}` : 'Respark',
-          "start_url": storeData?.baseRouteUrl,
-          "display": "standalone",
-          "background_color": "#dee1ec",
-          "theme_color": "#dee1ec",
-          "orientation": "portrait-primary",
-          "icons": [
-            {
-              "src": `${windowRef().location.origin}/android-icon-36x36.png`,
-              "sizes": "36x36",
-              "type": "image\/png",
-              "density": "0.75"
-            },
-            {
-              "src": `${windowRef().location.origin}/android-icon-48x48.png`,
-              "sizes": "48x48",
-              "type": "image\/png",
-              "density": "1.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/android-icon-72x72.png`,
-              "sizes": "72x72",
-              "type": "image\/png",
-              "density": "1.5"
-            },
-            {
-              "src": `${windowRef().location.origin}/android-icon-96x96.png`,
-              "sizes": "96x96",
-              "type": "image\/png",
-              "density": "2.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/android-icon-144x144.png`,
-              "sizes": "144x144",
-              "type": "image\/png",
-              "density": "3.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/android-icon-192x192.png`,
-              "sizes": "192x192",
-              "type": "image\/png",
-              "density": "4.0"
-            }, {
-              "src": `${windowRef().location.origin}/apple-icon-60x60.png`,
-              "sizes": "60x60",
-              "type": "image\/png",
-              "density": "2.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/apple-icon-57x57.png`,
-              "sizes": "57x57",
-              "type": "image\/png",
-              "density": "3.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/apple-icon-72x72.png`,
-              "sizes": "72x72",
-              "type": "image\/png",
-              "density": "4.0"
-            }, {
-              "src": `${windowRef().location.origin}/apple-icon-76x76.png`,
-              "sizes": "76x76",
-              "type": "image\/png",
-              "density": "2.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/apple-icon-114x114.png`,
-              "sizes": "114x114",
-              "type": "image\/png",
-              "density": "3.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/apple-icon-152x152.png`,
-              "sizes": "152x152",
-              "type": "image\/png",
-              "density": "4.0"
-            }, {
-              "src": `${windowRef().location.origin}/favicon-16x16.png`,
-              "sizes": "16x16",
-              "type": "image\/png",
-              "density": "2.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/favicon-32x32.png`,
-              "sizes": "32x32",
-              "type": "image\/png",
-              "density": "3.0"
-            },
-            {
-              "src": `${windowRef().location.origin}/favicon-96x96.png`,
-              "sizes": "96x96",
-              "type": "image\/png",
-              "density": "4.0"
-            }
-          ]
-        },
-      });
-
-      manifestElement?.setAttribute(
-        "href",
-        "data:application/json;charset=utf-8," + encodeURIComponent(manifestString),
-      );
+      updateManifestFile(storeData, storeMetaData, baseRouteUrl);
     }
   }, [baseRouteUrl, windowRef]);
 

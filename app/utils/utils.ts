@@ -487,3 +487,50 @@ export function dynamicSort(property: any, order: number) {
     }
   }
 }
+
+export function updateManifestFile(storeData: any, storeMetaData: any, baseRouteUrl: any) {
+  const theme_color = document.getElementById("theme-color").getAttribute("content");
+  const manifestString = JSON.stringify({
+    ...{
+      "name": `${storeData.tenant}, ${storeMetaData.name}` || 'Respark',
+      "short_name": `${storeData.tenant}` || 'Respark',
+      "start_url": baseRouteUrl || '/',
+      "display": "standalone",
+      "background_color": theme_color || "#dee1ec",
+      "theme_color": theme_color || "#dee1ec",
+      "orientation": "landscape",
+      "description": storeMetaData.description,
+      "id": storeData.tenantId,
+      "icons": [
+        {
+          "src": `${window.location.origin}/180.png`,
+          "type": "image/png",
+          "sizes": "180x180"
+        },
+        {
+          "src": `${window.location.origin}/192.png`,
+          "type": "image/png",
+          "sizes": "192x192"
+        },
+        {
+          "src": `${window.location.origin}/384.png`,
+          "type": "image/png",
+          "sizes": "384x384"
+        },
+        {
+          "src": `${window.location.origin}/512.png`,
+          "type": "image/png",
+          "sizes": "512x512"
+        },
+        {
+          "src": `${window.location.origin}/1024.png`,
+          "type": "image/png",
+          "sizes": "1024x1024"
+        }
+      ]
+    },
+  });
+  console.log(manifestString)
+  const manifestElement = document.getElementById("manifest");
+  manifestElement?.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(manifestString));
+}

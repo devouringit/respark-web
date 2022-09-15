@@ -13,7 +13,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="manifest" id="manifest" href="/manifest.json" />
-          <meta name="theme-color" content="#ff0185" />
+          <meta name="theme-color" id="theme-color" content="#ff0185" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" />
           {/* <!--razor pay--> */}
           <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

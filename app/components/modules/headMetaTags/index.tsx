@@ -35,7 +35,6 @@ export default function HeadMetaTags({ title, description, image, siteName }) {
 
       {/* <meta name="viewport" content="width=device-width,initial-scale=1" /> */}
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-      <meta name="theme-color" content="#ff0185" />
       <meta name="robots" content="index, follow" />
       <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
       <link rel="icon" href="/favicon.ico" />

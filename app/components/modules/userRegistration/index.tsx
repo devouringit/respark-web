@@ -62,27 +62,34 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const [startDate, setStartDate] = useState(new Date());
     const [showSignInPage, setShowSignInPage] = useState(fromPage != 'PROFILE' ? true : false)
     const storeMetaData = useSelector(state => state.store ? state.store.storeMetaData : null);
-
+    const [signUpPageHeight, setSignUpPageHeight] = useState<any>('370px');
     useEffect(() => {
-        console.log('user', open)
         if (open) document.body.classList.add("o-h")
         else document.body.classList.remove("o-h")
     }, [open])
 
     const DatePickerInput = forwardRef((props: any, ref: any) => <button className="date-picker-button" onClick={props.onClick} ref={ref}>
         {props.value ? <>
-            {props.from == 'DOB' ? 'Birth date: ' : 'Anniversary date: '} {props.value}
+            {props.from == 'Birth date' ? 'Birth date: ' : 'Anniversary date: '} {props.value}
 
         </> : <>
-            {props.from == 'DOB' ? 'Birth date' : 'Anniversary date'}
+            {props.from == 'Birth date' ? 'Birth date' : 'Anniversary date'}
         </>}
     </button>);
 
+    const modalRef = useRef(null);
     const loginNumberInput = useRef<HTMLInputElement>(null);
+    const signUpFormRef = useRef<HTMLInputElement>(null);
     // useEffect(() => {
     //     if (fromPage == 'CART_PAGE' && showSignInPage) loginNumberInput.current.focus();
     // }, [fromPage, showSignInPage])
 
+    useEffect(() => {
+        if (!showSignInPage) {
+            if (fromPage == 'PROFILE') setSignUpPageHeight(`${signUpFormRef.current?.clientHeight + 130}px`);
+            else setSignUpPageHeight(`${signUpFormRef.current?.clientHeight + 220}px`)
+        }
+    }, [showSignInPage])
 
     const [userData, setUserData] = useState({
         mobileNo: '',
@@ -99,6 +106,9 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
     useEffect(() => {
         if (error.id) {
+            if (window?.navigator && window?.navigator?.vibrate) {
+                window?.navigator?.vibrate([200, 100, 200])
+            }
             let element = document.getElementById(error.id)
             if (element) {
                 element.classList.add("shaker")
@@ -149,7 +159,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                     expires: new Date(new Date().setMinutes(new Date().getMinutes() + 30)),
                     sameSite: true,
                 })
-            } else if (!userFromCookies && userConfig?.userRegMandatory) {
+            } else if (!userFromCookies && !registrationScreenTime && (userConfig?.userRegPopupReq)) {
                 setShowRegistrationScreen(true);
             } else {
                 handleClose();
@@ -313,14 +323,16 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             // let defaultWrapper = document.getElementById('default-wrapper');
                             // defaultWrapper.style.backgroundImage = `url("/assets/images/${user.gender}/bg.png")`;
                         }
-                        if (fromPage == 'INITIAL_LOAD') {
-                            setShowRegistrationScreen(false);
-                            setShowWellcomeScreen(true);
-                        } else {
-                            handleClose(user);
-                        }
+                        // if (fromPage == 'INITIAL_LOAD') {
+                        //     setShowRegistrationScreen(false);
+                        //     setShowWellcomeScreen(true);
+                        // } else {
+                        // handleClose(user);
+                        // }
+                        handleClose(user);
                         dispatch(disableLoader());
-                    }
+                    } else
+                        setError({ id: 'not-registered', text: "Looks like you dont have any account, try using mobile number or sign up" })
                 }).catch((e) => console.log(e))
             }
         }
@@ -392,13 +404,13 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
     const successResponseGoogle = function (response: any) {
         var responsePayload: any = jwt_decode(response.credential);
-        console.log("ID: " + responsePayload.sub);
-        console.log('Full Name: ' + responsePayload.name);
-        console.log('Given Name: ' + responsePayload.given_name);
-        console.log('Family Name: ' + responsePayload.family_name);
-        console.log("Image URL: " + responsePayload.picture);
-        console.log("Email: " + responsePayload.email);
-        console.log(responsePayload)
+        // console.log("ID: " + responsePayload.sub);
+        // console.log('Full Name: ' + responsePayload.name);
+        // console.log('Given Name: ' + responsePayload.given_name);
+        // console.log('Family Name: ' + responsePayload.family_name);
+        // console.log("Image URL: " + responsePayload.picture);
+        // console.log("Email: " + responsePayload.email);
+        // console.log(responsePayload)
         getUserDetailsByEmail(responsePayload.email).then((data: any) => {
             if (data && data?.mobileNo) {
                 setLogginUserData(data);
@@ -433,10 +445,15 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
         dispatch(showError('Sorry there was a problem with your google login request.'))
     }
 
+    const onBackdropOutsideClick = (event: any) => {
+        if ((!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && modalRef.current && !modalRef.current.contains(event.target)) {
+            handleClose();
+        }
+    }
 
     return (
         <div className="user-reg-modal">
-            {fromPage == 'INITIAL_LOAD' ? <>
+            {(fromPage == 'INITIAL_LOAD' && false) ? <>
                 <div className='cart-page-login-wrap registration-page-cover INITIAL_LOAD'>
                     <Backdrop
                         className={`backdrop-modal-wrapper ${(open && (showRegistrationScreen || showWellcomeScreen)) ? 'active' : ''}`}
@@ -445,7 +462,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                         <div className={`backdrop-modal-content ${!showSignInPage ? 'signup' : 'signin'}`}
                             style={{ height: `${(open && (showRegistrationScreen || showWellcomeScreen)) ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
                         >
-                            {!userConfig?.userRegMandatory && <div className="modal-close" onClick={() => handleClose()}>
+                            {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
                             </div>}
                             <div className="logo-header">
@@ -470,7 +487,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                     type='tel'
                                                     ref={loginNumberInput}
                                                     value={userData.mobileNo || ''}
-                                                    onChange={(e) => onPhoneChange(e.target.value, false)}
+                                                    onChange={(e) => onPhoneChange(e.target.value, true)}
                                                     minLength={10} maxLength={10}
                                                     placeholder="Mobile Number"
                                                     readOnly={'id' in userData ? true : false} />
@@ -608,17 +625,23 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
             </> : <>
                 <div className='cart-page-login-wrap'>
                     <Backdrop
-                        className={`backdrop-modal-wrapper ${open ? 'active' : ''}`}
-                        open={open ? true : false}
+                        className={`backdrop-modal-wrapper ${(open && (fromPage == 'INITIAL_LOAD' ? (showRegistrationScreen || showWellcomeScreen) : true)) ? 'active' : ''}`}
+                        open={(open && (fromPage == 'INITIAL_LOAD' ? (showRegistrationScreen || showWellcomeScreen) : true)) ? true : false}
+                        onClick={onBackdropOutsideClick}
                     >
-                        <div className="backdrop-modal-content"
-                            style={{ height: `${open ? `${showSignInPage ? '400px' : '450px'}` : '0'}` }}
+                        <div className={`backdrop-modal-content half-page-flow ${!showSignInPage ? 'signup' : 'signin'}`} ref={modalRef}
+                            style={{ height: `${open ? `${showSignInPage ? '370px' : signUpPageHeight}` : '0'}` }}
                         >
-                            <div className="modal-close" onClick={() => handleClose()}>
+                            {/* {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
                                 <CloseIcon />
-                            </div>
+                            </div>} */}
                             {showSignInPage ? <>
-                                <div className="heading" >Sign In</div>
+                                <div className="heading logo-header" >Sign In
+                                    {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
+                                        <CloseIcon />
+                                    </div>}
+                                </div>
+                                <div className="sub-heading" >{heading}</div>
                                 <div className='page-contain'>
                                     <div className='form-wrap'>
                                         <div id="cart-phone" className={`input-wrap-with-label glass-card ${error.id == 'cart-phone' ? 'error' : ''}`}>
@@ -628,12 +651,12 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                 type='tel'
                                                 ref={loginNumberInput}
                                                 value={userData.mobileNo || ''}
-                                                onChange={(e) => onPhoneChange(e.target.value, false)}
+                                                onChange={(e) => onPhoneChange(e.target.value, true)}
                                                 minLength={10} maxLength={10}
                                                 placeholder="Mobile Number"
                                                 readOnly={'id' in userData ? true : false} />
                                         </div>
-                                        <div className='btn-wrap'>
+                                        <div className='btn-wrap glass-card'>
                                             <div className='primary-btn' onClick={onCartSignIn}>Sign In</div>
                                         </div>
                                     </div>
@@ -659,9 +682,13 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                     </div>
                                 </div>
                             </> : <>
-                                <div className="heading" >{heading}</div>
+                                <div className="heading logo-header" >Sign Up  {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
+                                    <CloseIcon />
+                                </div>}
+                                </div>
+                                <div className="sub-heading" >{heading}</div>
                                 <div className='page-contain'>
-                                    <div className='form-wrap'>
+                                    <div className='form-wrap' ref={signUpFormRef}>
                                         <div id="phone" className={`input-wrap-with-label ${error.id == 'phone' ? 'error' : ''}`}>
                                             <div className="label"><span className="mandatory">*</span></div>
                                             <div className="input-icon"><FaPhone /></div>
@@ -692,6 +719,34 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                                 value={userData.email || ''}
                                                 onChange={(e) => onInputChange('email', e.target.value)}
                                                 placeholder="Email" />
+                                        </div>}
+                                        {(userConfig?.showDob) && <div className="input-wrap-with-label date-picker-wrap">
+                                            <div className="input-icon"><FaCalendarAlt /></div>
+                                            <DatePicker
+                                                selected={userData.dob ? new Date(userData.dob) : null}
+                                                onChange={(date) => onInputChange('dob', date)}
+                                                customInput={<DatePickerInput from={"Birth Date"} />}
+                                                peekNextMonth
+                                                showMonthDropdown
+                                                showYearDropdown
+                                                dropdownMode="select"
+                                                dateFormat="dd/MM/yyyy"
+                                                maxDate={new Date()}
+                                            />
+                                        </div>}
+                                        {(userConfig?.showAnniversaryDate) && <div className="input-wrap-with-label date-picker-wrap">
+                                            <div className="input-icon"><BiCalendarHeart /></div>
+                                            <DatePicker
+                                                selected={userData.anniversaryDate ? new Date(userData.anniversaryDate) : null}
+                                                onChange={(date) => onInputChange('anniversaryDate', date)}
+                                                customInput={<DatePickerInput from={"Anniversary Date"} />}
+                                                peekNextMonth
+                                                showMonthDropdown
+                                                showYearDropdown
+                                                dropdownMode="select"
+                                                dateFormat="dd/MM/yyyy"
+                                                maxDate={new Date()}
+                                            />
                                         </div>}
                                         {(userConfig?.showAddress) && <>
                                             <div className="input-wrap-with-label">

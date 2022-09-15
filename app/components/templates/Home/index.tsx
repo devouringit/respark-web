@@ -17,7 +17,7 @@ import { useCookies } from "react-cookie";
 import ProductsWithCategory from '@module/productsWithCategory';
 import { PRODUCT, SERVICE } from '@constant/types';
 import Link from 'next/link';
-import { getGenericImages, hex2rgb } from '@util/utils';
+import { getGenericImages, hex2rgb, updateManifestFile } from '@util/utils';
 import { windowRef } from '@util/window';
 
 function BiMaleSign(props) {
@@ -27,7 +27,7 @@ function BiFemaleSign(props) {
   return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M12,2C8.691,2,6,4.691,6,8c0,2.967,2.167,5.432,5,5.91V17H8v2h3v2.988h2V19h3v-2h-3v-3.09c2.833-0.479,5-2.943,5-5.91 C18,4.691,15.309,2,12,2z M12,12c-2.206,0-4-1.794-4-4s1.794-4,4-4c2.206,0,4,1.794,4,4S14.206,12,12,12z" /></svg>;
 }
 
-function HomePage({ storeData, activeGroup }) {
+function HomePage({ storeData, activeGroup, storeMetaData }) {
   const [cookie, setCookie] = useCookies(['grp'])
   const dispatch = useDispatch();
   let availableGroups = storeData?.configData?.genderConfig || '';
@@ -114,6 +114,11 @@ function HomePage({ storeData, activeGroup }) {
     document.documentElement.style.setProperty('--primary-color', hex2rgb(color, ''), 'important');
     document.documentElement.style.setProperty('--primary-color-alpha', hex2rgb(color, 30), 'important');
     document.body.dataset.theme = activeGroup;
+    if (baseRouteUrl && windowRef && windowRef().location) {
+      const themeMetaElement = document.getElementById("theme-color");
+      themeMetaElement?.setAttribute("content", color);
+      updateManifestFile(storeData, storeMetaData, baseRouteUrl);
+    }
     dispatch(updateGenericImages(getGenericImages(configData, activeGroup)));
     // let defaultWrapper = document.getElementById('default-wrapper');
     // defaultWrapper.style.backgroundImage = `url("/assets/images/${activeGroup}/bg.png")`;
@@ -256,7 +261,8 @@ function HomePage({ storeData, activeGroup }) {
 const mapStateToProps = (state) => {
   return {
     storeData: state?.store?.storeData,
-    activeGroup: state?.activeGroup
+    activeGroup: state?.activeGroup,
+    storeMetaData: state?.store?.storeMetaData
   }
 }
 

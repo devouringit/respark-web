@@ -4,6 +4,65 @@
     &.active {
       z-index: 10 !important;
     }
+    .backdrop-modal-content {
+      transition: all ease-out 0.3s;
+      height: 0;
+      max-height: 95vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      .sub-heading {
+        font-size: 13px;
+        color: #263a4a;
+        letter-spacing: 0.2px;
+        padding: 5px 0 15px;
+        font-weight: 500;
+      }
+      .glass-card {
+        box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+        backdrop-filter: unset;
+      }
+      &.signin {
+        .page-contain {
+          padding: unset;
+          .form-wrap {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            .input-wrap-with-label {
+              width: 80%;
+              margin: unset;
+            }
+            .btn-wrap {
+              width: auto;
+              margin-left: 15px;
+              .primary-btn {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+      &.half-page-flow {
+        .heading {
+          display: flex;
+          justify-content: space-between;
+          position: sticky;
+          top: -15px;
+          left: 0;
+          right: 0;
+          width: 100%;
+          padding: 0 0 10px;
+          background: white;
+          z-index: 1;
+          .modal-close {
+            position: unset;
+          }
+        }
+      }
+    }
   }
   .registration-page-cover {
     .backdrop-modal-content {
@@ -267,10 +326,6 @@
     }
   }
   .cart-page-login-wrap {
-    .backdrop-modal-content {
-      transition: all ease-out 0.3s;
-      height: 0;
-    }
     .page-contain {
       padding: 10px;
       .form-wrap {
@@ -302,13 +357,13 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        padding: 20px 0 4px;
+        // padding: 20px 0 4px;
         position: relative;
         span {
           font-size: 14px;
           letter-spacing: 0.2px;
           width: auto;
-          padding: 10px 20px;
+          padding: 0 20px 5px;
           border-radius: 10px;
           background: unset;
           border-radius: 26px;
@@ -316,6 +371,7 @@
           -webkit-backdrop-filter: blur(6.2px);
         }
         .signup-note {
+          padding: 20px 0px 0px;
           span {
             padding: unset;
             padding-left: 3px;
