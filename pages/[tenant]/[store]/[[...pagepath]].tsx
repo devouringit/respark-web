@@ -41,7 +41,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
   )
-  const appLink: any = req.headers.referer;
   const storeState = store.getState();
   if (query.store == "images" || query.tenant == "assets") {//when route is inactive store then query is { pagepath: ['bg.png'] ,store: "images" ,tenant: "assets"} 
     const tenantStoreData = { storeMetaData: {}, baseRouteUrl: '', storeData: { configData: {}, categories: [], curatedGroups: [], sliders: [] }, validPagepath: false, validStore: true };
@@ -64,6 +63,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
   const [storeName, storeId = ''] = storeQuery.split('-');
   const baseRouteUrl = `/${tenantQuery}/${storeQuery}/`; //current base url for routing
   const baseApiUrl = `/tenants/stores/tenantstorename/${tenantId}/${storeName}`; //current base url for routing
+  const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
 
   const tenantData: any = await getTenantDataByTenantId(tenantId);
   // get gender from client cookie start
