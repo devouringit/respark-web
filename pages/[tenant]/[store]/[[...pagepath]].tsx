@@ -37,6 +37,8 @@ import InvoicePage from '@template/invoice';
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req, res, query }) => {
   console.log(req)
+  // const appLink: any = req.headers.referer;
+  // const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
   res.setHeader(
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
@@ -63,7 +65,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
   const [storeName, storeId = ''] = storeQuery.split('-');
   const baseRouteUrl = `/${tenantQuery}/${storeQuery}/`; //current base url for routing
   const baseApiUrl = `/tenants/stores/tenantstorename/${tenantId}/${storeName}`; //current base url for routing
-  const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
 
   const tenantData: any = await getTenantDataByTenantId(tenantId);
   // get gender from client cookie start
@@ -88,7 +89,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
         if (!storeMetaData) storeMetaData = {};
         storeData.description = storeMetaData.description;
         storeData.name = storeMetaData.name;
-        storeData.appLink = appLink || '/';
+        storeData.url = storeMetaData.sUrl || '/';
         storeData.baseRouteUrl = baseRouteUrl;
         storeData.configData = response.configData;
         storeData.keywords = tenantData.keywords;
