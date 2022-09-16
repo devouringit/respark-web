@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#ff0185",
     "theme_color": "#ff0185",
-    "orientation": "landscape",
+    "orientation": "standalone",
     "description": "ReIgnite your business",
     "icons": [
         {

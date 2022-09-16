@@ -495,11 +495,11 @@ export function updateManifestFile(storeData: any) {
     ...{
       "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
       "short_name": `${storeData.tenant}` || 'Respark',
-      "start_url": storeData.appLink || '/',
+      "start_url": storeData?.appLink || '/',
       "display": "standalone",
       "background_color": theme_color || "#dee1ec",
       "theme_color": theme_color || "#dee1ec",
-      "orientation": "landscape",
+      "orientation": "standalone",
       "description": storeData.description,
       "id": storeData.tenantId,
       "icons": [
