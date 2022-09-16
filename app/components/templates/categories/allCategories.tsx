@@ -267,7 +267,7 @@ function AllCategoryPage({ url_Segment, storeData, activeGroup, type, metaTags }
 
     return (
         <>
-            <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} />
+            <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} storeData={storeData} />
             <div className="categorypageContainer">
                 {filterConfig && filterConfig.active ? <>
                     <div className='filter-nav-wrap'>

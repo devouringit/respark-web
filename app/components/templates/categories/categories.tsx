@@ -402,7 +402,7 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
           <ScrollingNavigation items={activeCuratedGroup.curatedCategories} config={{}} handleClick={(item) => setActiveCuratedCategory(item)} activeCategory={activeCuratedCategory} />
         </>}
 
-        <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} />
+        <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} storeData={storeData} />
         {activeCuratedCategory?.entityType === 'category' && <div className="content-wrap clearfix">
           <>
             {subCuratedCategories && <div className="fullwidth">
