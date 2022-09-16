@@ -36,6 +36,7 @@ import ServicePdpModal from '@module/servicePdpModal';
 import InvoicePage from '@template/invoice';
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req, res, query }) => {
+  console.log(req)
   res.setHeader(
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
