@@ -96,6 +96,10 @@ function MainHeader({ storeData, storeMetaData }) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M5,22h14c1.103,0,2-0.897,2-2V5c0-1.103-0.897-2-2-2h-2c0-0.553-0.447-1-1-1H8C7.447,2,7,2.447,7,3H5C3.897,3,3,3.897,3,5 v15C3,21.103,3.897,22,5,22z M5,5h2v2h10V5h2v15H5V5z" /><path d="M11 13.586L9.207 11.793 7.793 13.207 11 16.414 16.207 11.207 14.793 9.793z" /></svg>;
   }
 
+  function BiLogIn(props) {
+    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M13 16L18 12 13 8 13 11 4 11 4 13 13 13z" /><path d="M20,3h-9C9.897,3,9,3.897,9,5v4h2V5h9v14h-9v-4H9v4c0,1.103,0.897,2,2,2h9c1.103,0,2-0.897,2-2V5C22,3.897,21.103,3,20,3z" /></svg>;
+  }
+
   // function BiListCheck(props) {
   //   return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path strokeWidth={2} d="M12,20 L24,20 M12,12 L24,12 M12,4 L24,4 M1,19 L4,22 L9,17 M1,11 L4,14 L9,9 M9,1 L4,6 L1,3" /></svg>;
   // }
@@ -110,6 +114,21 @@ function MainHeader({ storeData, storeMetaData }) {
 
   function GrLogout(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path fill="none" strokeWidth={2} d="M13,9 L13,2 L1,2 L1,22 L13,22 L13,15 M22,12 L5,12 M17,7 L22,12 L17,17" /></svg>;
+  }
+
+  const onClickNavItem = (navItem: any) => {
+    switch (navItem.route) {
+      case 'login':
+        setOpenUserRegistrationModalOnBtnClick(true);
+        setOpenDrawer(false);
+        break;
+      case 'logout':
+        setShowLogoutPopup(true)
+        break;
+      default:
+        router.push({ pathname: baseRouteUrl + navItem.route }, '', { shallow: true })
+        break;
+    }
   }
 
   const list = (anchor) => {
@@ -148,6 +167,16 @@ function MainHeader({ storeData, storeMetaData }) {
         route: 'store-locator',
         icon: <GoLocation />,
         isVisible: configData.showStoreLocator || false
+      }, {
+        title: 'Login',
+        route: 'login',
+        icon: <BiLogIn />,
+        isVisible: !userData
+      }, {
+        title: 'Logout',
+        route: 'logout',
+        icon: <GrLogout />,
+        isVisible: !!userData
       }
     ];
     return (<div
@@ -160,24 +189,16 @@ function MainHeader({ storeData, storeMetaData }) {
       <List>
         {NAV_LIST.map((navItem, index) => (
           <React.Fragment key={Math.random()}>
-            {navItem.isVisible && <Link href={baseRouteUrl + navItem.route} shallow={true}>
-              <ListItem button key={Math.random()} className="nav-wrap">
+            {navItem.isVisible &&
+              <ListItem button key={Math.random()} className="nav-wrap" onClick={() => onClickNavItem(navItem)}>
                 <ListItemIcon className="nav-icon">
                   {navItem.icon}
                 </ListItemIcon>
                 <ListItemText className="nav-text" primary={navItem.title} />
-              </ListItem>
-            </Link>}
+              </ListItem>}
           </React.Fragment>
         ))}
       </List>
-      {(userData ? true : false) &&
-        <ListItem button onClick={() => setShowLogoutPopup(true)} className="nav-wrap">
-          <ListItemIcon className="nav-icon">
-            <GrLogout />
-          </ListItemIcon>
-          <ListItemText className="nav-text" primary="Logout" />
-        </ListItem>}
     </div >)
 
   }
@@ -301,24 +322,21 @@ function MainHeader({ storeData, storeMetaData }) {
             </div>
             <div className="drawgraphic">
               <div className="drawer-display-img">
-                <img src={`/assets/${genericImages?.hamburgerBg}`} />
+                <img src="https://pcs-s3.s3.ap-south-1.amazonaws.com/2/logo/2022-09-16T10%3A06%3A23.774113_slider.png" />
+                {/* <img src={`/assets/${genericImages?.hamburgerBg}`} /> */}
               </div>
             </div>
             <div className="user-details">
-              {userData ? <>
+              {userData && <>
                 <div className="name">{userData.firstName}</div>
                 <div className="number">{userData ? userData.mobileNo : ''}</div>
-              </> :
-                <div onClick={() => {
-                  setOpenUserRegistrationModalOnBtnClick(true);
-                  setOpenDrawer(false);
-                }}
-                  className="name d-f-c">
-                  <div className="login-btn">Sign up/Log in</div>
-                </div>}
+              </>}
             </div>
             <div className="drawmenu">
               {list("right")}
+            </div>
+            <div className="powered-by" onClick={() => window.open('https://respark.in/', '_blank')}>
+              Powered by Respark
             </div>
           </div>
         </Drawer>
