@@ -175,10 +175,21 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     }, [fromPage])
 
     useEffect(() => {
-        if (userFromCookies) {
+        if (cookie['user'] && cookie['user'].mobileNo) {
             setUserData(userFromCookies);
-        }
-    }, [userFromCookies])
+        } else setUserData({
+            mobileNo: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            area: '',
+            gender: '',
+            dob: '',
+            anniversaryDate: '',
+            addressList: [],
+            tenantId: storeData?.tenantId ? storeData?.tenantId : ''
+        })
+    }, [userFromCookies, open])
 
     useEffect(() => {
         if (configData && configData.genericImages) {

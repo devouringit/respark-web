@@ -208,7 +208,7 @@ function MainHeader({ storeData, storeMetaData }) {
         title: 'Cookie policy',
         route: 'cookie-policy',
         icon: <BiCookie />,
-        isVisible: true
+        isVisible: false
       }, {
         title: 'Contact Us',
         route: 'contact-us',
@@ -280,10 +280,10 @@ function MainHeader({ storeData, storeMetaData }) {
   }, [])
 
   useEffect(() => {
-    if (cookie['user']) {
+    if (cookie['user'] && cookie['user'].mobileNo) {
       setUserData(cookie['user'])
-    }
-  }, [cookie])
+    } else setUserData(null)
+  }, [cookie, openDrawer])
 
   useEffect(() => {
     let currentRouteSTring = ('pagepath' in router.query) ? router.query.pagepath[0] : '';

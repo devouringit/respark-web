@@ -187,7 +187,7 @@ function HomePage({ storeData, activeGroup, storeMetaData }) {
                 {curetedGroup.curatedLayout == SAMLL_BANNER && curetedGroup.type != keywords[PRODUCT] &&
                   <>
                     {/* <div className="common-grey-boder"></div> */}
-                    <div className="midbanner spacing-banner">
+                    <div className="midbanner spacing-banner small-banner">
                       <ImageSlider itemsList={curetedGroup.curatedCategories} config={{ redirection: true }} no_image={SMALL_SLIDER_NO_IMAGE} />
                     </div>
                     {/* <div className="common-grey-boder"></div> */}
@@ -232,8 +232,8 @@ function HomePage({ storeData, activeGroup, storeMetaData }) {
               {smallBanners &&
                 <>
                   <div className="common-section-title common-lr-padd">{smallBanners.name}</div>
-                  <div className="midbanner spacing-banner">
-                    <ImageSlider itemsList={smallBanners.curatedCategories} config={{ redirection: true }} no_image={LARGE_SLIDER_NO_IMAGE} />
+                  <div className="midbanner spacing-banner small-banner">
+                    <ImageSlider itemsList={smallBanners.curatedCategories} config={{ redirection: true }} no_image={SMALL_SLIDER_NO_IMAGE} />
                   </div>
                 </>
               }

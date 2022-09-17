@@ -185,7 +185,7 @@ function AllCategoryPage({ url_Segment, storeData, activeGroup, type, metaTags }
                     showNav: false,
                     showFullscreenButton: false
                 }
-                return <div className="promotional-banner" id="promotional-banner">
+                return <div className="promotional-banner spacing-banner " id="promotional-banner">
                     <ImageGallery items={categoriesPromotionBannerArray} {...settings} />
                 </div>
             } else return null;
@@ -287,7 +287,7 @@ function AllCategoryPage({ url_Segment, storeData, activeGroup, type, metaTags }
                 </>}
                 {activeCategory ? <>
                     {isThirdLevelCategoryAvl ?
-                        <div className="fullwidth">
+                        <div className="fullwidth accordian-wrap">
                             {activeSubCategory ?
                                 <>
                                     <Accordion expanded={accordianExpanded} onChange={() => setAccordianExpanded(accordianExpanded ? false : true)}>

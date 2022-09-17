@@ -14,7 +14,7 @@
         font-size: 13px;
         color: #263a4a;
         letter-spacing: 0.2px;
-        padding: 5px 0 15px;
+        padding: 0px 0 15px;
         font-weight: 500;
       }
       .glass-card {
@@ -200,7 +200,7 @@
     align-items: center;
     background: white;
     border: 1px solid white;
-    padding: 8px;
+    padding: 5px 7px;
     border-radius: 5px;
     &.error {
       border: 1px solid red;
@@ -249,15 +249,15 @@
       }
     }
     .input-icon {
-      width: 34px;
-      height: 30px;
+      width: 27px;
+      height: 27px;
       display: flex;
       justify-content: center;
       align-items: center;
       background: #dee1ec;
       border: unset;
       border-radius: 4px;
-      padding: 7px;
+      padding: 5px;
       // color: var(--primary-color);
 
       svg {
@@ -363,7 +363,7 @@
           font-size: 14px;
           letter-spacing: 0.2px;
           width: auto;
-          padding: 0 20px 5px;
+          padding: 5px 20px;
           border-radius: 10px;
           background: unset;
           border-radius: 26px;

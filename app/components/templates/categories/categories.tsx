@@ -407,7 +407,7 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
         <HeadMetaTags title={activeMmetaTags.title} siteName={activeMmetaTags.siteName} description={activeMmetaTags.description} image={activeMmetaTags.image} storeData={storeData} />
         {activeCuratedCategory?.entityType === 'category' && <div className="content-wrap clearfix">
           <>
-            {subCuratedCategories && <div className="fullwidth">
+            {subCuratedCategories && <div className="fullwidth accordian-wrap">
               {activeSubCuratedCategory ?
                 <Accordion expanded={accordianExpanded} onChange={() => setAccordianExpanded(accordianExpanded ? false : true)}>
                   <AccordionSummary
@@ -462,7 +462,7 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
           {/* <div id="scrolling-div" className="scrolling-div"></div> */}
           {/* categoriesPromotionBanner */}
           {categoriesPromotionBanner &&
-            <div className="promotional-banner" id="promotional-banner">
+            <div className="promotional-banner spacing-banner" id="promotional-banner">
               <ImageGallery items={categoriesPromotionBanner} {...settings} />
             </div>}
           {/* categoriesWithItems */}
@@ -510,7 +510,7 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
           {/* <div id="scrolling-div" className="scrolling-div"></div> */}
           {/* categoriesPromotionBanner */}
           {categoriesPromotionBanner &&
-            <div className="promotional-banner" id="promotional-banner">
+            <div className="promotional-banner spacing-banner " id="promotional-banner">
               <ImageGallery items={categoriesPromotionBanner} {...settings} />
             </div>}
           <div className='services-list-wrapper'>

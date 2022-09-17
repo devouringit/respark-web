@@ -2,7 +2,10 @@
   width: 100%;
   float: left;
   .product-list-outer {
-    margin-top: 20px;
+    // margin-top: 20px;
+    .products-category-wrap {
+      margin: 0px 0 20px;
+    }
     &.product-list-wrap {
       display: flex;
       padding: unset;
@@ -13,7 +16,7 @@
 .herobanner {
   width: 100%;
   float: left;
-  margin: 15px 0;
+  margin: 5px 0 15px;
   // height: 256px;
 }
 
@@ -260,7 +263,7 @@
   font-family: var(--primary-font);
   font-weight: 600;
   font-size: 17px;
-  letter-spacing: 0.2px;
+  // letter-spacing: 0.2px;
 }
 .appointment-wrapper {
   position: sticky;

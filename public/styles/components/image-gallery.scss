@@ -207,7 +207,10 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   @include hide-scrollbar;
 }
 .image-gallery-swipe {
+  padding: 8px 0;
   height: 100%;
+  filter: drop-shadow(3px 2px 4px #6868689c);
+  // box-shadow: 0 4px 30px rgba(79, 79, 79, 0.361);
 }
 
 .image-gallery-slide {
@@ -215,9 +218,13 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100%;
+  height: 250px;
   display: flex;
   align-items: center;
+  > div {
+    width: 100%;
+    height: 100%;
+  }
   &.center {
     position: relative;
   }
@@ -247,7 +254,8 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 .spacing-banner {
   .image-gallery-image {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    // object-fit: contain;
     width: calc(100% - 25px);
     display: flex;
     justify-content: center;
@@ -255,6 +263,11 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
     border-radius: 10px;
     overflow: hidden;
     margin: auto;
+  }
+}
+.small-banner {
+  .image-gallery-slide {
+    height: 100%;
   }
 }
 .image-gallery-bullets {
