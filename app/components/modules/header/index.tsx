@@ -143,11 +143,6 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef) {
-      setCookie("baseRouteUrl", baseRouteUrl, { //user registration fields
-        path: "/",
-        expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
-        sameSite: true,
-      })
 
       setTimeout(() => {
         console.log('beforeinstallprompt')

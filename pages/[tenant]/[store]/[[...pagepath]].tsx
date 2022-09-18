@@ -141,7 +141,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
   //get storedata from api end
 })
 
-const PagePath = ({ storeData, activeGroup, metaTags }) => {
+const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
   const dispatch = useDispatch();
   const [cookie, setCookie] = useCookies();
   const [url_Segment, setUrl_Segment] = useState(null);
@@ -153,6 +153,17 @@ const PagePath = ({ storeData, activeGroup, metaTags }) => {
   useEffect(() => {
     //detect route change
     if (storeData && storeData.storeId) {
+
+      useEffect(() => {
+        if (windowRef) {
+          setCookie("baseRouteUrl", store.baseRouteUrl, { //user registration fields
+            path: "/",
+            expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
+            sameSite: true,
+          })
+        }
+      }, [windowRef, storeData])
+
       setEnableDefaultLayout(true);
       if (router.query.pagepath) {
         let current_page_url: any = router.query.pagepath[0];  //single folder routing
