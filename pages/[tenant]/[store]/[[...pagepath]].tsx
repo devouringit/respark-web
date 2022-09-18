@@ -225,11 +225,6 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     if (windowRef) {
       dispatch(syncLocalStorageAppointment());
       dispatch(syncLocalStorageOrder());
-      setCookie("baseRouteUrl", store.baseRouteUrl, { //user registration fields
-        path: "/",
-        expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
-        sameSite: true,
-      })
     }
   }, [windowRef, storeData])
 

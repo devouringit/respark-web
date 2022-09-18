@@ -59,7 +59,7 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
 
   return (
     <Head>
-      <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} />
+      {/* <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} /> */}
 
       {/* Coomon meta tags */}
       <title>{titleTagData}</title>

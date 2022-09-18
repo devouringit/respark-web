@@ -139,6 +139,11 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
     useEffect(() => {
         if (fromPage == 'INITIAL_LOAD') {
+            setCookie("baseRouteUrl", store.baseRouteUrl, {
+                path: "/",
+                expires: new Date(new Date(2147483647 * 1000).toUTCString()),
+                sameSite: true,
+            })
             const wellcomeScreenTime = cookie['wst'];
             const registrationScreenTime = cookie['rst'];
             if (!userFromCookies && !registrationScreenTime) {
