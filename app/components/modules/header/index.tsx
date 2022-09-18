@@ -24,6 +24,7 @@ import { getGenericImages, getMobileOperatingSystem, hex2rgb, updateManifestFile
 import Router from 'next/router';
 import { googleLogout } from "@react-oauth/google";
 import Backdrop from "@material-ui/core/Backdrop";
+import PWAPrompt from "@module/pwa";
 
 const useStyles = makeStyles({
   list: {
@@ -142,10 +143,19 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef) {
+      setCookie("baseRouteUrl", baseRouteUrl, { //user registration fields
+        path: "/",
+        expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
+        sameSite: true,
+      })
+
       setTimeout(() => {
+        console.log('beforeinstallprompt')
         if (getMobileOperatingSystem() == 'IOS') {
           const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
           if (!isInStandaloneMode) {
+            console.log('ios display')
+            setShowPrompt(true);
             openPromptComponent('ios');
           }
         } else {
@@ -153,7 +163,8 @@ function MainHeader({ storeData, storeMetaData }) {
             event.preventDefault();
             setPromptEvent(event);
             setShowPrompt(true);
-            openPromptComponent('android');
+            console.log('android display')
+            // openPromptComponent('android');
           });
         }
       }, 10000);
@@ -476,27 +487,11 @@ function MainHeader({ storeData, storeMetaData }) {
         secondaryButtonText={'Yes'}
         handleClose={(status) => handleLogoutModalResponse(status)}
       />
+      <PWAPrompt
+        type="ios"
+        showPrompt={showPrompt}
+        handlePromptClose={(e: any) => handlePromptClose(e)} />
 
-      <div className="confirmation-modal-wrap">
-        <Backdrop
-          className="backdrop-modal-wrapper confirmation-modal-wrap"
-          open={showPrompt ? true : false}
-        // onClick={() => handleClose(false)}
-        >
-          <div className="backdrop-modal-content confirmation-modal" style={{ height: showPrompt ? '200px' : '0px' }}>
-            <div className="heading">Install</div>
-            <div className="modal-close" onClick={() => handlePromptClose(false)}>
-              <CloseIcon />
-            </div>
-            <div className="member-modal">
-              <div className='body-text'>ghgvjvj</div>
-              <div className="form-btn-wrap">
-                <button className="primary-btn rounded-btn" onClick={() => handlePromptClose(true)}>installll</button>
-              </div>
-            </div>
-          </div>
-        </Backdrop>
-      </div>
     </>
   );
 }

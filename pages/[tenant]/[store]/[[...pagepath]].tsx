@@ -64,6 +64,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
   const storeQuery: any = query.store;
   const [storeName, storeId = ''] = storeQuery.split('-');
   const baseRouteUrl = `/${tenantQuery}/${storeQuery}/`; //current base url for routing
+  // res.setHeader('Set-Cookie', [`baseRouteUrl=${baseRouteUrl}`]);
   const baseApiUrl = `/tenants/stores/tenantstorename/${tenantId}/${storeName}`; //current base url for routing
 
   const tenantData: any = await getTenantDataByTenantId(tenantId);
