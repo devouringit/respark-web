@@ -153,17 +153,6 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
   useEffect(() => {
     //detect route change
     if (storeData && storeData.storeId) {
-
-      useEffect(() => {
-        if (windowRef) {
-          setCookie("baseRouteUrl", store.baseRouteUrl, { //user registration fields
-            path: "/",
-            expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
-            sameSite: true,
-          })
-        }
-      }, [windowRef, storeData])
-
       setEnableDefaultLayout(true);
       if (router.query.pagepath) {
         let current_page_url: any = router.query.pagepath[0];  //single folder routing
@@ -236,8 +225,13 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     if (windowRef) {
       dispatch(syncLocalStorageAppointment());
       dispatch(syncLocalStorageOrder());
+      setCookie("baseRouteUrl", store.baseRouteUrl, { //user registration fields
+        path: "/",
+        expires: new Date(new Date().setSeconds(new Date().getFullYear() + 1)),
+        sameSite: true,
+      })
     }
-  }, [windowRef])
+  }, [windowRef, storeData])
 
   useEffect(() => {
     if (cookie['user']) {
