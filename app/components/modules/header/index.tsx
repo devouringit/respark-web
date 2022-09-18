@@ -167,9 +167,16 @@ function MainHeader({ storeData, storeMetaData }) {
     console.log(label);
   };
 
-  const handlePromptClose = (status: any) => {
+  const handlePromptClose = async (status: any) => {
     if (status) {
-
+      // Show the install prompt
+      promptEvent.prompt();
+      // Wait for the user to respond to the prompt
+      const { outcome } = await promptEvent.userChoice;
+      // Optionally, send analytics event with outcome of user choice
+      console.log(`User response to the install prompt: ${outcome}`);
+      // We've used the prompt, and can't use it again, throw it away
+      setPromptEvent(null)
     }
     setShowPrompt(false);
   }
