@@ -22,7 +22,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
-    console.log(pageProps);
+    // console.log(pageProps);
     if (pageProps?.storeData) {
       // updateManifestFile(pageProps.storeData);
     }

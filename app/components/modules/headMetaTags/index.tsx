@@ -20,7 +20,7 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
         "display": "standalone",
         "background_color": theme_color || "#dee1ec",
         "theme_color": theme_color || "#dee1ec",
-        "orientation": "standalone",
+        "orientation": "portrait",
         "description": storeData.description + storeData.baseRouteUrl.slice(0, -1),
         "id": storeData.tenantId,
         "icons": [
@@ -52,14 +52,14 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
         ]
       },
     });
-    console.log(manifestString)
+    // console.log(manifestString)
   }
   // const manifestElement = document.getElementById("manifest");
   // manifestElement?.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(manifestString));
 
   return (
     <Head>
-      {/* <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} /> */}
+      <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} />
 
       {/* Coomon meta tags */}
       <title>{titleTagData}</title>

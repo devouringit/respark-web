@@ -16,7 +16,6 @@ function StickyCart() {
 
     useEffect(() => {
         if (windowRef) {
-            console.log(cartAppointment)
             // dispatch(syncLocalStorageOrder());
             document.body.style.overflow = 'unset';
         }

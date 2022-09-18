@@ -16,9 +16,9 @@ function PWAPrompt({ showPrompt, type, handlePromptClose }) {
                         <CloseIcon />
                     </div>
                     <div className="member-modal">
-                        <div className='body-text'>ghgvjvj</div>
+                        <div className='body-text'>Installing uses almst no storage and provides a quick way to return to this app</div>
                         <div className="form-btn-wrap">
-                            <button className="primary-btn rounded-btn" onClick={() => handlePromptClose(true)}>installll</button>
+                            <button className="primary-btn" onClick={() => handlePromptClose(true)}>Install</button>
                         </div>
                     </div>
                 </div>

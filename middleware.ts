@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+    console.log("request.nextUrl.pathname", request.nextUrl.pathname)
     const url = request.nextUrl.clone()
     const baseRouteUrl = request.cookies.get('baseRouteUrl')
     if (url.pathname === '/') {

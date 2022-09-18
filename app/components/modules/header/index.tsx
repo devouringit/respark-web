@@ -143,7 +143,6 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef) {
-
       setTimeout(() => {
         console.log('beforeinstallprompt')
         if (getMobileOperatingSystem() == 'IOS') {
@@ -322,8 +321,6 @@ function MainHeader({ storeData, storeMetaData }) {
   }
 
   useEffect(() => {
-    console.log(storeMetaData)
-
     // if (baseRouteUrl && windowRef && windowRef().location) {
     // updateManifestFile(storeData);
     // }
