@@ -51,6 +51,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     const dispatch = useDispatch();
     const [cookie, setCookie] = useCookies();
     const [error, setError] = useState({ id: '', text: '' });
+    const baseRouteUrl = useSelector(state => state.store.baseRouteUrl);
     const storeData = useSelector(state => state.store ? state.store.storeData : null);
     const activeGroup = useSelector(state => state.activeGroup);
     const [userFromCookies, setUserCookie] = useState(cookie['user']);
@@ -139,7 +140,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
 
     useEffect(() => {
         if (fromPage == 'INITIAL_LOAD') {
-            setCookie("baseRouteUrl", store.baseRouteUrl, {
+            setCookie("baseRouteUrl", baseRouteUrl, {
                 path: "/",
                 expires: new Date(new Date(2147483647 * 1000).toUTCString()),
                 sameSite: true,
