@@ -20,9 +20,10 @@ import { useRouter } from 'next/router';
 import ConfirmationModal from "@module/confirmationModal";
 import { GENERIC_IMAGE_APP_KEY } from "@constant/common";
 import CloseIcon from '@material-ui/icons/CloseOutlined';
-import { getGenericImages, hex2rgb, updateManifestFile } from "@util/utils";
+import { getGenericImages, getMobileOperatingSystem, hex2rgb, updateManifestFile } from "@util/utils";
 import Router from 'next/router';
 import { googleLogout } from "@react-oauth/google";
+import Backdrop from "@material-ui/core/Backdrop";
 
 const useStyles = makeStyles({
   list: {
@@ -136,6 +137,43 @@ function MainHeader({ storeData, storeMetaData }) {
     }
   });
 
+  const [promptEvent, setPromptEvent] = useState<any>(null)
+  const [showPrompt, setShowPrompt] = useState(false);
+
+  useEffect(() => {
+    if (windowRef) {
+      setTimeout(() => {
+        if (getMobileOperatingSystem() == 'IOS') {
+          const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+          if (!isInStandaloneMode) {
+            openPromptComponent('ios');
+          }
+        } else {
+          window.addEventListener('beforeinstallprompt', (event: any) => {
+            event.preventDefault();
+            setPromptEvent(event);
+            setShowPrompt(true);
+            openPromptComponent('android');
+          });
+        }
+      }, 10000);
+    }
+  }, [windowRef])
+
+  const openPromptComponent = (label) => {
+    //Fire tracking here
+    var development = (window.location.hostname == 'localhost' || window.location.hostname == '192.168.43.96' || window.location.hostname == 'theekkaralo-qa.web.app') ? true : false;
+
+    console.log(label);
+  };
+
+  const handlePromptClose = (status: any) => {
+    if (status) {
+
+    }
+    setShowPrompt(false);
+  }
+
   useEffect(() => {
     if (openDrawer) document.body.classList.add("o-h")
     else document.body.classList.remove("o-h")
@@ -162,7 +200,12 @@ function MainHeader({ storeData, storeMetaData }) {
         setShowLogoutPopup(true)
         break;
       case 'install-app':
-        // setShowLogoutPopup(true)
+        window.addEventListener('beforeinstallprompt', (event: any) => {
+          event.preventDefault();
+          setPromptEvent(event);
+          setShowPrompt(true);
+          openPromptComponent('android');
+        });
         break;
       case 'phone':
         window.open(`tel:+91 ${storeMetaData.phone1}`, '_blanck')
@@ -426,6 +469,27 @@ function MainHeader({ storeData, storeMetaData }) {
         secondaryButtonText={'Yes'}
         handleClose={(status) => handleLogoutModalResponse(status)}
       />
+
+      <div className="confirmation-modal-wrap">
+        <Backdrop
+          className="backdrop-modal-wrapper confirmation-modal-wrap"
+          open={showPrompt ? true : false}
+        // onClick={() => handleClose(false)}
+        >
+          <div className="backdrop-modal-content confirmation-modal" style={{ height: showPrompt ? '200px' : '0px' }}>
+            <div className="heading">Install</div>
+            <div className="modal-close" onClick={() => handlePromptClose(false)}>
+              <CloseIcon />
+            </div>
+            <div className="member-modal">
+              <div className='body-text'>ghgvjvj</div>
+              <div className="form-btn-wrap">
+                <button className="primary-btn rounded-btn" onClick={() => handlePromptClose(true)}>installll</button>
+              </div>
+            </div>
+          </div>
+        </Backdrop>
+      </div>
     </>
   );
 }

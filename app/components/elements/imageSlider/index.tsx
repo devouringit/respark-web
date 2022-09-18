@@ -4,7 +4,7 @@ import ImageGallery from 'react-image-gallery';
 import ImageGalleryModal from "@template/imageGalleryModal";
 import { LARGE_SLIDER_NO_IMAGE } from '@constant/noImage';
 import { useSelector } from 'react-redux';
-
+// http://i.stack.imgur.com/SBv4T.gif
 function ImageSlider({ itemsList, config, no_image }) {
     const router = useRouter()
     const baseRouteUrl = useSelector(state => state.store.baseRouteUrl);

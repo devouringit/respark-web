@@ -1,1 +1,1 @@
-export const windowRef: any = () => window;
+export const windowRef: any = () => typeof window !== "undefined" ? window : null;

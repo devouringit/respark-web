@@ -3,6 +3,33 @@ import moment from 'moment';
 import cookie from "cookie"
 import { APPOINTMENT_SLOT_GAP_IN_MINS } from '@constant/appointment';
 import { updateGenericImages } from '@context/actions';
+import { windowRef } from './window';
+
+/**
+ * Determine the mobile operating system.
+ * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
+ *
+ * @returns {String}
+ */
+export function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || windowRef().opera;
+
+  // Windows Phone must come first because its UA also contains "Android"
+  if (/windows phone/i.test(userAgent)) {
+    return "Windows Phone";
+  }
+
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  }
+
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  if (/iPad|iPhone|iPod/.test(userAgent) && !windowRef().MSStream) {
+    return "IOS";
+  }
+
+  return "unknown";
+}
 
 export function parseCookies(req) {
   return cookie.parse(req ? req.headers.cookie || "" : document.cookie)
