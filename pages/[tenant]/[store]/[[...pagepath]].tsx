@@ -36,13 +36,14 @@ import ServicePdpModal from '@module/servicePdpModal';
 import InvoicePage from '@template/invoice';
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req, res, query }) => {
-  console.log(req)
+  console.log(req.headers)
   // const appLink: any = req.headers.referer;
   // const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
   res.setHeader(
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
   )
+  let host = req.headers.host;
   const storeState = store.getState();
   if (query.store == "images" || query.tenant == "assets") {//when route is inactive store then query is { pagepath: ['bg.png'] ,store: "images" ,tenant: "assets"} 
     const tenantStoreData = { storeMetaData: {}, baseRouteUrl: '', storeData: { configData: {}, categories: [], curatedGroups: [], sliders: [] }, validPagepath: false, validStore: true };
@@ -90,6 +91,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
         if (!storeMetaData) storeMetaData = {};
         storeData.description = storeMetaData.description;
         storeData.name = storeMetaData.name;
+        storeData.host = host;
         storeData.url = storeMetaData.sUrl || '/';
         storeData.baseRouteUrl = baseRouteUrl;
         storeData.configData = response.configData;

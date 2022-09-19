@@ -15,9 +15,9 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
     manifestString = JSON.stringify({
       ...{
         "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
-        "short_name": `${storeData.tenant}` || 'Respark',
-        // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
-        "start_url": '/',
+        "short_name": `${storeData.tenant} ${storeData.host}` || 'Respark',
+        "start_url": `http://${storeData.host}` || '/',
+        // "start_url": window.location.origin,
         "display": "standalone",
         "background_color": theme_color || "#dee1ec",
         "theme_color": theme_color || "#dee1ec",
@@ -60,7 +60,7 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
 
   return (
     <Head>
-      {/* <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} /> */}
+      <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestString)}`} />
 
       {/* Coomon meta tags */}
       <title>{titleTagData}</title>

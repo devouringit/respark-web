@@ -129,10 +129,22 @@ function MainHeader({ storeData, storeMetaData }) {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
-  const [showInstallationPage, setShowInstallationPage] = useState(false);
+  const [showInstallationPage, setShowInstallationPage] = useState(true);
   const [promptEvent, setPromptEvent] = useState<any>(null)
   const [showPrompt, setShowPrompt] = useState(false);
   const [manifestConfig, setManifestConfig] = useState(null)
+  const [promptCount, setpromptCount] = useState(0);
+
+
+  useEffect(() => {
+    if (promptCount == 0) {
+      setTimeout(() => {
+        setShowPrompt(true);
+        setpromptCount(1);
+      }, 10000);
+    }
+  }, [promptEvent])
+
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
       document.body.classList.remove("o-h")
@@ -143,65 +155,13 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
+
       //Track from where your web app has been opened/browsed
       window.addEventListener("load", () => {
-        let manifestString: any = '';
-        if (storeData?.configData?.storeConfig?.manifestConfig) {
-          const theme_color = '';
-          const manifestConfigs = storeData.configData.storeConfig.manifestConfig;
-          manifestString = JSON.stringify({
-            ...{
-              "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
-              "short_name": `${storeData.tenant}` || 'Respark',
-              // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
-              "start_url": '/',
-              "display": "standalone",
-              "background_color": theme_color || "#dee1ec",
-              "theme_color": theme_color || "#dee1ec",
-              "orientation": "portrait",
-              "description": storeData.description,
-              "id": storeData.tenantId,
-              "icons": [
-                {
-                  "src": manifestConfigs.icons['180'],
-                  "type": "image/png",
-                  "sizes": "180x180"
-                },
-                {
-                  "src": manifestConfigs.icons['192'],
-                  "type": "image/png",
-                  "sizes": "192x192"
-                },
-                {
-                  "src": manifestConfigs.icons['384'],
-                  "type": "image/png",
-                  "sizes": "384x384"
-                },
-                {
-                  "src": manifestConfigs.icons['512'],
-                  "type": "image/png",
-                  "sizes": "512x512"
-                },
-                {
-                  "src": manifestConfigs.icons['1024'],
-                  "type": "image/png",
-                  "sizes": "1024x1024"
-                }
-              ]
-            },
-          });
-          setTimeout(() => {
-            const manifestElement = document.getElementById("manifest");
-            manifestElement?.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(manifestString));
-          });
-          // setManifestConfig(manifestString)
-          // console.log(manifestString)
-        }
         window.navigator.serviceWorker
           .register("/service-worker.js")
           .then(() => {
 
-            setShowInstallationPage(true);
             console.log("Service worker registered");
 
             // window.navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -212,7 +172,13 @@ function MainHeader({ storeData, storeMetaData }) {
             console.log("Service worker registration failed", err);
           });
       });
-
+      // window?.navigator?.getInstalledRelatedApps().then((relatedApps: any) => {
+      //   relatedApps.forEach((app) => {
+      //     if (app.id || app.url || app.platform) {
+      //       setShowInstallationPage(false);
+      //     }
+      //   });
+      // })
 
       window.addEventListener('appinstalled', () => {
         setShowInstallationPage(false);
@@ -221,32 +187,30 @@ function MainHeader({ storeData, storeMetaData }) {
       if (window && window.navigator && window.navigator['standalone']) {
         setShowInstallationPage(false);
         console.log("Launched: Installed (IOS)")
-      } else if (matchMedia("(display-mode: standalone)").matches) {
+      } else if (window.matchMedia("(display-mode: standalone)").matches) {
         setShowInstallationPage(false);
         console.log("Launched: Installed")
       } else {
         console.log("Launched: Browser Tab")
       }
 
-      setTimeout(() => {
-        if (getMobileOperatingSystem() == 'IOS') {
-          const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-          if (!isInStandaloneMode) {
-            console.log('IOS display')
-            setShowPrompt(true);
-          }
-        } else {
-          console.log('beforeinstallprompt')
-          window.addEventListener('beforeinstallprompt', (event: any) => {
+      if (getMobileOperatingSystem() == 'IOS') {
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+        if (!isInStandaloneMode) {
+          console.log('IOS display')
+          setShowPrompt(true);
+        }
+      } else {
+        console.log('beforeinstallprompt')
+        window.addEventListener('beforeinstallprompt', (event: any) => {
+          if (!promptEvent) {
             console.log('inside beforeinstallprompt')
             event.preventDefault();
             setPromptEvent(event);
-            setShowPrompt(true);
-            console.log("setPromptEvent", event)
             console.log('android display')
-          });
-        }
-      }, 10000);
+          }
+        });
+      }
     }
 
   }, [windowRef, windowRef()])
@@ -257,10 +221,11 @@ function MainHeader({ storeData, storeMetaData }) {
       promptEvent.prompt();
       // Wait for the user to respond to the prompt
       const { outcome } = await promptEvent.userChoice;
+      promptEvent.preventDefault();
+      setShowPrompt(false);
       // Optionally, send analytics event with outcome of user choice
       console.log(`User response to the install prompt: ${outcome}`);
       // We've used the prompt, and can't use it again, throw it away
-      setPromptEvent(null)
     }
     setShowPrompt(false);
   }
@@ -286,12 +251,9 @@ function MainHeader({ storeData, storeMetaData }) {
         setShowLogoutPopup(true)
         break;
       case 'install-app':
-        setShowPrompt(true);
-        // window.addEventListener('beforeinstallprompt', (event: any) => {
-        //   event.preventDefault();
-        //   setPromptEvent(event);
-        //   openPromptComponent('android');
-        // });
+        if (promptEvent) {
+          handlePromptClose(true);
+        } else setShowPrompt(true);
         break;
       case 'phone':
         window.open(`tel:+91 ${storeMetaData.phone1}`, '_blanck')
@@ -474,7 +436,6 @@ function MainHeader({ storeData, storeMetaData }) {
   return (
     <>
       <div className="mainheaderblock">
-        {/* <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestConfig)}`} /> */}
         {currentPageName != 'categories' ? <div className="logo">
           <Link href={baseRouteUrl + 'home'} shallow={true}>
             <img

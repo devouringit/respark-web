@@ -6,6 +6,7 @@ export function middleware(request: NextRequest) {
     console.log("request.nextUrl.pathname", request.nextUrl.pathname)
     const url = request.nextUrl.clone()
     const baseRouteUrl = request.cookies.get('baseRouteUrl')
+    if (request.nextUrl.pathname == '/manifest.json') debugger
     if (url.pathname === '/') {
         url.pathname = baseRouteUrl || '/';
         return NextResponse.redirect(url)
