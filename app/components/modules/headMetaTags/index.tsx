@@ -16,12 +16,13 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
       ...{
         "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
         "short_name": `${storeData.tenant}` || 'Respark',
+        // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
         "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
         "display": "standalone",
         "background_color": theme_color || "#dee1ec",
         "theme_color": theme_color || "#dee1ec",
         "orientation": "portrait",
-        "description": storeData.description + storeData.baseRouteUrl.slice(0, -1),
+        "description": storeData.description,
         "id": storeData.tenantId,
         "icons": [
           {

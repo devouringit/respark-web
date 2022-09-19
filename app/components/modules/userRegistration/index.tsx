@@ -181,8 +181,8 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
     }, [fromPage])
 
     useEffect(() => {
-        if (cookie['user'] && cookie['user'].mobileNo) {
-            setUserData(userFromCookies);
+        if (cookie['user'] && cookie['user']?.mobileNo) {
+            setUserData(cookie['user']);
         } else setUserData({
             mobileNo: '',
             firstName: '',

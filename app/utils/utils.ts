@@ -12,7 +12,7 @@ import { windowRef } from './window';
  * @returns {String}
  */
 export function getMobileOperatingSystem() {
-  var userAgent = navigator.userAgent || navigator.vendor || windowRef().opera;
+  var userAgent = windowRef()?.navigator?.userAgent || windowRef()?.navigator?.vendor || windowRef()?.opera;
 
   // Windows Phone must come first because its UA also contains "Android"
   if (/windows phone/i.test(userAgent)) {

@@ -143,37 +143,29 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef) {
-      setTimeout(() => {
-        console.log('beforeinstallprompt')
-        if (getMobileOperatingSystem() == 'IOS') {
-          const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-          if (!isInStandaloneMode) {
-            console.log('ios display')
-            setShowPrompt(true);
-            openPromptComponent('ios');
-          }
-        } else {
+      if (getMobileOperatingSystem() == 'IOS') {
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+        if (!isInStandaloneMode) {
+          console.log('ios display')
+          setShowPrompt(true);
+        }
+      } else {
+        setTimeout(() => {
+          console.log('beforeinstallprompt')
           window.addEventListener('beforeinstallprompt', (event: any) => {
+            console.log('inside beforeinstallprompt')
             event.preventDefault();
             setPromptEvent(event);
             setShowPrompt(true);
             console.log('android display')
-            // openPromptComponent('android');
           });
-        }
-      }, 10000);
+        }, 10000);
+      }
     }
   }, [windowRef])
 
-  const openPromptComponent = (label) => {
-    //Fire tracking here
-    var development = (window.location.hostname == 'localhost' || window.location.hostname == '192.168.43.96' || window.location.hostname == 'theekkaralo-qa.web.app') ? true : false;
-
-    console.log(label);
-  };
-
   const handlePromptClose = async (status: any) => {
-    if (status) {
+    if (status && promptEvent) {
       // Show the install prompt
       promptEvent.prompt();
       // Wait for the user to respond to the prompt
@@ -193,12 +185,7 @@ function MainHeader({ storeData, storeMetaData }) {
 
 
   const toggleDrawer = (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) return;
     setOpenDrawer(openDrawer ? false : true);
   };
 
@@ -212,12 +199,12 @@ function MainHeader({ storeData, storeMetaData }) {
         setShowLogoutPopup(true)
         break;
       case 'install-app':
-        window.addEventListener('beforeinstallprompt', (event: any) => {
-          event.preventDefault();
-          setPromptEvent(event);
-          setShowPrompt(true);
-          openPromptComponent('android');
-        });
+        setShowPrompt(true);
+        // window.addEventListener('beforeinstallprompt', (event: any) => {
+        //   event.preventDefault();
+        //   setPromptEvent(event);
+        //   openPromptComponent('android');
+        // });
         break;
       case 'phone':
         window.open(`tel:+91 ${storeMetaData.phone1}`, '_blanck')
@@ -480,7 +467,8 @@ function MainHeader({ storeData, storeMetaData }) {
         handleClose={(status) => handleLogoutModalResponse(status)}
       />
       <PWAPrompt
-        type="ios"
+        promptEvent={promptEvent}
+        type={getMobileOperatingSystem()}
         showPrompt={showPrompt}
         handlePromptClose={(e: any) => handlePromptClose(e)} />
 

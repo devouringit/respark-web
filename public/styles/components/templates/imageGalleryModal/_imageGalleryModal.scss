@@ -1,6 +1,22 @@
 .gallery-modal-wrap {
   .gallery-wrap {
     width: 100%;
+    .image-gallery {
+      margin-bottom: 0;
+    }
+    .image-gallery-swipe {
+      padding: unset;
+    }
+    .image-gallery-slide {
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .MuiDialog-paper {
+    margin: 10px;
   }
 }
 
@@ -20,8 +36,8 @@
 
 .image-gallery-icon svg {
   color: #fff;
-  width: 30px !important;
-  height: 30px !important;
+  width: 25px !important;
+  height: 25px !important;
 }
 
 .image-gallery-icon svg polyline {

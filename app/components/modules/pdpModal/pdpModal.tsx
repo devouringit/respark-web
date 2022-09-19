@@ -160,7 +160,10 @@ function PdpModal() {
     const onSharePage = async () => {
         if (window.navigator.share) {
             try {
-                await window.navigator.share({ title: "Example Page", url: "" });
+                const catUrl = item.categoryName.toLowerCase().split(" ").join("-") + '-prp/';
+                const itemUrl = catUrl + item.name.toLowerCase().split(" ").join("-") + '-pdp';
+
+                await window.navigator.share({ title: `${item.name}`, url: `${storeMetaData.sUrl}/${itemUrl}` });
                 console.log("Data was shared successfully");
             } catch (err) {
                 // setOpenShareModal(true)

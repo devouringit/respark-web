@@ -63,7 +63,7 @@ function ImageGalleryModal({ itemsList, config, no_image, handleClick }) {
     return (
 
         <div className="gallery-modal-wrap fullscreen">
-            <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={openModal}>
+            <Dialog onClose={handleClose} className="gallery-modal-wrap" aria-labelledby="simple-dialog-title" open={openModal}>
                 {/* <DialogTitle id="simple-dialog-title">Images</DialogTitle> */}
                 <div className="fullwidth gallery-wrap">
                     <ImageGallery items={itemList} {...settings} />
