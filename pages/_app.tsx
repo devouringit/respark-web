@@ -14,6 +14,7 @@ import Loader from '@module/loader';
 import AlertNotification from '@module/alert';
 import { updateManifestFile } from '@util/utils';
 import HeadMetaTags from '@module/headMetaTags';
+import { windowRef } from '@util/window';
 //Binding events. 
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -27,6 +28,7 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
       // updateManifestFile(pageProps.storeData);
     }
   }, [pageProps]);
+
   return (
     <ThemeProvider theme={theme}>
       <HeadMetaTags {...pageProps.metaTags} storeData={pageProps.storeData} />

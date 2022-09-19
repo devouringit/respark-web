@@ -129,7 +129,9 @@ function MainHeader({ storeData, storeMetaData }) {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
-  const [showInstallationPage, setShowInstallationPage] = useState(true);
+  const [showInstallationPage, setShowInstallationPage] = useState(false);
+  const [promptEvent, setPromptEvent] = useState<any>(null)
+  const [showPrompt, setShowPrompt] = useState(false);
 
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
@@ -139,60 +141,59 @@ function MainHeader({ storeData, storeMetaData }) {
     }
   });
 
-  const [promptEvent, setPromptEvent] = useState<any>(null)
-  const [showPrompt, setShowPrompt] = useState(false);
-
   useEffect(() => {
-    if (windowRef) {
-      if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
-        window.addEventListener("load", () => {
-          window.navigator.serviceWorker
-            .register("/service-worker.js")
-            .then(() => {
-              console.log("Service worker registered");
-            })
-            .catch((err) => {
-              console.log("Service worker registration failed", err);
-            });
-        });
-      }
-
-      window.addEventListener('appinstalled', () => {
-        setShowInstallationPage(false);
-        console.log('PWA was installed');
-      });
-
-      setTimeout(() => {
-        if (getMobileOperatingSystem() == 'IOS') {
-          const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-          if (!isInStandaloneMode) {
-            console.log('ios display')
-            setShowPrompt(true);
-          }
-        } else {
-          console.log('beforeinstallprompt')
-          window.addEventListener('beforeinstallprompt', (event: any) => {
-            console.log('inside beforeinstallprompt')
-            event.preventDefault();
-            setPromptEvent(event);
-            setShowPrompt(true);
-            console.log('android display')
-          });
-        }
-      }, 10000);
-
+    if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
       //Track from where your web app has been opened/browsed
-      window.addEventListener("load", () => {
-        if (window && window.navigator && window.navigator['standalone']) {
-          console.log("Launched: Installed (iOS)")
-        } else if (matchMedia("(display-mode: standalone)").matches) {
-          console.log("Launched: Installed")
-        } else {
-          console.log("Launched: Browser Tab")
-        }
-      });
 
+      window.addEventListener("load", () => {
+        window.navigator.serviceWorker
+          .register("/service-worker.js")
+          .then(() => {
+            setShowInstallationPage(true);
+            console.log("Service worker registered");
+            window.addEventListener('appinstalled', () => {
+              setShowInstallationPage(false);
+              console.log('PWA was installed');
+            });
+            if (window && window.navigator && window.navigator['standalone']) {
+              setShowInstallationPage(false);
+              console.log("Launched: Installed (iOS)")
+            } else if (matchMedia("(display-mode: standalone)").matches) {
+              setShowInstallationPage(false);
+              console.log("Launched: Installed")
+            } else {
+              console.log("Launched: Browser Tab")
+            }
+
+            setTimeout(() => {
+              if (getMobileOperatingSystem() == 'IOS') {
+                const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+                if (!isInStandaloneMode) {
+                  console.log('ios display')
+                  setShowPrompt(true);
+                }
+              } else {
+                console.log('beforeinstallprompt')
+                window.addEventListener('beforeinstallprompt', (event: any) => {
+                  console.log('inside beforeinstallprompt')
+                  event.preventDefault();
+                  setPromptEvent(event);
+                  setShowPrompt(true);
+                  console.log('android display')
+                });
+              }
+            }, 10000);
+
+            // window.navigator.serviceWorker.getRegistrations().then(registrations => {
+            //   console.log(registrations);
+            // });
+          })
+          .catch((err) => {
+            console.log("Service worker registration failed", err);
+          });
+      });
     }
+
   }, [windowRef])
 
   const handlePromptClose = async (status: any) => {
