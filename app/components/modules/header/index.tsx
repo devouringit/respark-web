@@ -157,7 +157,7 @@ function MainHeader({ storeData, storeMetaData }) {
             });
             if (window && window.navigator && window.navigator['standalone']) {
               setShowInstallationPage(false);
-              console.log("Launched: Installed (iOS)")
+              console.log("Launched: Installed (IOS)")
             } else if (matchMedia("(display-mode: standalone)").matches) {
               setShowInstallationPage(false);
               console.log("Launched: Installed")
@@ -169,7 +169,7 @@ function MainHeader({ storeData, storeMetaData }) {
               if (getMobileOperatingSystem() == 'IOS') {
                 const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
                 if (!isInStandaloneMode) {
-                  console.log('ios display')
+                  console.log('IOS display')
                   setShowPrompt(true);
                 }
               } else {

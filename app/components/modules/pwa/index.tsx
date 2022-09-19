@@ -33,12 +33,12 @@ function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
                     </div>
                     <div className="member-modal">
                         <div className='body-text'>Installing uses almost no storage and provides a quick way to return to this app</div>
-                        {(type != 'ios' && promptEvent) ? <div className="form-btn-wrap">
+                        {(type != 'IOS' && promptEvent) ? <div className="form-btn-wrap">
                             <button className="primary-btn" onClick={() => handlePromptClose(true)}>Install</button>
                         </div> : <>
                             <div className='ios-note'>To download app tap the Menu button and then <span>'Add to Home screen'</span> button</div>
                             <div className='install-text-ios'>
-                                {type == 'ios' ? <div className='icon'><IoIosShare /></div> : <div className='icon'><BsThreeDotsVertical /></div>}
+                                {type == 'IOS' ? <div className='icon'><IoIosShare /></div> : <div className='icon'><BsThreeDotsVertical /></div>}
                                 <div className='icon'><GrFormNextLink /></div>
                                 <div className='icon'><RiAddBoxFill /></div>
                             </div>
