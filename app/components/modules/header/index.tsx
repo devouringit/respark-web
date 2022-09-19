@@ -129,6 +129,7 @@ function MainHeader({ storeData, storeMetaData }) {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
+  const [showLoginPage, setShowLoginPage] = useState(false);
 
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
@@ -143,6 +144,19 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     if (windowRef) {
+      if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
+        window.addEventListener("load", () => {
+          window.navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(() => {
+              console.log("Service worker registered");
+            })
+            .catch((err) => {
+              console.log("Service worker registration failed", err);
+            });
+        });
+      }
+
       if (getMobileOperatingSystem() == 'IOS') {
         const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
         if (!isInStandaloneMode) {
@@ -161,6 +175,18 @@ function MainHeader({ storeData, storeMetaData }) {
           });
         }, 10000);
       }
+
+      //Track from where your web app has been opened/browsed
+      window.addEventListener("load", () => {
+        if (window && window.navigator && window.navigator['standalone']) {
+          console.log("Launched: Installed (iOS)")
+        } else if (matchMedia("(display-mode: standalone)").matches) {
+          console.log("Launched: Installed")
+        } else {
+          console.log("Launched: Browser Tab")
+        }
+      });
+
     }
   }, [windowRef])
 

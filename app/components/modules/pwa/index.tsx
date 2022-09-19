@@ -14,6 +14,10 @@ function GrFormNextLink(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path fill="none" stroke="#000" strokeWidth={2} d="M6,12.4 L18,12.4 M12.6,7 L18,12.4 L12.6,17.8" /></svg>;
 }
 
+function BsThreeDotsVertical(props) {
+    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 16 16" height="1em" width="1em" {...props}><path fillRule="evenodd" d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clipRule="evenodd" /></svg>;
+}
+
 function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
     return (
         <div className="confirmation-modal-wrap">
@@ -34,7 +38,7 @@ function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
                         </div> : <>
                             <div className='ios-note'>To download app tap the Menu button and then <span>'Add to Home screen'</span> button</div>
                             <div className='install-text-ios'>
-                                <div className='icon'><IoIosShare /></div>
+                                {type != 'ios' ? <div className='icon'><IoIosShare /></div> : <div className='icon'><BsThreeDotsVertical /></div>}
                                 <div className='icon'><GrFormNextLink /></div>
                                 <div className='icon'><RiAddBoxFill /></div>
                             </div>
