@@ -132,7 +132,7 @@ function MainHeader({ storeData, storeMetaData }) {
   const [showInstallationPage, setShowInstallationPage] = useState(false);
   const [promptEvent, setPromptEvent] = useState<any>(null)
   const [showPrompt, setShowPrompt] = useState(false);
-
+  const [manifestConfig, setManifestConfig] = useState(null)
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
       document.body.classList.remove("o-h")
@@ -149,6 +149,56 @@ function MainHeader({ storeData, storeMetaData }) {
         window.navigator.serviceWorker
           .register("/service-worker.js")
           .then(() => {
+
+            let manifestString: any = '';
+            if (storeData?.configData?.storeConfig?.manifestConfig) {
+              const theme_color = '';
+              const manifestConfigs = storeData.configData.storeConfig.manifestConfig;
+              manifestString = JSON.stringify({
+                ...{
+                  "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
+                  "short_name": `${storeData.tenant}` || 'Respark',
+                  // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
+                  "start_url": '/',
+                  "display": "standalone",
+                  "background_color": theme_color || "#dee1ec",
+                  "theme_color": theme_color || "#dee1ec",
+                  "orientation": "portrait",
+                  "description": storeData.description,
+                  "id": storeData.tenantId,
+                  "icons": [
+                    {
+                      "src": manifestConfigs.icons['180'],
+                      "type": "image/png",
+                      "sizes": "180x180"
+                    },
+                    {
+                      "src": manifestConfigs.icons['192'],
+                      "type": "image/png",
+                      "sizes": "192x192"
+                    },
+                    {
+                      "src": manifestConfigs.icons['384'],
+                      "type": "image/png",
+                      "sizes": "384x384"
+                    },
+                    {
+                      "src": manifestConfigs.icons['512'],
+                      "type": "image/png",
+                      "sizes": "512x512"
+                    },
+                    {
+                      "src": manifestConfigs.icons['1024'],
+                      "type": "image/png",
+                      "sizes": "1024x1024"
+                    }
+                  ]
+                },
+              });
+              setManifestConfig(manifestString)
+              // console.log(manifestString)
+            }
+
             setShowInstallationPage(true);
             console.log("Service worker registered");
             window.addEventListener('appinstalled', () => {
@@ -195,7 +245,7 @@ function MainHeader({ storeData, storeMetaData }) {
       });
     }
 
-  }, [windowRef])
+  }, [windowRef, windowRef()])
 
   const handlePromptClose = async (status: any) => {
     if (status && promptEvent) {
@@ -420,6 +470,7 @@ function MainHeader({ storeData, storeMetaData }) {
   return (
     <>
       <div className="mainheaderblock">
+        <link rel="manifest" id="manifest" href={`data:application/json;charset=utf-8,${encodeURIComponent(manifestConfig)}`} />
         {currentPageName != 'categories' ? <div className="logo">
           <Link href={baseRouteUrl + 'home'} shallow={true}>
             <img
