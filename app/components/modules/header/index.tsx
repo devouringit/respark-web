@@ -141,6 +141,90 @@ function MainHeader({ storeData, storeMetaData }) {
     }
   });
 
+  const updatePrompt = () => {
+
+    let manifestString: any = '';
+    if (storeData?.configData?.storeConfig?.manifestConfig) {
+      const theme_color = '';
+      const manifestConfigs = storeData.configData.storeConfig.manifestConfig;
+      manifestString = JSON.stringify({
+        ...{
+          "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
+          "short_name": `${storeData.tenant}` || 'Respark',
+          // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
+          "start_url": '/',
+          "display": "standalone",
+          "background_color": theme_color || "#dee1ec",
+          "theme_color": theme_color || "#dee1ec",
+          "orientation": "portrait",
+          "description": storeData.description,
+          "id": storeData.tenantId,
+          "icons": [
+            {
+              "src": manifestConfigs.icons['180'],
+              "type": "image/png",
+              "sizes": "180x180"
+            },
+            {
+              "src": manifestConfigs.icons['192'],
+              "type": "image/png",
+              "sizes": "192x192"
+            },
+            {
+              "src": manifestConfigs.icons['384'],
+              "type": "image/png",
+              "sizes": "384x384"
+            },
+            {
+              "src": manifestConfigs.icons['512'],
+              "type": "image/png",
+              "sizes": "512x512"
+            },
+            {
+              "src": manifestConfigs.icons['1024'],
+              "type": "image/png",
+              "sizes": "1024x1024"
+            }
+          ]
+        },
+      });
+      setManifestConfig(manifestString)
+      // console.log(manifestString)
+    }
+    window.addEventListener('appinstalled', () => {
+      setShowInstallationPage(false);
+      console.log('PWA was installed');
+    });
+    if (window && window.navigator && window.navigator['standalone']) {
+      setShowInstallationPage(false);
+      console.log("Launched: Installed (IOS)")
+    } else if (matchMedia("(display-mode: standalone)").matches) {
+      setShowInstallationPage(false);
+      console.log("Launched: Installed")
+    } else {
+      console.log("Launched: Browser Tab")
+    }
+
+    setTimeout(() => {
+      if (getMobileOperatingSystem() == 'IOS') {
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+        if (!isInStandaloneMode) {
+          console.log('IOS display')
+          setShowPrompt(true);
+        }
+      } else {
+        console.log('beforeinstallprompt')
+        window.addEventListener('beforeinstallprompt', (event: any) => {
+          console.log('inside beforeinstallprompt')
+          event.preventDefault();
+          setPromptEvent(event);
+          setShowPrompt(true);
+          console.log(event)
+          console.log('android display')
+        });
+      }
+    }, 10000);
+  }
   useEffect(() => {
     if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
       //Track from where your web app has been opened/browsed
@@ -150,98 +234,20 @@ function MainHeader({ storeData, storeMetaData }) {
           .register("/service-worker.js")
           .then(() => {
 
-            let manifestString: any = '';
-            if (storeData?.configData?.storeConfig?.manifestConfig) {
-              const theme_color = '';
-              const manifestConfigs = storeData.configData.storeConfig.manifestConfig;
-              manifestString = JSON.stringify({
-                ...{
-                  "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
-                  "short_name": `${storeData.tenant}` || 'Respark',
-                  // "start_url": storeData.baseRouteUrl?.slice(0, -1) || '/',
-                  "start_url": '/',
-                  "display": "standalone",
-                  "background_color": theme_color || "#dee1ec",
-                  "theme_color": theme_color || "#dee1ec",
-                  "orientation": "portrait",
-                  "description": storeData.description,
-                  "id": storeData.tenantId,
-                  "icons": [
-                    {
-                      "src": manifestConfigs.icons['180'],
-                      "type": "image/png",
-                      "sizes": "180x180"
-                    },
-                    {
-                      "src": manifestConfigs.icons['192'],
-                      "type": "image/png",
-                      "sizes": "192x192"
-                    },
-                    {
-                      "src": manifestConfigs.icons['384'],
-                      "type": "image/png",
-                      "sizes": "384x384"
-                    },
-                    {
-                      "src": manifestConfigs.icons['512'],
-                      "type": "image/png",
-                      "sizes": "512x512"
-                    },
-                    {
-                      "src": manifestConfigs.icons['1024'],
-                      "type": "image/png",
-                      "sizes": "1024x1024"
-                    }
-                  ]
-                },
-              });
-              setManifestConfig(manifestString)
-              // console.log(manifestString)
-            }
-
             setShowInstallationPage(true);
             console.log("Service worker registered");
-            window.addEventListener('appinstalled', () => {
-              setShowInstallationPage(false);
-              console.log('PWA was installed');
-            });
-            if (window && window.navigator && window.navigator['standalone']) {
-              setShowInstallationPage(false);
-              console.log("Launched: Installed (IOS)")
-            } else if (matchMedia("(display-mode: standalone)").matches) {
-              setShowInstallationPage(false);
-              console.log("Launched: Installed")
-            } else {
-              console.log("Launched: Browser Tab")
-            }
-
-            setTimeout(() => {
-              if (getMobileOperatingSystem() == 'IOS') {
-                const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-                if (!isInStandaloneMode) {
-                  console.log('IOS display')
-                  setShowPrompt(true);
-                }
-              } else {
-                console.log('beforeinstallprompt')
-                window.addEventListener('beforeinstallprompt', (event: any) => {
-                  console.log('inside beforeinstallprompt')
-                  event.preventDefault();
-                  setPromptEvent(event);
-                  setShowPrompt(true);
-                  console.log(event)
-                  console.log('android display')
-                });
-              }
-            }, 10000);
-
-            // window.navigator.serviceWorker.getRegistrations().then(registrations => {
-            //   console.log(registrations);
-            // });
+            updatePrompt()
           })
           .catch((err) => {
             console.log("Service worker registration failed", err);
           });
+        window.navigator.serviceWorker.getRegistrations().then(registrations => {
+          console.log(registrations);
+          if (registrations) {
+            updatePrompt()
+          }
+        });
+
       });
     }
 
