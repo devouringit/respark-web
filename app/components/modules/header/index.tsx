@@ -129,7 +129,7 @@ function MainHeader({ storeData, storeMetaData }) {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
-  const [showLoginPage, setShowLoginPage] = useState(false);
+  const [showInstallationPage, setShowInstallationPage] = useState(true);
 
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
@@ -157,14 +157,19 @@ function MainHeader({ storeData, storeMetaData }) {
         });
       }
 
-      if (getMobileOperatingSystem() == 'IOS') {
-        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-        if (!isInStandaloneMode) {
-          console.log('ios display')
-          setShowPrompt(true);
-        }
-      } else {
-        setTimeout(() => {
+      window.addEventListener('appinstalled', () => {
+        setShowInstallationPage(false);
+        console.log('PWA was installed');
+      });
+
+      setTimeout(() => {
+        if (getMobileOperatingSystem() == 'IOS') {
+          const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+          if (!isInStandaloneMode) {
+            console.log('ios display')
+            setShowPrompt(true);
+          }
+        } else {
           console.log('beforeinstallprompt')
           window.addEventListener('beforeinstallprompt', (event: any) => {
             console.log('inside beforeinstallprompt')
@@ -173,8 +178,8 @@ function MainHeader({ storeData, storeMetaData }) {
             setShowPrompt(true);
             console.log('android display')
           });
-        }, 10000);
-      }
+        }
+      }, 10000);
 
       //Track from where your web app has been opened/browsed
       window.addEventListener("load", () => {
@@ -296,7 +301,7 @@ function MainHeader({ storeData, storeMetaData }) {
         title: 'Install App',
         route: 'install-app',
         icon: <BiDownload />,
-        isVisible: true
+        isVisible: showInstallationPage
       }, {
         title: 'Login',
         route: 'login',

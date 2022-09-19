@@ -38,7 +38,7 @@ function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
                         </div> : <>
                             <div className='ios-note'>To download app tap the Menu button and then <span>'Add to Home screen'</span> button</div>
                             <div className='install-text-ios'>
-                                {type != 'ios' ? <div className='icon'><IoIosShare /></div> : <div className='icon'><BsThreeDotsVertical /></div>}
+                                {type == 'ios' ? <div className='icon'><IoIosShare /></div> : <div className='icon'><BsThreeDotsVertical /></div>}
                                 <div className='icon'><GrFormNextLink /></div>
                                 <div className='icon'><RiAddBoxFill /></div>
                             </div>
