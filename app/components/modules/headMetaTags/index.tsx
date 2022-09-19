@@ -55,8 +55,8 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
     });
     // console.log(manifestString)
   }
-  // const manifestElement = document.getElementById("manifest");
-  // manifestElement?.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(manifestString));
+  const manifestElement = document.getElementById("manifest");
+  manifestElement?.setAttribute("href", "data:application/json;charset=utf-8," + encodeURIComponent(manifestString));
 
   return (
     <Head>
