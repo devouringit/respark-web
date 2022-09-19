@@ -179,6 +179,7 @@ function MainHeader({ storeData, storeMetaData }) {
                   event.preventDefault();
                   setPromptEvent(event);
                   setShowPrompt(true);
+                  console.log(event)
                   console.log('android display')
                 });
               }
