@@ -122,7 +122,7 @@ function MainHeader({ storeData, storeMetaData }) {
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
   const [showPrompt, setShowPrompt] = useState(false);
-  const [installAppModal, setInstallAppModal] = useState({ isInstalled: true, promptEvent: null })
+  const [installAppModal, setInstallAppModal] = useState<any>({ isInstalled: true, promptEvent: null })
 
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
@@ -338,13 +338,17 @@ function MainHeader({ storeData, storeMetaData }) {
   useEffect(() => {
     setTimeout(() => {
       if (!installAppModal.isInstalled || installAppModal.promptEvent) {
+        setInstallAppModal({ ...installAppModal, state: '1' })
         setShowPrompt(true);
       } else {
+        setInstallAppModal({ ...installAppModal, state: '2' })
         navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
           console.log(registrations)
           if (registrations) {
             setShowPrompt(true);
+            setInstallAppModal({ ...installAppModal, swmsg: 'Registred sw' })
           } else {
+            setInstallAppModal({ ...installAppModal, swmsg: 'unRegistred sw' })
             registerServiceWorker()
           }
         });
@@ -484,6 +488,8 @@ function MainHeader({ storeData, storeMetaData }) {
             <div className="drawmenu">
               {list("right")}
             </div>
+            {installAppModal.swmsg} ||
+            {installAppModal.state}
             <div className="powered-by" onClick={() => window.open('https://respark.in/', '_blank')}>
               Powered by Respark
             </div>
