@@ -280,18 +280,6 @@ function MainHeader({ storeData, storeMetaData }) {
     setInstallAppModal({ ...installAppModal, isInstalled: true })
     setShowPrompt(false);
   }
-
-  const getinstalledApp = async () => {
-
-    if ('getInstalledRelatedApps' in window.navigator) {
-      debugger
-      const relatedApps = await window.navigator.getInstalledRelatedApps();
-      relatedApps.forEach((app) => {
-        //if your PWA exists in the array it is installed
-        console.log(app.platform, app.url);
-      });
-    }
-  }
   useEffect(() => {
     if (windowRef) {
       if (getMobileOperatingSystem() == 'IOS') {
@@ -305,9 +293,6 @@ function MainHeader({ storeData, storeMetaData }) {
         disableInstallation();
         console.log('PWA was installed');
       });
-
-      getinstalledApp()
-
       if (window && window.navigator && window.navigator['standalone']) {
         disableInstallation();
         console.log("Launched: Installed (IOS)")
