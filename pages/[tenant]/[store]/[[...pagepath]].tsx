@@ -227,7 +227,7 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     if (windowRef) {
       dispatch(syncLocalStorageAppointment());
       dispatch(syncLocalStorageOrder());
-      registerServiceWorker()
+      // registerServiceWorker()
     }
   }, [windowRef, storeData])
 

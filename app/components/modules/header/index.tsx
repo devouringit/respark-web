@@ -337,21 +337,13 @@ function MainHeader({ storeData, storeMetaData }) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (!installAppModal.isInstalled || installAppModal.promptEvent) {
-        setInstallAppModal({ ...installAppModal, state: '1' })
+      if ((!installAppModal.isInstalled || installAppModal.promptEvent) || getMobileOperatingSystem() == 'IOS') {
         setShowPrompt(true);
       } else {
-        setInstallAppModal({ ...installAppModal, state: '2' })
-        navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
-          console.log(registrations)
-          if (registrations) {
-            setShowPrompt(true);
-            setInstallAppModal({ ...installAppModal, swmsg: 'Registred sw' })
-          } else {
-            setInstallAppModal({ ...installAppModal, swmsg: 'unRegistred sw' })
-            registerServiceWorker()
-          }
-        });
+        // navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
+        //   console.log(registrations)
+        // });
+        setShowPrompt(true);
       }
     }, 50000);
   }, [])
@@ -488,8 +480,6 @@ function MainHeader({ storeData, storeMetaData }) {
             <div className="drawmenu">
               {list("right")}
             </div>
-            {installAppModal.swmsg} ||
-            {installAppModal.state}
             <div className="powered-by" onClick={() => window.open('https://respark.in/', '_blank')}>
               Powered by Respark
             </div>
