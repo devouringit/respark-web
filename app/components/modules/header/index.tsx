@@ -321,10 +321,33 @@ function MainHeader({ storeData, storeMetaData }) {
     }
     setShowPrompt(false);
   }
+
+  const registerServiceWorker = () => {
+    window.addEventListener("load", () => {
+      window.navigator.serviceWorker
+        .register("/service-worker.js")
+        .then(() => {
+          console.log("Service worker registered");
+        })
+        .catch((err) => {
+          console.log("Service worker registration failed", err);
+        });
+    });
+  }
+
   useEffect(() => {
     setTimeout(() => {
       if (!installAppModal.isInstalled || installAppModal.promptEvent) {
         setShowPrompt(true);
+      } else {
+        navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
+          console.log(registrations)
+          if (registrations) {
+            setShowPrompt(true);
+          } else {
+            registerServiceWorker()
+          }
+        });
       }
     }, 50000);
   }, [])

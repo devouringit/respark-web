@@ -227,6 +227,7 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     if (windowRef) {
       dispatch(syncLocalStorageAppointment());
       dispatch(syncLocalStorageOrder());
+      registerServiceWorker()
     }
   }, [windowRef, storeData])
 
@@ -236,6 +237,18 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     }
   }, [cookie])
 
+  const registerServiceWorker = () => {
+    window.addEventListener("load", () => {
+      window.navigator.serviceWorker
+        .register("/service-worker.js")
+        .then(() => {
+          console.log("Service worker registered");
+        })
+        .catch((err) => {
+          console.log("Service worker registration failed", err);
+        });
+    });
+  }
   return <>
     <HeadMeata {...metaTags} />
     {enableDefaultLayout ? <Default>
