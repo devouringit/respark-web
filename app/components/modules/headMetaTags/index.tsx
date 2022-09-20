@@ -15,8 +15,8 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
     manifestString = JSON.stringify({
       ...{
         "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
-        "short_name": `${storeData.tenant} ${storeData.host}` || 'Respark',
-        "start_url": `https://${storeData.host}` || '/',
+        "short_name": `${storeData.tenant}` || 'Respark',
+        "start_url": storeData.host.includes('localhost') ? `http://${storeData.host}` : `https://${storeData.host}` || '/',
         // "start_url": window.location.origin,
         "display": "standalone",
         "background_color": theme_color || "#dee1ec",
@@ -50,7 +50,11 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
             "type": "image/png",
             "sizes": "1024x1024"
           }
-        ]
+        ],
+        "related_applications": [{
+          "platform": "webapp",
+          "url": storeData.host.includes('localhost') ? `http://${storeData.host}/manifest.json` : `https://${storeData.host}/manifest.json`
+        }]
       },
     });
     // console.log(manifestString)

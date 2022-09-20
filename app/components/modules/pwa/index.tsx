@@ -14,8 +14,8 @@ function GrFormNextLink(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path fill="none" stroke="#000" strokeWidth={2} d="M6,12.4 L18,12.4 M12.6,7 L18,12.4 L12.6,17.8" /></svg>;
 }
 
-function BsThreeDotsVertical(props) {
-    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 16 16" height="1em" width="1em" {...props}><path fillRule="evenodd" d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clipRule="evenodd" /></svg>;
+function BsThreeDotsVertical() {
+    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 16 16" height="1em" width="1em"><path fillRule="evenodd" d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clipRule="evenodd" /></svg>;
 }
 
 function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
@@ -33,7 +33,7 @@ function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
                     </div>
                     <div className="member-modal">
                         <div className='body-text'>Installing uses almost no storage and provides a quick way to return to this app</div>
-                        {(type != 'IOS' && promptEvent) ? <div className="form-btn-wrap">
+                        {promptEvent ? <div className="form-btn-wrap">
                             <button className="primary-btn" onClick={() => handlePromptClose(true)}>Install</button>
                         </div> : <>
                             <div className='ios-note'>To download app tap the Menu button and then <span>'Add to Home screen'</span> button</div>

@@ -104,14 +104,6 @@ function CgMenuRightAlt(props) {
   return <svg stroke="currentColor" fill="none" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M4 6C4 5.44772 4.44772 5 5 5H19C19.5523 5 20 5.44772 20 6C20 6.55228 19.5523 7 19 7H5C4.44772 7 4 6.55228 4 6Z" fill="currentColor" /><path d="M4 18C4 17.4477 4.44772 17 5 17H19C19.5523 17 20 17.4477 20 18C20 18.5523 19.5523 19 19 19H5C4.44772 19 4 18.5523 4 18Z" fill="currentColor" /><path d="M11 11C10.4477 11 10 11.4477 10 12C10 12.5523 10.4477 13 11 13H19C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11H11Z" fill="currentColor" /></svg>;
 }
 
-function RiMenuFoldLine(props) {
-  return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><g><path fill="none" d="M0 0H24V24H0z" /><path d="M21 18v2H3v-2h18zM6.596 3.904L8.01 5.318 4.828 8.5l3.182 3.182-1.414 1.414L2 8.5l4.596-4.596zM21 11v2h-9v-2h9zm0-7v2h-9V4h9z" /></g></svg>;
-}
-
-function CgMenuMotion(props) {
-  return <svg stroke="currentColor" fill="none" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M12 5C11.4477 5 11 5.44772 11 6C11 6.55228 11.4477 7 12 7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H12Z" fill="currentColor" /><path d="M7 12C7 11.4477 7.44772 11 8 11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H8C7.44772 13 7 12.5523 7 12Z" fill="currentColor" /><path d="M3 18C3 17.4477 3.44772 17 4 17H12C12.5523 17 13 17.4477 13 18C13 18.5523 12.5523 19 12 19H4C3.44772 19 3 18.5523 3 18Z" fill="currentColor" /></svg>;
-}
-
 function MainHeader({ storeData, storeMetaData }) {
   const [cookie, setCookie] = useCookies()
   const classes = useStyles();
@@ -129,21 +121,8 @@ function MainHeader({ storeData, storeMetaData }) {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const genericImages = useSelector(state => state.genericImages);
   const [currentPageName, setCurrentPageName] = useState('');
-  const [showInstallationPage, setShowInstallationPage] = useState(true);
-  const [promptEvent, setPromptEvent] = useState<any>(null)
   const [showPrompt, setShowPrompt] = useState(false);
-  const [manifestConfig, setManifestConfig] = useState(null)
-  const [promptCount, setpromptCount] = useState(0);
-
-
-  useEffect(() => {
-    if (promptCount == 0) {
-      setTimeout(() => {
-        setShowPrompt(true);
-        setpromptCount(1);
-      }, 10000);
-    }
-  }, [promptEvent])
+  const [installAppModal, setInstallAppModal] = useState({ isInstalled: true, promptEvent: null })
 
   Router.events.on('routeChangeComplete', () => {
     if (pdpItem) {
@@ -152,83 +131,6 @@ function MainHeader({ storeData, storeMetaData }) {
       console.log('routeChangeComplete')
     }
   });
-
-  useEffect(() => {
-    if (windowRef && windowRef() && window.navigator && "serviceWorker" in window.navigator) {
-
-      //Track from where your web app has been opened/browsed
-      window.addEventListener("load", () => {
-        window.navigator.serviceWorker
-          .register("/service-worker.js")
-          .then(() => {
-
-            console.log("Service worker registered");
-
-            // window.navigator.serviceWorker.getRegistrations().then(registrations => {
-            //   console.log(registrations);
-            // });
-          })
-          .catch((err) => {
-            console.log("Service worker registration failed", err);
-          });
-      });
-      // window?.navigator?.getInstalledRelatedApps().then((relatedApps: any) => {
-      //   relatedApps.forEach((app) => {
-      //     if (app.id || app.url || app.platform) {
-      //       setShowInstallationPage(false);
-      //     }
-      //   });
-      // })
-
-      window.addEventListener('appinstalled', () => {
-        setShowInstallationPage(false);
-        console.log('PWA was installed');
-      });
-      if (window && window.navigator && window.navigator['standalone']) {
-        setShowInstallationPage(false);
-        console.log("Launched: Installed (IOS)")
-      } else if (window.matchMedia("(display-mode: standalone)").matches) {
-        setShowInstallationPage(false);
-        console.log("Launched: Installed")
-      } else {
-        console.log("Launched: Browser Tab")
-      }
-
-      if (getMobileOperatingSystem() == 'IOS') {
-        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
-        if (!isInStandaloneMode) {
-          console.log('IOS display')
-          setShowPrompt(true);
-        }
-      } else {
-        console.log('beforeinstallprompt')
-        window.addEventListener('beforeinstallprompt', (event: any) => {
-          if (!promptEvent) {
-            console.log('inside beforeinstallprompt')
-            event.preventDefault();
-            setPromptEvent(event);
-            console.log('android display')
-          }
-        });
-      }
-    }
-
-  }, [windowRef, windowRef()])
-
-  const handlePromptClose = async (status: any) => {
-    if (status && promptEvent) {
-      // Show the install prompt
-      promptEvent.prompt();
-      // Wait for the user to respond to the prompt
-      const { outcome } = await promptEvent.userChoice;
-      promptEvent.preventDefault();
-      setShowPrompt(false);
-      // Optionally, send analytics event with outcome of user choice
-      console.log(`User response to the install prompt: ${outcome}`);
-      // We've used the prompt, and can't use it again, throw it away
-    }
-    setShowPrompt(false);
-  }
 
   useEffect(() => {
     if (openDrawer) document.body.classList.add("o-h")
@@ -251,7 +153,7 @@ function MainHeader({ storeData, storeMetaData }) {
         setShowLogoutPopup(true)
         break;
       case 'install-app':
-        if (promptEvent) {
+        if (installAppModal.promptEvent) {
           handlePromptClose(true);
         } else setShowPrompt(true);
         break;
@@ -319,7 +221,7 @@ function MainHeader({ storeData, storeMetaData }) {
         title: 'Install App',
         route: 'install-app',
         icon: <BiDownload />,
-        isVisible: showInstallationPage
+        isVisible: !installAppModal.isInstalled
       }, {
         title: 'Login',
         route: 'login',
@@ -357,10 +259,90 @@ function MainHeader({ storeData, storeMetaData }) {
   }
 
   useEffect(() => {
+    if (windowRef) {
+      console.log('beforeinstallprompt')
+      window.addEventListener('beforeinstallprompt', (event: any) => {
+        if (!installAppModal.promptEvent) {
+          console.log('inside beforeinstallprompt')
+          event.preventDefault();
+          setInstallAppModal({ ...installAppModal, promptEvent: event, isInstalled: false });
+          console.log('android display')
+        }
+      });
+    }
     // if (baseRouteUrl && windowRef && windowRef().location) {
     // updateManifestFile(storeData);
     // }
   }, [baseRouteUrl, windowRef]);
+
+
+  const disableInstallation = () => {
+    setInstallAppModal({ ...installAppModal, isInstalled: true })
+    setShowPrompt(false);
+  }
+
+  const getinstalledApp = async () => {
+
+    if ('getInstalledRelatedApps' in window.navigator) {
+      debugger
+      const relatedApps = await window.navigator.getInstalledRelatedApps();
+      relatedApps.forEach((app) => {
+        //if your PWA exists in the array it is installed
+        console.log(app.platform, app.url);
+      });
+    }
+  }
+  useEffect(() => {
+    if (windowRef) {
+      if (getMobileOperatingSystem() == 'IOS') {
+        const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator['standalone']);
+        if (!isInStandaloneMode) {
+          console.log('IOS display', getMobileOperatingSystem())
+          setInstallAppModal({ ...installAppModal, isInstalled: false })
+        }
+      }
+      window.addEventListener('appinstalled', () => {
+        disableInstallation();
+        console.log('PWA was installed');
+      });
+
+      getinstalledApp()
+
+      if (window && window.navigator && window.navigator['standalone']) {
+        disableInstallation();
+        console.log("Launched: Installed (IOS)")
+      } else if (window.matchMedia("(display-mode: standalone)").matches) {
+        disableInstallation();
+        console.log("Launched: Installed")
+      } else {
+        console.log("Launched: Browser Tab")
+      }
+    }
+
+  }, [windowRef])
+
+  const handlePromptClose = async (status: any) => {
+    if (status && installAppModal.promptEvent) {
+      // Show the install prompt
+      installAppModal.promptEvent.prompt();
+      // Wait for the user to respond to the prompt
+      const { outcome } = await installAppModal.promptEvent.userChoice;
+      installAppModal.promptEvent.preventDefault();
+      setShowPrompt(false);
+      if (outcome == 'accepted') setInstallAppModal({ ...installAppModal, isInstalled: true })
+      // Optionally, send analytics event with outcome of user choice
+      console.log(`User response to the install prompt: ${outcome}`);
+      // We've used the prompt, and can't use it again, throw it away
+    }
+    setShowPrompt(false);
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      if (!installAppModal.isInstalled || installAppModal.promptEvent) {
+        setShowPrompt(true);
+      }
+    }, 50000);
+  }, [])
 
   useEffect(() => {
     if (cookie['grp']) {
@@ -516,7 +498,7 @@ function MainHeader({ storeData, storeMetaData }) {
         handleClose={(status) => handleLogoutModalResponse(status)}
       />
       <PWAPrompt
-        promptEvent={promptEvent}
+        promptEvent={installAppModal.promptEvent}
         type={getMobileOperatingSystem()}
         showPrompt={showPrompt}
         handlePromptClose={(e: any) => handlePromptClose(e)} />

@@ -29,6 +29,23 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
     }
   }, [pageProps]);
 
+  useEffect(() => {
+    if (windowRef) {
+      //Track from where your web app has been opened/browsed
+      window.addEventListener("load", () => {
+        window.navigator.serviceWorker
+          .register("/service-worker.js")
+          .then(() => {
+            console.log("Service worker registered");
+          })
+          .catch((err) => {
+            console.log("Service worker registration failed", err);
+          });
+      });
+    }
+  }, [windowRef])
+
+
   return (
     <ThemeProvider theme={theme}>
       <HeadMetaTags {...pageProps.metaTags} storeData={pageProps.storeData} />
