@@ -1,6 +1,7 @@
 .tenant-page-wrap {
   flex-direction: column;
   height: 100vh;
+  //   height: calc(100vh - calc(100vh - 100%));
   background: radial-gradient(
     circle,
     rgba(238, 174, 202, 0.2676000702247191) 0,
@@ -42,7 +43,7 @@
   .logo-wrap {
     width: auto;
     height: 100px;
-    margin-bottom: 30px;
+    // margin-bottom: 20px;
     background: transparent;
     box-shadow: 0 4px 30px #dee1ec;
 
@@ -55,11 +56,11 @@
   .heading {
     font-size: 20px;
     font-family: var(--primary-font);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.1px;
     font-weight: 700;
-    padding: 10px 0;
+    padding: 20px 0 40px;
     > div {
-      font-size: 28px;
+      font-size: 25px;
       letter-spacing: 0.3px;
       font-weight: 800;
       padding-left: 6px;
@@ -71,7 +72,7 @@
     font-family: var(--primary-font);
     color: rgb(13, 12, 54);
     letter-spacing: 0.3px;
-    padding-bottom: 35px;
+    padding-bottom: 20px;
   }
   .stores-list-wrap {
     display: flex;
