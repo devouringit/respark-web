@@ -206,6 +206,18 @@ export const getStoresByTenantId = (tenantId) => {
     })
 }
 
+export const getTenantAndStoresBySubdomain = (subdomain) => {
+    return new Promise((res, rej) => {
+        APISERVICE.GET(`${process.env.BASE_PCS_URL}/gettenantwithstoresbydomain/${subdomain}`, {}).then((response) => {
+            res(response.data);
+            // console.log("response", response);
+        }).catch(function (error) {
+            rej(error);
+            console.log("error", error);
+        });
+    })
+}
+
 export const markStoreOptInForWhatsapp = (tenantId) => {
     return new Promise((res, rej) => {
         APISERVICE.PUT(`${process.env.NEXT_PUBLIC_UPDATE_STORE_OPTIN_FOR_WAPP}/${tenantId}`, {})

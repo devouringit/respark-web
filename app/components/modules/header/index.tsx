@@ -338,12 +338,17 @@ function MainHeader({ storeData, storeMetaData }) {
   useEffect(() => {
     setTimeout(() => {
       if ((!installAppModal.isInstalled || installAppModal.promptEvent) || getMobileOperatingSystem() == 'IOS') {
+        if ((window && window.navigator && window.navigator['standalone']) || (window.matchMedia("(display-mode: standalone)").matches)) {
+          setInstallAppModal({ ...installAppModal, isInstalled: true });
+        } else {
+          setInstallAppModal({ ...installAppModal, isInstalled: false });
+        }
         setShowPrompt(true);
       } else {
         // navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
         //   console.log(registrations)
         // });
-        setShowPrompt(true);
+        setInstallAppModal({ ...installAppModal, isInstalled: false });
       }
     }, 50000);
   }, [])
