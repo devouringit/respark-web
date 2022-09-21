@@ -16,7 +16,7 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
       ...{
         "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
         "short_name": `${storeData.tenant}` || 'Respark',
-        "start_url": storeData.host.includes('localhost') ? `http://${storeData.host}` : `https://${storeData.host}` || '/',
+        "start_url": storeData.host.includes('localhost') ? `http://${storeData.host}${storeData.baseRouteUrl}` : `https://${storeData.host}${storeData.baseRouteUrl}` || '/',
         // "start_url": window.location.origin,
         "display": "standalone",
         "background_color": theme_color || "#dee1ec",

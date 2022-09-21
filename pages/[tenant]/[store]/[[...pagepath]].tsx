@@ -36,7 +36,7 @@ import ServicePdpModal from '@module/servicePdpModal';
 import InvoicePage from '@template/invoice';
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req, res, query }) => {
-  console.log(req.headers)
+  // console.log(req.headers)
   // const appLink: any = req.headers.referer;
   // const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
   res.setHeader(

@@ -56,8 +56,9 @@ const TenantPage = ({ tenantData }) => {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ req }) => {
-    const subdomain = req.headers.host.includes('localhost') ? 'spalon' : req.headers.host.split('.')[0]
+    const subdomain = req.headers.host.includes('localhost') ? 'qa' : req.headers.host.split('.')[0]
     const tenantData: any = await getTenantAndStoresBySubdomain(subdomain);
+    console.log("tenant data", tenantData)
     if (tenantData && tenantData?.stores && tenantData?.stores?.length != 0) {
         if (tenantData.stores?.length == 1) {
             const url = `/${tenantData.name.toLowerCase().split(" ").join("-")}-${tenantData.id}/${tenantData.stores[0].name.toLowerCase().split(" ").join("-")}`
