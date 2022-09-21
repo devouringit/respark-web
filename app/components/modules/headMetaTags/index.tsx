@@ -14,8 +14,8 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
     const manifestConfig = storeData.configData.storeConfig.manifestConfig;
     manifestString = JSON.stringify({
       ...{
-        "name": `${storeData.tenant}, ${storeData.name}` || 'Respark',
-        "short_name": `${storeData.tenant}` || 'Respark',
+        "name": `${manifestConfig.name}` || `${storeData.tenant}, ${storeData.name}` || 'Respark',
+        "short_name": `${manifestConfig.shortName}` || `${storeData.tenant}` || 'Respark',
         "start_url": storeData.host.includes('localhost') ? `http://${storeData.host}${storeData.baseRouteUrl}` : `https://${storeData.host}${storeData.baseRouteUrl}` || '/',
         // "start_url": window.location.origin,
         "display": "standalone",
