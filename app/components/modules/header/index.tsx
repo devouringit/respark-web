@@ -336,7 +336,7 @@ function MainHeader({ storeData, storeMetaData }) {
         } else {
           setInstallAppModal({ ...installAppModal, isInstalled: false });
         }
-        setShowPrompt(true);
+        // setShowPrompt(true);
       } else {
         // navigator.serviceWorker.getRegistration(window.location.origin).then((registrations) => {
         //   console.log(registrations)
