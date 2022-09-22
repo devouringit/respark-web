@@ -248,6 +248,20 @@ function ServicePdpModal() {
             setSelectedVariationService({ ...serviceCopy });
         }
     }
+    const onSharePage = async () => {
+        if (window.navigator.share) {
+            try {
+                const catUrl = item.categoryName.toLowerCase().split(" ").join("-") + '-prp/';
+                const itemUrl = catUrl + item.name.toLowerCase().split(" ").join("-") + '-pdp';
+
+                await window.navigator.share({ title: `${item.name}`, url: `${storeMetaData.sUrl}/${itemUrl}` });
+                console.log("Data was shared successfully");
+            } catch (err) {
+                // setOpenShareModal(true)
+                console.error("Share failed:", err.message);
+            }
+        }
+    }
 
     return (
         <>
@@ -260,6 +274,9 @@ function ServicePdpModal() {
                                     <div className="modal-close" onClick={() => closePdpMOdal()}>
                                         <SvgIcon icon="close" />
                                     </div >
+                                    <div className="modal-close modal-share" onClick={() => onSharePage()}>
+                                        <SvgIcon icon="share" />
+                                    </div>
                                     {/* {item?.iTag && <div className="ribbon ribbon-top-right"><span>{item?.iTag}</span></div>} */}
 
                                     <Paper elevation={4} className="outer"

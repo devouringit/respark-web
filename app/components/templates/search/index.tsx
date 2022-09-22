@@ -121,7 +121,7 @@ function SearchPage() {
         <div className="search-wrapper">
             <div className="mainheaderblock">
                 <div className="searchwrap">
-                    <div onClick={() => handleClose()} ><SvgIcon icon="backArrow" /></div>
+                    <span onClick={() => handleClose()} ><SvgIcon icon="backArrow" shape='circle' width={32} height={32} /></span>
                     <input ref={itemSearchRef} className="inputToSearch" value={itemToSearch} onChange={(e) => searchItems(e.target.value)} placeholder="Search service or product" />
                     {itemToSearch && <div onClick={() => searchItems('')} ><SvgIcon icon="close" /></div>}
                 </div>

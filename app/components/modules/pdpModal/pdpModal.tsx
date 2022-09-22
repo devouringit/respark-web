@@ -496,6 +496,7 @@ function PdpModal() {
                 {item?.videoLink && <div className="modal-close vdo-icon" onClick={() => setShowVdoModal(true)}>
                     <SvgIcon icon="camera" />
                 </div>}
+
                 <div className="pdp-page-content" >
                     <div className="prodpdpbanner">
                         {/* <div className="modal-close zoom-out" onClick={() => zoom('out')}>{BiZoomOut()}</div>
