@@ -106,7 +106,7 @@ function InvoicePage({ storeData, metaTags }) {
             {orderData ? <div className="invoice-page-wrap">
                 <div className='salon-details-wrap'>
                     <div className='logo-wrap'>
-                        <img src={storeMetaData.logoPath} />
+                        <img src={storeMetaData.logoPath} alt="Respark" />
                     </div>
                     <div className='salon-details'>
                         <div className='name'>{storeMetaData?.name}</div>

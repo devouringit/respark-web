@@ -423,13 +423,13 @@ function MainHeader({ storeData, storeMetaData }) {
         {currentPageName != 'categories' ? <div className="logo">
           <Link href={baseRouteUrl + 'home'} shallow={true}>
             <img
-              src={storeMetaData ? storeMetaData.logoPath : 'https://devourin.com/images/logo2.png'}
+              src={storeMetaData ? storeMetaData.logoPath : 'https://pcs-s3.s3.ap-south-1.amazonaws.com/2/logo/2022-09-16T10%3A06%3A23.774113_slider.png'}
               title="logo"
               alt="logo"
             />
           </Link>
         </div> : <div onClick={() => onClickNavItem({ route: 'home' })} className="logo back-navigation">
-          <IoIosArrowBack />
+          <SvgIcon icon="backArrow" shape="circle" width={32} height={32} margin="0 0 0 5px" />
         </div>}
 
         <div className="header-nav-wrap">
@@ -447,7 +447,7 @@ function MainHeader({ storeData, storeMetaData }) {
           {(configData?.orderingOn && !configData?.storeOff && !configData?.readOnlyMenu) &&
             <div className="icon-wrap cart-icon" onClick={() => onClickNavItem({ route: 'cart' })}>
               {(cartItems && cartItems.length != 0) && <div className="cart-item-count" id="cart-item-count">{cartItemQuantity}</div>}
-              <div className="icon "><SvgIcon icon="cart" /></div>
+              <div className="icon "><SvgIcon icon="cart" color="#3d3838" /></div>
             </div>}
 
           <div className="icon-wrap" onClick={(e) => toggleDrawer(e)}>
@@ -470,7 +470,7 @@ function MainHeader({ storeData, storeMetaData }) {
             </> : <>
               <div className="drawgraphic">
                 <div className="drawer-display-img">
-                  <img src="https://pcs-s3.s3.ap-south-1.amazonaws.com/2/logo/2022-09-16T10%3A06%3A23.774113_slider.png" />
+                  <img src={storeMetaData ? storeMetaData.logoPath : 'https://pcs-s3.s3.ap-south-1.amazonaws.com/2/logo/2022-09-16T10%3A06%3A23.774113_slider.png'} />
                   {/* <img src={`/assets/${genericImages?.hamburgerBg}`} /> */}
                 </div>
               </div>

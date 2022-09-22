@@ -42,13 +42,13 @@ function OrderConfirmation() {
             {orderSuccess ?
                 <div className="con-main-wrap clearfix">
                     {(orderData && orderData.type == 'delivery') ? <div className="con-wrap">
-                        <div><img className="cart-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '50%' }} /></div>
+                        <div><img className="cart-logo" alt="Respark" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '50%' }} /></div>
                         <div className="cart-status">{userData.firstName}</div>
                         <div className="cart-subtext">Thank you for your purchase.</div>
                         <div className="cart-subtext">{configData.deliveryDisclaimer}</div>
                     </div> :
                         <div className="con-wrap">
-                            <div><img className="cart-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '50%' }} /></div>
+                            <div><img className="cart-logo" alt="Respark" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '50%' }} /></div>
                             <div className="cart-status">{userData.firstName}</div>
                             <div className="cart-subtext">Thank you for your purchase.</div>
                             <div className="cart-subtext">{configData.pickupDisclaimer}</div>
@@ -87,7 +87,7 @@ function OrderConfirmation() {
                 :
                 <div className="con-main-wrap">
                     <div className="con-wrap">
-                        <div><img className="cart-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '70%' }} /></div>
+                        <div><img className="cart-logo" alt="Respark" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '70%' }} /></div>
                         <div className="cart-status">{userData.firstName}</div>
                         <div className="cart-subtext">Ohh! Your payment has been failed.</div>
                         {/* <div className="cart-subtext">Your item is ready for pickup, kindly collect it from frontdesk.</div> */}

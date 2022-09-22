@@ -47,7 +47,7 @@ function HorizontalSquareGrid({ items, config }) {
                         //open images modal
                         return <div className="skilled-tile clearfix" key={Math.random()} {...config} onClick={() => onItemClick(item)}>
                             <div className="skilled-tile-pic">
-                                <img src={item.imagePath} />
+                                <img src={item.imagePath} alt={item.name} />
                             </div>
                             <div className="skilled-tile-name">
                                 <div className='cat-name' style={{ borderBottom: windowRef()?.location?.host == 'jannez-beauty-salon.respark.in' ? '1px solid gray' : 'unset' }}>{item.name}</div>
@@ -57,7 +57,7 @@ function HorizontalSquareGrid({ items, config }) {
                         return <Link href={baseRouteUrl + itemUrl} shallow={true} key={Math.random()}>
                             <div className="skilled-tile clearfix" key={Math.random()} {...config}>
                                 <div className="skilled-tile-pic">
-                                    <img src={item.imagePath} />
+                                    <img src={item.imagePath} alt={item.name} />
                                 </div>
                                 <div className="skilled-tile-name">
                                     <div className='cat-name' style={{ borderBottom: windowRef()?.location?.host == 'jannez-beauty-salon.respark.in' ? '1px solid gray' : 'unset' }}>{item.name}</div>

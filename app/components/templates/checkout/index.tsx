@@ -554,7 +554,7 @@ function CheckoutPage() {
                         // CART IS EMPTY
                         <div className="emptyCart-main-wrap">
                             <div className="emptyCart-wrap">
-                                <div><img className="cart-logo" src={`/assets/images/${activeGroup}/cart.png`} /></div>
+                                <div><img className="cart-logo" src={`/assets/images/${activeGroup}/cart.png`} alt="Respark" /></div>
                                 <div className="cart-status">CART IS EMPTY</div>
                                 <div className="cart-subtext">You don't have any item in cart</div>
                                 <div><button className="cart-button" onClick={handleOrderConfirmationMOdalResponse}>Explore More</button></div>

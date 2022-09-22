@@ -55,7 +55,7 @@ const HorizontalProductCard = ({ item, handleClick, fromPage = '', config }) => 
                         {item.iTag && <div className="ribbon ribbon-top-right"><span>{item.iTag}</span></div>}
                         <div className="prod-left">
                             <div className="prod-img-cover">
-                                <img src={itemImageUrl} />
+                                <img src={itemImageUrl} alt={item.name} />
                             </div>
                         </div>
                         <div className="prod-right">

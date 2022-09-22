@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useStore, connect } from 'react-redux';
 import ScrollingNavigation from '@module/topScrolleingNavigation';
-import VerticalListing from "@module/verticalListing";
 import Link from 'next/link';
 // for Accordion starts
 import Accordion from "@material-ui/core/Accordion";
@@ -110,13 +109,11 @@ function VerticalCategoryPage({ url_Segment, storeData }) {
                                                     <Item item={item} config={{}} />
                                                 </div>
                                             })}
-                                            {/* <VerticalListing itemsList={curetedCategoryData?.curatedItems} type={activeCuratedCategory.type} /> */}
                                         </div>}
                                         <div className="common-grey-boder"></div>
                                     </>}
                             </AccordionDetails>
                         </Accordion>
-                        {/* <div className="common-grey-boder"></div> */}
                     </div>
                 })}
             </div> : null}

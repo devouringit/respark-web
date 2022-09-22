@@ -6,7 +6,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 // for Accordion ends
 import ScrollingNavigation from '@module/topScrolleingNavigation';
 import SquareGrid from "@module/squareGrid";
-import VerticalListing from "@module/verticalListing";
 import { SUB_CAT_NO_IMAGE } from "@constant/noImage";
 import { useRouter } from 'next/router';
 import Item from "@element/horizontalItem";
@@ -507,7 +506,6 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
         </div>}
 
         {activeCuratedCategory.entityType === 'items' && <div className="content-wrap">
-          {/* <div id="scrolling-div" className="scrolling-div"></div> */}
           {/* categoriesPromotionBanner */}
           {categoriesPromotionBanner &&
             <div className="promotional-banner spacing-banner " id="promotional-banner">
@@ -521,9 +519,7 @@ function CategoryPage({ url_Segment, storeData, activeGroup, metaTags }) {
               </div>
             })}
           </div>
-          {/* <VerticalListing itemsList={curatedItemsList} type={activeCuratedCategory.type} /> */}
         </div>}
-        {/* <div className="common-grey-boder"></div> */}
       </div> : null}
       <FilterModal
         frompage="Curations"

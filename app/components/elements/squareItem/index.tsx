@@ -34,7 +34,7 @@ function squareItem({ item, config, handleClick }) {
                     //open images modal
                     <div className="boxtile" onClick={() => onImageItemClick(item)}>
                         <div className={config.withShadow ? 'boxpic box-shadow' : 'boxpic'}>
-                            <img src={item.imagePath} />
+                            <img src={item.imagePath} alt={item.name} />
                         </div>
                         <div className={`boxname ${windowRef()?.location?.host == 'jannez-beauty-salon.respark.in' && 'underline'}`}>
                             {item.name}
@@ -46,7 +46,7 @@ function squareItem({ item, config, handleClick }) {
                             <Link href={baseRouteUrl + itemUrl} shallow={true}>
                                 <div className="boxtile">
                                     <div className={config.withShadow ? 'boxpic box-shadow' : 'boxpic'}>
-                                        <img src={item.imagePath} />
+                                        <img src={item.imagePath} alt={item.name} />
                                     </div>
                                     <div className={`boxname ${windowRef()?.location?.host == 'jannez-beauty-salon.respark.in' && 'underline'}`}>
                                         {item.name}
@@ -58,7 +58,7 @@ function squareItem({ item, config, handleClick }) {
                                 // className={item.isSelected ? "boxtile active" : "boxtile"}
                                 id={itemUrl} onClick={() => handleClick(item)}>
                                 <div className={config.withShadow ? 'boxpic box-shadow' : 'boxpic'}>
-                                    <img src={item.imagePath} />
+                                    <img src={item.imagePath} alt={item.name} />
                                 </div>
                                 <div className={`boxname ${windowRef()?.location?.host == 'jannez-beauty-salon.respark.in' && 'underline'}`}>
                                     {item.name}

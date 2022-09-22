@@ -155,7 +155,7 @@ function FeedbackPage({ storeData, metaTags }) {
                             {feedbackAlreadySubmitted ? <>
                                 <div className="feedback-c-main-wrap">
                                     <div className="feedback-c-wrap">
-                                        <div><img className="submit-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '70%' }} /></div>
+                                        <div><img className="submit-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} alt="Respark" style={{ width: '70%' }} /></div>
                                         <div className="submit-status">{appointmentData?.guestName}</div>
                                         <div className="submit-subtext">&#128151; Feedback is already submitted. &#128151;</div>
                                         <div><button className="submit-button" onClick={() => redirectToHome()}>Explore More Services</button></div>
@@ -173,7 +173,7 @@ function FeedbackPage({ storeData, metaTags }) {
                                             {showFeedbackConfirmation ?
                                                 <div className="feedback-c-main-wrap">
                                                     <div className="feedback-c-wrap">
-                                                        <div><img className="submit-logo" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '70%' }} /></div>
+                                                        <div><img className="submit-logo" alt="Respark" src={`/assets/images/${activeGroup}/order_confirm.png`} style={{ width: '70%' }} /></div>
                                                         <div className="submit-status">{appointmentData?.guestName}</div>
                                                         <div className="submit-subtext">&#128151; Thank you for giving your valuable time. &#128151;</div>
                                                         <div className="submit-subtext">Your feedback improves the quality of our service.</div>
@@ -181,7 +181,7 @@ function FeedbackPage({ storeData, metaTags }) {
                                                     </div>
                                                 </div> :
                                                 <div className="feedback-wrap">
-                                                    <img src="/assets/images/feedback/thank-you.png" />
+                                                    <img src="/assets/images/feedback/thank-you.png" alt="Respark" />
                                                     <div className="subtext"><strong>{appointmentData?.guestName}</strong> for visiting us.</div>
                                                     <div className="requestMsg">Please submit your feedback for</div>
                                                     {servicesList.length != 0 && servicesList.map((serviceData: any, serviceIndex: number) => {
@@ -200,8 +200,8 @@ function FeedbackPage({ storeData, metaTags }) {
                                                                                     {feedbackType.typeOptions.map((typeOtion: any, typeOtionIndex: number) => {
                                                                                         return <div key={typeOtionIndex}>
                                                                                             <div onClick={(e) => setActiveFeedbackOption(serviceIndex, feedbackTypeIndex, typeOtionIndex)}>
-                                                                                                {typeOtion.isSelected == true && <div><img src="/assets/images/feedback/star_sel.png" /></div>}
-                                                                                                {(!typeOtion.isSelected || typeOtion.isSelected == false) && <div><img src="/assets/images/feedback/star.png" /></div>}
+                                                                                                {typeOtion.isSelected == true && <div><img src="/assets/images/feedback/star_sel.png" alt="Respark" /></div>}
+                                                                                                {(!typeOtion.isSelected || typeOtion.isSelected == false) && <div><img src="/assets/images/feedback/star.png" alt="Respark" /></div>}
                                                                                             </div>
                                                                                         </div>
                                                                                     })}

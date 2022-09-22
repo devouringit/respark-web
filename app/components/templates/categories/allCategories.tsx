@@ -6,7 +6,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 // for Accordion ends
 import ScrollingNavigation from '@module/topScrolleingNavigation';
 import SquareGrid from "@module/squareGrid";
-import VerticalListing from "@module/verticalListing";
 import { SUB_CAT_NO_IMAGE } from "@constant/noImage";
 import Link from 'next/link';
 import Item from '@element/horizontalItem';

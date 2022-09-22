@@ -27,7 +27,7 @@ function circularItem({ item, config, handleClick }) {
                 {/* //open images modal */}
                 <div className="roundthreetile" {...config} onClick={() => onImageItemClick(item)}>
                     <div className="roundthreepic">
-                        <img src={item.imagePath} />
+                        <img src={item.imagePath} alt={item.name} />
                     </div>
                     <div className="roundthreename">{item.name}</div>
                 </div>
@@ -35,7 +35,7 @@ function circularItem({ item, config, handleClick }) {
                 <Link href={baseRouteUrl + itemUrl} shallow={true}>
                     <div className="roundthreetile" {...config}>
                         <div className="roundthreepic">
-                            <img src={item.imagePath} />
+                            <img src={item.imagePath} alt={item.name} />
                         </div>
                         <div className="roundthreename">{item.name}</div>
                     </div>

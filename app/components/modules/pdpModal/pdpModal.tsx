@@ -666,7 +666,7 @@ function PdpModal() {
                     <div className='pricing-details-wrap'>
                         <div className="preview-wrap" onClick={() => onClickSocialIcon({ name: 'Copy Link' })}>
                             {!!(item?.pImage || (item?.imagePaths && item?.imagePaths?.length != 0 ? item?.imagePaths[0].imagePath : '')) && <div className="img-wrap">
-                                <img src={item?.pImage || (item?.imagePaths && item?.imagePaths?.length != 0 ? item?.imagePaths[0].imagePath : '')} />
+                                <img src={item?.pImage || (item?.imagePaths && item?.imagePaths?.length != 0 ? item?.imagePaths[0].imagePath : '')} alt={item.name} />
                             </div>}
                             <div className="title-wrap">
                                 <div className="title">{item?.pTitle || item?.name}</div>
