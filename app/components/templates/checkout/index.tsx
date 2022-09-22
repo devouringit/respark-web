@@ -17,11 +17,11 @@ import UserRegistrationModal from '@module/userRegistration';
 import { ORDER_REQUESTED } from '@constant/order';
 import { PRODUCT } from '@constant/types';
 import Backdrop from '@material-ui/core/Backdrop';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { getAllTemplates, markUserOptIn, sendWhatsappMsgMessage } from '@storeData/whatsapp';
 import { QUOTE_REQUEST_TO_OWNER, QUOTE_REQUEST_TO_USER } from '@constant/whatsappTemplates';
 import { markStoreOptInForWhatsapp } from '@storeData/store';
+import Script from 'next/script';
+import SvgIcon from '@element/svgIcon';
 
 function FaUserEdit(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 640 512" height="1em" width="1em" {...props}><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h274.9c-2.4-6.8-3.4-14-2.6-21.3l6.8-60.9 1.2-11.1 7.9-7.9 77.3-77.3c-24.5-27.7-60-45.5-99.9-45.5zm45.3 145.3l-6.8 61c-1.1 10.2 7.5 18.8 17.6 17.6l60.9-6.8 137.9-137.9-71.7-71.7-137.9 137.8zM633 268.9L595.1 231c-9.3-9.3-24.5-9.3-33.8 0l-37.8 37.8-4.1 4.1 71.8 71.7 41.8-41.8c9.3-9.4 9.3-24.5 0-33.9z" /></svg>;
@@ -433,6 +433,7 @@ function CheckoutPage() {
 
     return (
         <div className="cart-page-wrap main-wrapper">
+            <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
             {!showOrderConfirmation ?
                 <>
                     {cartItems.length != 0 ?
@@ -542,12 +543,6 @@ function CheckoutPage() {
 
 
                             <div className="order-btns-wrap">
-                                {/* <div className="subtotalsection">
-                                    <div className="subttlsecname">Total</div>
-                                    <div className="subttlsecprice" onClick={() => setShowTotalBreakdownPopup(true)}>{configData.currencySymbol} {pricingBreakdown.total}
-                                        <div className='info d-f-c' onClick={() => setShowTotalBreakdownPopup(true)}><InfoIcon /></div>
-                                    </div>
-                                </div> */}
                                 {(configData?.recieveOnlinePayment || configData?.cod) &&
                                     <div className="order-btns clearfix">
                                         {configData?.recieveOnlinePayment && <div className="proceedbtn" onClick={() => proceedOrder('')}>Pay now </div>}
@@ -571,7 +566,6 @@ function CheckoutPage() {
                 // Thank you for your purchase
                 <div className="emptyCart-main-wrap">
                     <div className="emptyCart-wrap order-confirmation-checkout">
-                        <div><img className="cart-logo" src={`/assets/Icons/confirmation_icon.png`} style={{ width: '70%' }} /></div>
                         <div className="cart-status">{userData.firstName}</div>
                         <div className="cart-subtext">Thank you for your purchase.</div>
                         {orderType == 'pickup' && <div className="cart-subtext">{configData.pickupDisclaimer}</div>}
@@ -609,7 +603,7 @@ function CheckoutPage() {
                 >
                     <div className="heading" >Pricing Details</div>
                     <div className="modal-close" onClick={() => setShowTotalBreakdownPopup(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="close" />
                     </div>
                     <div className='pricing-details-wrap d-f-c'>
                         <div className='heading'>

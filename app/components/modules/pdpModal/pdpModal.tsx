@@ -3,21 +3,14 @@ import React, { useState, useEffect } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // for Accordion ends
 import { PDP_NO_IMAGE } from "@constant/noImage";
 import ImageSlider from "@element/imageSlider";
 import { useSelector, useDispatch } from 'react-redux';
-import { replaceOrderIitems, syncLocalStorageOrder } from "app/redux/actions/order";
+import { replaceOrderIitems } from "app/redux/actions/order";
 import { windowRef } from "@util/window";
 import { disableLoader, enableLoader, showError, showSuccess, updatePdpItem, updatePdpItemStatus, updateStore, updateWhatsappTemplates } from "@context/actions";
-import Paper from '@material-ui/core/Paper';
-import Slide from '@material-ui/core/Slide';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useRouter } from 'next/router';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
-import ShareIcon from '@material-ui/icons/Share';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Backdrop from '@material-ui/core/Backdrop';
 import { PRODUCT } from "@constant/types";
 import { getAllTemplates, markUserOptIn, sendWhatsappMsgMessage } from "@storeData/whatsapp";
@@ -27,6 +20,7 @@ import { markStoreOptInForWhatsapp } from "@storeData/store";
 import UserRegistrationModal from "@module/userRegistration";
 import { QUOTE_REQUEST_TO_OWNER, QUOTE_REQUEST_TO_USER } from "@constant/whatsappTemplates";
 import { APISERVICE } from "@util/apiService/RestClient";
+import SvgIcon from "@element/svgIcon";
 
 function AiOutlineVideoCamera(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 1024 1024" height="1em" width="1em" {...props}>
@@ -45,9 +39,6 @@ function CopyClipboardIcon(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" /></svg>;
 }
 
-function BiShoppingBag(props) {
-    return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" /></svg>;
-}
 const shareIconList = [
     {
         name: 'Whatsapp',
@@ -492,18 +483,18 @@ function PdpModal() {
                 maxHeight: `${(item && item.type == keywords[PRODUCT]) ? 'calc(100vh - calc(100vh - 100%))' : 0}`
             }}>
                 <div className="modal-close" onClick={() => closePdpMOdal()}>
-                    <CloseIcon />
+                    <SvgIcon icon="close" />
                 </div>
                 <div className="modal-close modal-share" onClick={() => onSharePage()}>
-                    <ShareIcon />
+                    <SvgIcon icon="share" />
                 </div>
                 {(configData?.orderingOn && !configData?.storeOff && !configData?.readOnlyMenu && !!cartItemQuantity) && <div className="modal-close modal-cart" id="cart-item-count-pdp" onClick={() => router.push({ pathname: baseRouteUrl + 'cart' }, '', { shallow: true })}>
                     <div className="cart-item-count">{cartItemQuantity}</div>
-                    <BiShoppingBag />
+                    <SvgIcon icon="cart" />
                 </div>}
 
                 {item?.videoLink && <div className="modal-close vdo-icon" onClick={() => setShowVdoModal(true)}>
-                    <AiOutlineVideoCamera />
+                    <SvgIcon icon="camera" />
                 </div>}
                 <div className="pdp-page-content" >
                     <div className="prodpdpbanner">
@@ -582,7 +573,7 @@ function PdpModal() {
                         {(item?.benefits || item?.howToUse || item?.ingredients) && <div className="fullwidth">
                             {item?.benefits && <Accordion>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<SvgIcon icon="expand" />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header">
                                     <div className="accor-title">Features & Benefits</div>
@@ -594,7 +585,7 @@ function PdpModal() {
 
                             {item?.ingredients && <Accordion>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<SvgIcon icon="expand" />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header">
                                     <div className="accor-title">Ingredients</div>
@@ -606,7 +597,7 @@ function PdpModal() {
 
                             {item?.howToUse && <Accordion>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<SvgIcon icon="expand" />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header">
                                     <div className="accor-title">How To Use</div>
@@ -652,7 +643,7 @@ function PdpModal() {
                     style={{ height: `${showVdoModal ? '480px' : '0'}` }}
                 >
                     <div className="modal-close" onClick={() => setShowVdoModal(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className='d-f-c vdo-details-frame'>
                         <iframe className="vdo-frame" src={item?.videoLink} width="640" height="480" allow="autoplay"></iframe>
@@ -670,7 +661,7 @@ function PdpModal() {
                 >
                     <div className="heading" >Share </div>
                     <div className="modal-close" onClick={() => setOpenShareModal(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className='pricing-details-wrap'>
                         <div className="preview-wrap" onClick={() => onClickSocialIcon({ name: 'Copy Link' })}>

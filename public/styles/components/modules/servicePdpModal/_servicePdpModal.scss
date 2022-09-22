@@ -398,13 +398,10 @@
     text-transform: capitalize;
     font-family: var(--primary-font);
     letter-spacing: 0.5px;
-  }
-
-  .serv-pdp-servtypetime svg {
-    margin-bottom: -6px;
-    fill: var(--primary-color);
-    margin-right: 7px;
-    font-size: 20px;
+    color: var(--primary-color);
+    > span {
+      margin-right: 5px;
+    }
   }
 
   .serv-pdp-servtypedesc {

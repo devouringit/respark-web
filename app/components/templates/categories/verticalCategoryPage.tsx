@@ -7,8 +7,8 @@ import Link from 'next/link';
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Item from '@element/horizontalItem';
+import SvgIcon from '@element/svgIcon';
 // for Accordion ends
 function VerticalCategoryPage({ url_Segment, storeData }) {
 
@@ -42,7 +42,7 @@ function VerticalCategoryPage({ url_Segment, storeData }) {
                     return <div className="category-data-wrap clearfix" key={curatedCatIndex}>
                         <Accordion>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
+                                expandIcon={<SvgIcon icon="expand" />}
                                 aria-controls=""
                                 id={curetedCategoryData.name}>
                                 <div className="category-name">{curetedCategoryData.name}</div>
@@ -56,7 +56,7 @@ function VerticalCategoryPage({ url_Segment, storeData }) {
                                                     return <div key={subCatIndex} className="sub-cat-wrap">
                                                         <Accordion>
                                                             <AccordionSummary
-                                                                expandIcon={<ExpandMoreIcon />}
+                                                                expandIcon={<SvgIcon icon="expand" />}
                                                                 aria-controls=""
                                                                 id="">
                                                                 <div className="category-name sub-category-name">{subCategoryData.name}</div>

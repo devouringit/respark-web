@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import { Button } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { useSelector } from 'react-redux';
 import { ORDER_PERCENTAGE_DISCOUNT_TYPE, ORDER_FIX_DISCOUNT_TYPE, ORDER_COMPLETED, ORDER_ACCEPTED } from '@constant/order';
-
 
 function IoIosArrowBack(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 512 512" height="1em" width="1em" {...props}><path d="M217.9 256L345 129c9.4-9.4 9.4-24.6 0-33.9-9.4-9.4-24.6-9.3-34 0L167 239c-9.1 9.1-9.3 23.7-.7 33.1L310.9 417c4.7 4.7 10.9 7 17 7s12.3-2.3 17-7c9.4-9.4 9.4-24.6 0-33.9L217.9 256z" /></svg>;

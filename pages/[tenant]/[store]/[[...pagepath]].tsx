@@ -7,14 +7,13 @@ import React, { useEffect, useState } from "react";
 import { wrapper } from 'app/redux/store/store'
 import { updateStore } from "app/redux/actions/store";
 import { updateGroupStatus, updateCurrentPage, updateErrorStatus } from "app/redux/actions/common";
-import { getStoreData, getStoreConfigs, getTenantDataByTenantId } from '@storeData/store';
+import { getStoreConfigs, getTenantDataByTenantId } from '@storeData/store';
 import { parseCookies } from "@util/utils";
 import AllCategoryPage from '@template/categories/allCategories';
-import { DEFAULT_GROUP_TYPE } from "@constant/defaultValues";
 import { getMetaTagsData } from '@util/metaTagsService';
 import HeadMeata from "@module/headMetaTags";
 import Home from '@template/Home';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import CartPage from '@template/cartPage';
 import { syncLocalStorageOrder } from "app/redux/actions/order";
 import { windowRef } from "@util/window";
@@ -227,7 +226,6 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     if (windowRef) {
       dispatch(syncLocalStorageAppointment());
       dispatch(syncLocalStorageOrder());
-      // registerServiceWorker()
     }
   }, [windowRef, storeData])
 
@@ -237,18 +235,6 @@ const PagePath = ({ storeData, store, activeGroup, metaTags }) => {
     }
   }, [cookie])
 
-  const registerServiceWorker = () => {
-    window.addEventListener("load", () => {
-      window.navigator.serviceWorker
-        .register("/service-worker.js")
-        .then(() => {
-          console.log("Service worker registered");
-        })
-        .catch((err) => {
-          console.log("Service worker registration failed", err);
-        });
-    });
-  }
   return <>
     <HeadMeata {...metaTags} />
     {enableDefaultLayout ? <Default>

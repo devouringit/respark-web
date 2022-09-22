@@ -15,10 +15,10 @@ import { updateUserData } from 'app/redux/actions/user';
 import { getUserByTenantAndEmail, getUserByTenantAndMobile, updateUser } from '@storeData/user';
 import { getGenericImages } from '@util/utils';
 import DatePicker from "react-datepicker";
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { GoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import FacebookLogin from 'react-facebook-login';
+import SvgIcon from '@element/svgIcon';
 
 
 
@@ -448,7 +448,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             <div className="reg-page-outer clearfix">
                                 <DialogTitle id="simple-dialog-title" className="login-heading">{heading}</DialogTitle>
                                 {fromPage != 'HOME' && <div className="modal-close" onClick={() => handleClose()}>
-                                    <img src="/assets/Icons/cancel_button.png" />
+                                    <SvgIcon icon="close" />
                                 </div>}
                                 <div className="fullwidth">
                                     <div id="phone" className={`input-wrap-with-label ${error.id == 'phone' ? 'error' : ''}`}>
@@ -548,7 +548,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                     </div>}
                     {showWellcomeScreen && <div className="wellcome-wrap" style={{ backgroundImage: ` url("/assets/images/welcome_back_bg.png")` }}>
                         <div className="modal-close" onClick={() => handleClose(userFromCookies)}>
-                            <img src="/assets/Icons/cancel_button.png" />
+                            <SvgIcon icon="close" />
                         </div>
                         <div className="fullwidth user-well-wrap">
                             <div className="user-name">{userFromCookies?.firstName}</div>
@@ -568,7 +568,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             style={{ height: `${open ? `${showSignInPage ? '400px' : '450px'}` : '0'}` }}
                         >
                             <div className="modal-close" onClick={() => handleClose()}>
-                                <CloseIcon />
+                                <SvgIcon icon="close" />
                             </div>
                             {showSignInPage ? <>
                                 <div className="heading" >Sign In</div>

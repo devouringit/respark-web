@@ -12,17 +12,18 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
   if (storeData?.configData?.storeConfig?.manifestConfig) {
     const theme_color = '';
     const manifestConfig = storeData.configData.storeConfig.manifestConfig;
+    const start_url = manifestConfig.start_url != "/" ? manifestConfig.start_url : ((storeData.host.includes('localhost') ? `http://${storeData.host}${storeData.baseRouteUrl}` : `https://${storeData.host}${storeData.baseRouteUrl}` || '/'))
     manifestString = JSON.stringify({
       ...{
-        "name": `${manifestConfig.name}` || `${storeData.tenant}, ${storeData.name}` || 'Respark',
-        "short_name": `${manifestConfig.shortName}` || `${storeData.tenant}` || 'Respark',
-        "start_url": storeData.host.includes('localhost') ? `http://${storeData.host}${storeData.baseRouteUrl}` : `https://${storeData.host}${storeData.baseRouteUrl}` || '/',
-        // "start_url": window.location.origin,
+        "name": `${manifestConfig.name}` || 'Respark',
+        "short_name": manifestConfig.short_name || `${storeData.tenant}` || 'Respark',
+        "start_url": start_url,
+        "scope": start_url,
         "display": "standalone",
-        "background_color": theme_color || "#dee1ec",
-        "theme_color": theme_color || "#dee1ec",
+        "background_color": manifestConfig.background_color || theme_color || "#dee1ec",
+        "theme_color": manifestConfig.theme_color || theme_color || "#dee1ec",
         "orientation": "portrait",
-        "description": storeData.description,
+        "description": manifestConfig.description || storeData.description,
         "id": storeData.tenantId,
         "icons": [
           {
@@ -135,8 +136,6 @@ export default function HeadMetaTags({ title, description, image, siteName, stor
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
       <meta name="robots" content="index, follow" />
       <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
-      <link rel="icon" href="/favicon.ico" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     </Head>
   );
 }

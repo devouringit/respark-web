@@ -11,9 +11,8 @@ import HorizontalProductCard from '@module/horizontalProductCard';
 import { updateUserData } from '@context/actions/user';
 import ConfirmationModal from '@module/confirmationModal';
 import UserRegistrationModal from '@module/userRegistration';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
+import SvgIcon from '@element/svgIcon';
 
 function BiArrowBack(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M21 11L6.414 11 11.707 5.707 10.293 4.293 2.586 12 10.293 19.707 11.707 18.293 6.414 13 21 13z" /></svg>;
@@ -124,7 +123,7 @@ function CartPage() {
                         <div className='total-wrap d-f-c'>
                             <div className='title'>Total : </div>
                             <div className='value' onClick={() => setShowTotalBreakdownPopup(true)}> {configData.currencySymbol}{pricingBreakdown.total}</div>
-                            <div className='icon d-f-c' onClick={() => setShowTotalBreakdownPopup(true)}><InfoIcon /></div>
+                            <div className='icon d-f-c' onClick={() => setShowTotalBreakdownPopup(true)}><SvgIcon icon="info" /></div>
                         </div>
                         <div className='icon-wrap' onClick={checkout}>
                             <>Checkout</>
@@ -169,7 +168,7 @@ function CartPage() {
                 >
                     <div className="heading" >Pricing Details</div>
                     <div className="modal-close" onClick={() => setShowTotalBreakdownPopup(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="close" />
                     </div>
                     <div className='pricing-details-wrap d-f-c'>
                         <div className='heading'>

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import { Button } from '@material-ui/core';
-import { useCookies } from 'react-cookie';
-import { AddAlarmOutlined } from '@material-ui/icons';
 import { updateUserAddress } from '@storeData/user';
 import { disableLoader, enableLoader } from '@context/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { showSuccess, showError } from 'app/redux/actions/alert';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
+import SvgIcon from '@element/svgIcon';
 
 function AddressModal({ open, handleClose, addressToEdit, userId }) {
 
@@ -60,10 +55,9 @@ function AddressModal({ open, handleClose, addressToEdit, userId }) {
                     style={{ height: open ? '310px' : '0px' }}
                 >
                     <div className="modal-close" onClick={closeModal}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className="address-modal">
-                        {/* <img className="top-icon" src="/assets/Icons/add_address_icon.png" /> */}
                         {addressToEdit?.id ? <div className='heading'>Update {addressToEdit?.type} Address</div> : <div className='heading'>Add {addressToEdit?.type} Address</div>}
                         <div className="address-form">
                             <div className="input-wrap">

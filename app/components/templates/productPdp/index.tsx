@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // for Accordion ends
 import { PDP_NO_IMAGE } from "@constant/noImage";
 import ImageSlider from "@element/imageSlider";
@@ -12,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { replaceOrderIitems, syncLocalStorageOrder } from "app/redux/actions/order";
 import { windowRef } from "@util/window";
 import { showSuccess } from "@context/actions";
+import SvgIcon from "@element/svgIcon";
 
 function ProductPdp({ item, activeGroup }) {
   const [activeVariation, setActiveVariation] = useState((item.variations && item.variations?.length !== 0) ? item.variations[0] : null);
@@ -104,7 +104,7 @@ function ProductPdp({ item, activeGroup }) {
   return (
     <div className="prodpdpcontainer">
       <div className="modal-close" onClick={() => router.back()}>
-        <img src={`/assets/Icons/${activeGroup}/cancel_btn.png`} />
+        <SvgIcon icon="close" />
       </div>
       <div className="prodpdpbanner">
         <ImageSlider itemsList={item.imagePaths} config={{ redirection: false }} no_image={PDP_NO_IMAGE} />
@@ -164,7 +164,7 @@ function ProductPdp({ item, activeGroup }) {
 
           {item.description && <Accordion>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<SvgIcon icon="timer" />}
               aria-controls="panel1a-content"
               id="panel1a-header">
               <div className="accor-title">Description</div>
@@ -176,7 +176,7 @@ function ProductPdp({ item, activeGroup }) {
 
           {item.benefits && <Accordion>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<SvgIcon icon="timer" />}
               aria-controls="panel1a-content"
               id="panel1a-header">
               <div className="accor-title">Features & Benefits</div>
@@ -188,7 +188,7 @@ function ProductPdp({ item, activeGroup }) {
 
           {item.ingredients && <Accordion>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<SvgIcon icon="timer" />}
               aria-controls="panel1a-content"
               id="panel1a-header">
               <div className="accor-title">Ingredients</div>
@@ -200,7 +200,7 @@ function ProductPdp({ item, activeGroup }) {
 
           {item.howToUse && <Accordion>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<SvgIcon icon="timer" />}
               aria-controls="panel1a-content"
               id="panel1a-header">
               <div className="accor-title">How To Use</div>

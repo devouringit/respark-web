@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
+import SvgIcon from '@element/svgIcon';
 
 function ConfirmationModal({ openModal, title, message, buttonText, handleClose, secondaryButtonText = '' }) {
 
@@ -21,7 +21,7 @@ function ConfirmationModal({ openModal, title, message, buttonText, handleClose,
                 <div className="backdrop-modal-content confirmation-modal" style={{ height: openModal ? '200px' : '0px' }}>
                     <div className="heading">{title}</div>
                     <div className="modal-close" onClick={() => handleClose(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className="member-modal">
                         <div className='body-text'>{message}</div>

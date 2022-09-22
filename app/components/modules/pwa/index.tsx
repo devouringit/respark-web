@@ -1,6 +1,6 @@
+import SvgIcon from '@element/svgIcon';
 import Backdrop from '@material-ui/core/Backdrop'
 import React from 'react'
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 
 function IoIosShare(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 512 512" height="1em" width="1em" {...props}><path d="M376 176H269v146.6c0 7-5.4 13-12.4 13.4-7.5.4-13.6-5.6-13.6-13V176H136c-22 0-40 18-40 40v208c0 22 18 40 40 40h240c22 0 40-18 40-40V216c0-22-18-40-40-40zM269 92.1l47.9 47.2c5.1 5 13.3 5 18.4-.1 5-5.1 5-13.3-.1-18.4l-70-69c-2.5-2.4-5.8-3.7-9.1-3.7-1.7 0-3.4.3-5 1-1.5.6-2.9 1.6-4.1 2.7l-70 69c-5.1 5-5.2 13.3-.1 18.4 5 5.1 13.3 5.2 18.4.1L243 92.1V176h26V92.1z" /></svg>;
@@ -29,7 +29,7 @@ function PWAPrompt({ showPrompt, type, promptEvent, handlePromptClose }) {
                 <div className="backdrop-modal-content " style={{ height: showPrompt ? '230px' : '0px' }}>
                     <div className="heading">Install</div>
                     <div className="modal-close" onClick={() => handlePromptClose(false)}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className="member-modal">
                         <div className='body-text'>Installing uses almost no storage and provides a quick way to return to this app</div>

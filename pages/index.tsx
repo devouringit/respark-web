@@ -32,7 +32,6 @@ const TenantPage = ({ tenantData }) => {
                 {/* application meta tags */}
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
                 <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <div className='tenant-page-wrap stores-list-wrap d-f-c'>

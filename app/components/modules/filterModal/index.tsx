@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import Slider from '@material-ui/core/Slider';
 import Radio from '@material-ui/core/Radio';
 import { filterCategory, getItemsList } from '@util/dataFilterService/itemDataService';
 import { useSelector } from 'react-redux';
+import SvgIcon from '@element/svgIcon';
 
 function FilterModal({ frompage, filterConfig, activeFilters, openModal, handleClose, type }) {
     const [priceRange, setPriceRangeValue] = React.useState<number[]>([1, 100]);
@@ -110,7 +110,7 @@ function FilterModal({ frompage, filterConfig, activeFilters, openModal, handleC
             >
                 <div className="backdrop-modal-content confirmation-modal" style={{ height: openModal ? '500px' : '0px' }}>
                     <div className="modal-close" onClick={() => handleClose()}>
-                        <CloseIcon />
+                        <SvgIcon icon="closeLarge" />
                     </div>
                     <div className="member-modal">
                         <div className='filter-modal-content-wrap'>

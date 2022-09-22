@@ -13,9 +13,11 @@ class MyDocument extends Document {
         <Head>
           <link rel="manifest" id="manifest" href="/manifest.json" />
           <meta name="theme-color" id="theme-color" content="#ff0185" />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" />
+          {/* <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> */}
+          {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" /> */}
           {/* <!--razor pay--> */}
-          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+          {/* <script defer async></script> */}
+          {/* <script defer async src="https://checkout.razorpay.com/v1/checkout.js"></script> */}
         </Head>
         <body>
           <Main />

@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
-import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
 import { PDP_NO_IMAGE } from "@constant/noImage";
 import ImageSlider from "@element/imageSlider";
 import HeadMetaTags from "@module/headMetaTags";
 import router from "next/router";
 import { useSelector } from 'react-redux';
+import SvgIcon from "@element/svgIcon";
 
 function ServicePdp({ item, activeGroup }) {
 
@@ -21,7 +21,7 @@ function ServicePdp({ item, activeGroup }) {
   return (
     <div className="servicepdpcontainer">
       <div className="modal-close" onClick={() => router.back()}>
-        <img src={`/assets/Icons/${activeGroup}/cancel_btn.png`} />
+        <SvgIcon icon="close" />
       </div>
       <HeadMetaTags title={item.name} description={item.description} image="" siteName='' storeData='' />
       <div className="prodpdpbanner">
@@ -32,7 +32,7 @@ function ServicePdp({ item, activeGroup }) {
         <div className="serv-pdp-servtype">
           <div className="serv-pdp-servtypename">{item.name}</div>
           {item.duration !== 0 && <div className="serv-pdp-servtypetime">
-            <AccessTimeOutlinedIcon />
+            <SvgIcon icon="timer" />
             {item.duration} {item.durationType}
           </div>}
         </div>

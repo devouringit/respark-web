@@ -1,10 +1,10 @@
 import React, { useEffect, useState, SyntheticEvent, MouseEvent } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import Alert from '@material-ui/lab/Alert';
 import { useSelector } from 'react-redux';
 import Slide, { SlideProps } from '@material-ui/core/Slide';
+import SvgIcon from '@element/svgIcon';
 type TransitionProps = Omit<SlideProps, 'direction'>;
 
 
@@ -59,7 +59,7 @@ function AlertNotification() {
                     //             setDisplayAlert(false);
                     //         }}
                     //     >
-                    //         <CloseIcon fontSize="inherit" />
+                    // <SvgIcon icon="closeLarge" />
                     //     </IconButton>
                     // }
                     >{alert.message}</Alert>

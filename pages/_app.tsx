@@ -12,7 +12,6 @@ import Router from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import Loader from '@module/loader';
 import AlertNotification from '@module/alert';
-import { updateManifestFile } from '@util/utils';
 import HeadMetaTags from '@module/headMetaTags';
 import { windowRef } from '@util/window';
 //Binding events. 

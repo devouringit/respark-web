@@ -1,26 +1,16 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import { Backdrop, Button } from '@material-ui/core';
+import { Backdrop } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from "react-cookie";
-import { APISERVICE } from "@api/RestClient";
-import { enableLoader, disableLoader, updateGroupStatus, updateGenericImages } from "app/redux/actions/common";
+import { enableLoader, disableLoader, updateGenericImages } from "app/redux/actions/common";
 import { showSuccess, showError } from 'app/redux/actions/alert';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import { updateUserData } from 'app/redux/actions/user';
 import { getUserByTenantAndEmail, getUserByTenantAndMobile, updateUser } from '@storeData/user';
 import { getGenericImages } from '@util/utils';
 import DatePicker from "react-datepicker";
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { GoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import FacebookLogin from 'react-facebook-login';
-import { windowRef } from '@util/window';
-
+import SvgIcon from '@element/svgIcon';
 
 
 function BsPersonFill(props) {
@@ -480,7 +470,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             style={{ height: `${(open && (showRegistrationScreen || showWellcomeScreen)) ? 'calc(100vh - calc(100vh - 100%))' : '0'}` }}
                         >
                             {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
-                                <CloseIcon />
+                                <SvgIcon icon="close" />
                             </div>}
                             <div className="logo-header">
                                 <div className="logo">
@@ -650,12 +640,12 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                             style={{ height: `${open ? `${showSignInPage ? '370px' : signUpPageHeight}` : '0'}` }}
                         >
                             {/* {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
-                                <CloseIcon />
+                                <SvgIcon icon="close" />
                             </div>} */}
                             {showSignInPage ? <>
                                 <div className="heading logo-header" >Sign In
                                     {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
-                                        <CloseIcon />
+                                        <SvgIcon icon="close" />
                                     </div>}
                                 </div>
                                 <div className="sub-heading" >{heading}</div>
@@ -700,7 +690,7 @@ function UserRegistrationModal({ fromPage = '', handleResponse, isApppGrpChangeO
                                 </div>
                             </> : <>
                                 <div className="heading logo-header" >Sign Up  {(!userConfig?.userRegMandatory || fromPage != 'INITIAL_LOAD') && <div className="modal-close" onClick={() => handleClose()}>
-                                    <CloseIcon />
+                                    <SvgIcon icon="close" />
                                 </div>}
                                 </div>
                                 <div className="sub-heading" >{heading}</div>

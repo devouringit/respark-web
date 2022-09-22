@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
-import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
 import { PDP_NO_IMAGE } from "@constant/noImage";
 import ImageSlider from "@element/imageSlider";
 import HeadMetaTags from "@module/headMetaTags";

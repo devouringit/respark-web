@@ -15,13 +15,11 @@ import { windowRef } from '@util/window';
 import { APPOINTMENT_CREATED, APPOINTMENT_TYPE } from '@constant/appointment';
 import { createSlots, getUpcommingDates } from '@util/utils';
 import Backdrop from '@material-ui/core/Backdrop';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
 import { markUserOptInForWhatsapp, updateUser } from '@storeData/user';
 import { markStoreOptInForWhatsapp } from '@storeData/store';
 import { getAllTemplates, markUserOptIn, sendWhatsappMsgMessage } from '@storeData/whatsapp';
 import { QUOTE_REQUEST_TO_OWNER, QUOTE_REQUEST_TO_USER } from '@constant/whatsappTemplates';
-
+import SvgIcon from '@element/svgIcon';
 
 function IoMdSearch(props) {
     return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 512 512" height="1em" width="1em" {...props}><path d="M337.509 305.372h-17.501l-6.571-5.486c20.791-25.232 33.922-57.054 33.922-93.257C347.358 127.632 283.896 64 205.135 64 127.452 64 64 127.632 64 206.629s63.452 142.628 142.225 142.628c35.011 0 67.831-13.167 92.991-34.008l6.561 5.487v17.551L415.18 448 448 415.086 337.509 305.372zm-131.284 0c-54.702 0-98.463-43.887-98.463-98.743 0-54.858 43.761-98.742 98.463-98.742 54.7 0 98.462 43.884 98.462 98.742 0 54.856-43.762 98.743-98.462 98.743z" /></svg>;
@@ -596,8 +594,8 @@ function Appointment() {
             {!showAppointmentSuccess ?
                 <div className="main-wrapper appointment-wrap">
                     <div className="backwrap">
-                        <div className="backwrap-content">
-                            <img className="icon" src="/assets/Icons/back_arrow.png" onClick={() => router.push({ pathname: baseRouteUrl + 'home' }, '', { shallow: true })} />
+                        <div className=" backwrap-content">
+                            <span onClick={() => router.push({ pathname: baseRouteUrl + 'home' }, '', { shallow: true })}><SvgIcon icon="backArrow" shape='circle' height={30} width={30} /></span>
                             <span>Appointment</span>
                         </div>
 
@@ -631,7 +629,7 @@ function Appointment() {
                                 >
                                     <div className="heading" >Add services</div>
                                     <div className="modal-close" onClick={onClickServiceInput}>
-                                        <CloseIcon />
+                                        <SvgIcon icon="close" />
                                     </div>
                                     <div className='service-search-input-wrap'>
                                         <input className="inputbox"
@@ -675,7 +673,7 @@ function Appointment() {
                                     </div>}
                                 </div>
                                 <div className="service-cancel-icon" onClick={() => removeService(index)} >
-                                    <CloseIcon />
+                                    <SvgIcon icon="close" />
                                 </div>
                             </div>
                         })}
@@ -689,7 +687,7 @@ function Appointment() {
                                     <div className='service-name'>{selectedExpert?.firstName} {selectedExpert?.lastName} </div>
                                 </div>
                                 <div className="service-cancel-icon" onClick={() => { setSelectedExpert(null); onClickExpertInput() }}>
-                                    <CloseIcon />
+                                    <SvgIcon icon="close" />
                                 </div>
                             </div>
                         </div> :
@@ -697,7 +695,7 @@ function Appointment() {
                                 <input className="inputbox" value={''}
                                     placeholder={`${selectedExpert ? `${selectedExpert?.firstName} ${selectedExpert?.lastName}` : configData.storeConfig?.appointmentConfig?.showExpertAsSalon ? 'Select salon location' : 'Select Expert'}`}
                                     readOnly onClick={onClickExpertInput} />
-                                <img className={activeInput == 'expert' ? "input-icon active" : "input-icon"} src="/assets/Icons/back_arrow.png" onClick={onClickExpertInput} />
+                                <span className={activeInput == 'expert' ? "input-icon active" : "input-icon"} onClick={onClickExpertInput}><SvgIcon icon="backArrow" /></span>
                             </>
                         }
 
@@ -725,7 +723,7 @@ function Appointment() {
                                     <div className='service-name'>{selectedStoreLocation} </div>
                                 </div>
                                 <div className="service-cancel-icon" onClick={() => { setSelectedStoreLocation(''); onClickStoreLocationInput() }}>
-                                    <CloseIcon />
+                                    <SvgIcon icon="close" />
                                 </div>
                             </div>
                         </div> :
@@ -734,7 +732,7 @@ function Appointment() {
                                     readOnly
                                     placeholder={`${selectedStoreLocation ? `${selectedStoreLocation}` : 'Select store location'}`}
                                     onClick={onClickStoreLocationInput} />
-                                <img className={activeInput == 'store-location' ? "input-icon active" : "input-icon"} src="/assets/Icons/back_arrow.png" onClick={onClickStoreLocationInput} />
+                                <div className={activeInput == 'store-location' ? "input-icon active" : "input-icon"} onClick={onClickStoreLocationInput} ><SvgIcon icon="backArrow" /></div>
                             </>
                         }
 
@@ -782,7 +780,7 @@ function Appointment() {
                         <div className='total-wrap d-f-c'>
                             <div className='title'>Total : </div>
                             <div className='value' onClick={() => setShowTotalBreakdownPopup(true)}>{configData.currencySymbol} {appointmentObj.total}</div>
-                            <div className='info d-f-c' onClick={() => setShowTotalBreakdownPopup(true)}><InfoIcon /></div>
+                            <div className='info d-f-c' onClick={() => setShowTotalBreakdownPopup(true)}><SvgIcon icon="info" /></div>
                         </div>
                         <button className="primary-btn rounded-btn" onClick={() => onConfirmBookingClick(userData)}>Confirm Booking</button>
                     </div>}
@@ -796,10 +794,9 @@ function Appointment() {
 
                         <div className="backdrop-modal-content" style={{ height: `${showAppointmentConfirmation ? '580px' : '0'}` }}>
                             <div className="modal-close" onClick={() => setShowAppointmentConfirmation(false)}>
-                                <CloseIcon />
+                                <SvgIcon icon="close" />
                             </div>
                             <div className='appointment-checkout-content'>
-                                <img className="top-icon" src="/assets/Icons/apt_con_icon_1.png" />
                                 <div className="heading">Appointment details</div>
                                 <div className="date-time card">
                                     <div className='sub-heading'>Date & Time</div>
@@ -840,7 +837,7 @@ function Appointment() {
                                         style={{ height: showAddMemberModal ? '250px' : '0px' }}
                                     >
                                         <div className="modal-close" onClick={closeMemberForm}>
-                                            <CloseIcon />
+                                            <SvgIcon icon="close" />
                                         </div>
                                         <div className="member-modal">
                                             <div className='heading'>Add Member</div>
@@ -899,7 +896,7 @@ function Appointment() {
                         >
                             <div className="heading" >Pricing Details</div>
                             <div className="modal-close" onClick={() => setShowTotalBreakdownPopup(false)}>
-                                <CloseIcon />
+                                <SvgIcon icon="close" />
                             </div>
                             <div className='pricing-details-wrap d-f-c'>
                                 <div className='heading'>
@@ -923,7 +920,6 @@ function Appointment() {
                 : <>
                     {appointmentOrder && <div className="main-wrapper appointment-wrap" style={{ background: 'transparent' }}>
                         <div className='appointment-checkout-content'>
-                            <img className="top-icon" src="/assets/Icons/apt_con_icon_1.png" />
                             <div className="username instruction">Hi {userData?.firstName} your appointment has been initiated for the below services.</div>
                             <div className="date-time card">
                                 <div className='sub-heading'>Date & Time</div>

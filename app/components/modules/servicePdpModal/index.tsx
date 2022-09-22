@@ -8,11 +8,10 @@ import { showError, showSuccess, updatePdpItem, updatePdpItemStatus } from "@con
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Slide from '@material-ui/core/Slide';
-import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
 import { useRouter } from 'next/router';
 import { replaceAppointmentServices } from "@context/actions/appointment";
-import CloseIcon from '@material-ui/icons/CloseOutlined';
 import { SERVICE } from "@constant/types";
+import SvgIcon from "@element/svgIcon";
 
 function ServicePdpModal() {
     const router = useRouter();
@@ -259,7 +258,7 @@ function ServicePdpModal() {
                             <ClickAwayListener onClickAway={closePdpMOdal}>
                                 <div>
                                     <div className="modal-close" onClick={() => closePdpMOdal()}>
-                                        <CloseIcon />
+                                        <SvgIcon icon="close" />
                                     </div >
                                     {/* {item?.iTag && <div className="ribbon ribbon-top-right"><span>{item?.iTag}</span></div>} */}
 
@@ -273,8 +272,8 @@ function ServicePdpModal() {
                                             <div className="serv-pdp-details-wrap clearfix">
                                                 <div className="serv-pdp-servtype">
                                                     <div className="serv-pdp-servname">{item?.categoryName}</div>
-                                                    {item?.duration !== 0 && <div className="serv-pdp-servtypetime">
-                                                        <AccessTimeOutlinedIcon />
+                                                    {item?.duration !== 0 && <div className="serv-pdp-servtypetime d-f-c">
+                                                        <SvgIcon icon="timer" />
                                                         {item?.duration} {item?.durationType}
                                                     </div>}
                                                 </div>

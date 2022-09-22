@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DehazeIcon from '@material-ui/icons/Dehaze';
 import UserRegistrationModal from "@module/userRegistration";
 import { useDispatch, connect } from 'react-redux';
 import Link from "next/link";
@@ -19,12 +17,11 @@ import { updateUserData } from "@context/actions/user";
 import { useRouter } from 'next/router';
 import ConfirmationModal from "@module/confirmationModal";
 import { GENERIC_IMAGE_APP_KEY } from "@constant/common";
-import CloseIcon from '@material-ui/icons/CloseOutlined';
-import { getGenericImages, getMobileOperatingSystem, hex2rgb, updateManifestFile } from "@util/utils";
+import { getMobileOperatingSystem } from "@util/utils";
 import Router from 'next/router';
 import { googleLogout } from "@react-oauth/google";
-import Backdrop from "@material-ui/core/Backdrop";
 import PWAPrompt from "@module/pwa";
+import SvgIcon from "@element/svgIcon";
 
 const useStyles = makeStyles({
   list: {
@@ -90,10 +87,6 @@ function BsExclamationSquare(props) {
 
 function BiSearchAlt(props) {
   return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" /><path d="M11.412,8.586C11.791,8.966,12,9.468,12,10h2c0-1.065-0.416-2.069-1.174-2.828c-1.514-1.512-4.139-1.512-5.652,0 l1.412,1.416C9.346,7.83,10.656,7.832,11.412,8.586z" /></svg>;
-}
-
-function BiShoppingBag(props) {
-  return <svg stroke="currentColor" fill="currentColor" strokeWidth={0} viewBox="0 0 24 24" height="1em" width="1em" {...props}><path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11 C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z" /></svg>;
 }
 
 function BiPhone(props) {
@@ -454,7 +447,7 @@ function MainHeader({ storeData, storeMetaData }) {
           {(configData?.orderingOn && !configData?.storeOff && !configData?.readOnlyMenu) &&
             <div className="icon-wrap cart-icon" onClick={() => onClickNavItem({ route: 'cart' })}>
               {(cartItems && cartItems.length != 0) && <div className="cart-item-count" id="cart-item-count">{cartItemQuantity}</div>}
-              <div className="icon "><BiShoppingBag /></div>
+              <div className="icon "><SvgIcon icon="cart" /></div>
             </div>}
 
           <div className="icon-wrap" onClick={(e) => toggleDrawer(e)}>
@@ -465,7 +458,7 @@ function MainHeader({ storeData, storeMetaData }) {
         <Drawer className="hamburger-drawer" anchor={"right"} open={openDrawer} onClose={(e) => toggleDrawer(e)}>
           <div className="drawer-wrap">
             <div className="drawclose" onClick={(e) => toggleDrawer(e)}>
-              <CloseIcon />
+              <SvgIcon icon="closeLarge" />
             </div>
             {userData ? <>
               <div className="user-details">

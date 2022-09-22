@@ -1,6 +1,7 @@
 import { PRODUCT, SERVICE } from '@constant/types';
 import { updateSearchStatus } from '@context/actions';
 import Item from '@element/horizontalItem';
+import SvgIcon from '@element/svgIcon';
 import HorizontalProductCard from '@module/horizontalProductCard';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -120,9 +121,9 @@ function SearchPage() {
         <div className="search-wrapper">
             <div className="mainheaderblock">
                 <div className="searchwrap">
-                    <img className="icon" onClick={() => handleClose()} src="/assets/Icons/back_arrow.png" />
+                    <div onClick={() => handleClose()} ><SvgIcon icon="backArrow" /></div>
                     <input ref={itemSearchRef} className="inputToSearch" value={itemToSearch} onChange={(e) => searchItems(e.target.value)} placeholder="Search service or product" />
-                    {itemToSearch && <img className="icon" onClick={() => searchItems('')} src="/assets/Icons/cancel.png" />}
+                    {itemToSearch && <div onClick={() => searchItems('')} ><SvgIcon icon="close" /></div>}
                 </div>
             </div>
 
