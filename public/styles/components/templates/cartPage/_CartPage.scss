@@ -2,13 +2,13 @@
   width: 100%;
   position: relative;
   float: left;
-  background: unset;
+  background: white;
   // background: radial-gradient(
   //   circle,
   //   rgba(238, 174, 202, 0.2676000702247191) 0,
   //   rgba(148, 187, 233, 0.2198472612359551) 83%
   // );
-  padding-top: 65px;
+  padding: 0 15px;
   height: calc(100vh - calc(100vh - 100%));
   overflow-x: hidden;
   overflow-y: auto;
@@ -20,12 +20,12 @@
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 15px;
-    padding: 15px;
+    padding: 15px 0;
     font-family: var(--primary-font);
     display: flex;
     align-items: center;
     letter-spacing: 0.2px;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 1;
     background: white;
@@ -108,9 +108,7 @@
   .itemslistcover {
     width: 100%;
     float: left;
-    padding: 0 15px;
     padding-bottom: 65px;
-
     .product-list-cover-wrap {
       background: #ffffff9c;
       padding: 12px;

@@ -36,9 +36,6 @@ import ServicePdpModal from '@module/servicePdpModal';
 import InvoicePage from '@template/invoice';
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req, res, query }) => {
-  console.log(req)
-  // const appLink: any = req.headers.referer;
-  // const appLink: any = req.headers.referer || `${req.headers.host}${baseRouteUrl}`;
   res.setHeader(
     'Cache-Control',
     'public, s-maxage=10, stale-while-revalidate=59'
@@ -87,10 +84,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async ({ store, req
         storeData = response.storeData;
         let { storeMetaData } = response;
         if (!storeMetaData) storeMetaData = {};
-        storeData.description = storeMetaData.description;
-        storeData.name = storeMetaData.name;
-        storeData.url = storeMetaData.sUrl || '/';
-        storeData.baseRouteUrl = baseRouteUrl;
         storeData.configData = response.configData;
         storeData.keywords = tenantData.keywords;
         if (storeData.configData && storeData.configData?.genderConfig == 'both') {

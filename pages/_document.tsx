@@ -4,6 +4,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 // MUI Core
 import { ServerStyleSheets } from '@material-ui/core/styles';
 // Utils
+import theme from '@layout/theme';
 
 class MyDocument extends Document {
 
@@ -11,8 +12,8 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* <link rel="manifest" id="manifest" href="/manifest.json" /> */}
-          <meta name="theme-color" id="theme-color" content="#ff0185" />
+          <link rel="manifest" id="manifest" href="/manifest.json" />
+          <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" />
           {/* <!--razor pay--> */}
           <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

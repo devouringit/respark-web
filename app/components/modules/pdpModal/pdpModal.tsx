@@ -158,16 +158,14 @@ function PdpModal() {
     }
 
     const onSharePage = async () => {
-        if (window.navigator.share) {
-            try {
-                await window.navigator.share({ title: "Example Page", url: "" });
-                console.log("Data was shared successfully");
-            } catch (err) {
-                // setOpenShareModal(true)
-                console.error("Share failed:", err.message);
-            }
-        } else setOpenShareModal(true)
+        try {
+            await navigator.share({ title: "Example Page", url: "" });
+            console.log("Data was shared successfully");
+        } catch (err) {
+            console.error("Share failed:", err.message);
+        }
     }
+
 
     useEffect(() => {
         let totalcopy = 0;
@@ -488,7 +486,7 @@ function PdpModal() {
                 <div className="modal-close" onClick={() => closePdpMOdal()}>
                     <CloseIcon />
                 </div>
-                <div className="modal-close modal-share" onClick={() => onSharePage()}>
+                <div className="modal-close modal-share" onClick={() => setOpenShareModal(true)}>
                     <ShareIcon />
                 </div>
                 {(configData?.orderingOn && !configData?.storeOff && !configData?.readOnlyMenu && !!cartItemQuantity) && <div className="modal-close modal-cart" id="cart-item-count-pdp" onClick={() => router.push({ pathname: baseRouteUrl + 'cart' }, '', { shallow: true })}>
@@ -691,11 +689,11 @@ function PdpModal() {
                 </div>
             </Backdrop>
             {showUserRegistrationModal && <UserRegistrationModal
-                fromPage={'PDP'}
+                fromPage={''}
                 handleResponse={(e) => onLoginClose(e)}
                 isApppGrpChangeOnUserGdrChange={showUserRegistrationModal ? true : false}
                 open={true}
-                heading={'Login to send quote request'} />}
+                heading={showUserRegistrationModal ? (configData?.storeConfig?.sparkConfig?.userConfig?.popupHeading || 'We will use your information to send offers and promotions') : 'Thank you for get back, lets access the best recommendation for you.'} />}
         </>
 
     );

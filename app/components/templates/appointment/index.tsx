@@ -885,7 +885,6 @@ function Appointment() {
                         handleResponse={(e) => onLoginClose(e)}
                         isApppGrpChangeOnUserGdrChange={true}
                         open={true}
-                        fromPage={'APPOINTMENT'}
                         heading={'Login for appointment booking'}
                     />}
 

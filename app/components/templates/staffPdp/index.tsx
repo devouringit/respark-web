@@ -13,7 +13,7 @@ function StaffPdp({ item }) {
   const alreadyShortDescription = item.description <= item?.description?.substring(0, 110);
   return (
     <div className="servicepdpcontainer">
-      <HeadMetaTags title={item.name} description={item.description} image="" siteName='' storeData='' />
+      <HeadMetaTags title={item.name} description={item.description} image="" siteName='' />
       <div className="prodpdpbanner">
         <ImageSlider itemsList={item.imagePaths} config={{ redirection: false }} no_image={PDP_NO_IMAGE} />
       </div>

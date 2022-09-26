@@ -79,6 +79,81 @@
   float: left;
 }
 
+/* submenu css starts */
+.cat-navbar-cover {
+  width: 100%;
+  float: left;
+  padding: 15px 0px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  position: sticky;
+  top: 75px;
+  left: 0;
+  z-index: 7;
+  background-color: #e6e7e8;
+  @include hide-scrollbar;
+  /* margin-bottom: 30px; */
+}
+
+.cat-navbar-inner {
+  display: inline-block;
+  list-style: none;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  @include hide-scrollbar;
+}
+
+.cat-nav-link {
+  width: auto;
+  display: inline-block;
+  font-weight: 500;
+  color: #aaaaaa;
+  position: relative;
+  transition: all ease-out 0.3s;
+  color: #242222;
+  border-radius: 20px;
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 10px;
+  letter-spacing: 0.1px;
+  z-index: 1;
+  border: 1px solid #ebedf0;
+}
+
+.cat-nav-link span {
+  opacity: 0;
+  display: inline-block;
+  position: absolute;
+  width: calc(100% - 18px);
+  height: 2px;
+  bottom: -16px;
+  left: 9px;
+  background-color: var(--primary-color);
+  transition: all ease-out 0.3s;
+}
+
+.cat-nav-link.active {
+  transition: all ease-out 0.3s;
+  background: var(--primary-color);
+  color: white;
+  position: sticky;
+  left: 10px;
+  right: 10px;
+  border: 1px solid var(--primary-color);
+  z-index: 2;
+}
+
+.cat-nav-link:hover span,
+.cat-nav-link.active span {
+  opacity: 1;
+  transition: all ease-out 0.3s;
+}
+
+/* submenu css ends */
+
 .common-15height {
   width: 100%;
   float: left;

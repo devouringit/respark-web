@@ -23,7 +23,7 @@ function ServicePdp({ item, activeGroup }) {
       <div className="modal-close" onClick={() => router.back()}>
         <img src={`/assets/Icons/${activeGroup}/cancel_btn.png`} />
       </div>
-      <HeadMetaTags title={item.name} description={item.description} image="" siteName='' storeData='' />
+      <HeadMetaTags title={item.name} description={item.description} image="" siteName='' />
       <div className="prodpdpbanner">
         <ImageSlider itemsList={item.imagePaths} config={{ redirection: false }} no_image={PDP_NO_IMAGE} />
       </div>
